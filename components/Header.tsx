@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Button from "./common/Button";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const navs = [
   {
@@ -20,7 +21,10 @@ export default function Header() {
   return (
     <div className="border-b border-[#222222] py-2.5 px-4 md:px-10 fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm">
       <div className="max-w-[1200px] h-10 flex justify-between mx-auto items-center text-white relative">
-        <div className="text-xl font-bold">GoHacker</div>
+        <div className="text-xl font-bold flex items-center gap-1">
+          <Image src="/logo.svg" alt="GoHacker" width={28} height={28} />
+          GoHacker
+        </div>
 
         {/* 桌面端导航 */}
         <div className="hidden md:flex items-center gap-8">
