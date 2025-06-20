@@ -3,8 +3,10 @@ import Button from "./common/Button";
 import { ArrowRight } from "lucide-react";
 import Starfield from "./Starfield";
 import { TypeAnimation } from "react-type-animation";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
+  const router = useRouter();
   return (
     <section className="pt-[180px] px-10 pb-[100px] h-screen flex flex-col justify-center items-center relative">
       <Starfield starCount={200} speed={0.3} className="absolute inset-0" />
@@ -25,7 +27,12 @@ export default function Hero() {
         better decisions and developers can gain fair recognition.
       </div>
       <div className="flex gap-4 z-10">
-        <Button className="flex items-center gap-1">
+        <Button
+          className="flex items-center gap-1"
+          onClick={() => {
+            router.push("/dashboard");
+          }}
+        >
           Go to App <ArrowRight className="w-4 h-4" />
         </Button>
         <Button variant="secondary">Contact Us</Button>
