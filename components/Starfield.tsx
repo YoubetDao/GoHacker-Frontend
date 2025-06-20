@@ -180,7 +180,7 @@ export default function Starfield({
   return (
     <canvas
       ref={canvasRef}
-      className={`absolute inset-0 w-full h-full ${className}`}
+      className={`absolute inset-0 w-full h-full pointer-events-none ${className}`}
     />
   );
 }
