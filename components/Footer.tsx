@@ -1,18 +1,4 @@
-import accordingLogo from "../assets/accordingWork.png";
-import virtualLogo from "../assets/virtuals.svg";
-import Image from "next/image";
 import { Github, Twitter } from "lucide-react";
-
-const partners = [
-  {
-    name: "According.Work",
-    image: accordingLogo,
-  },
-  {
-    name: "Virtual",
-    image: virtualLogo,
-  },
-];
 
 const socialLinks = [
   {
@@ -33,7 +19,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-black py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-4">
+        <div className="mb-4 flex flex-col md:flex-row justify-between gap-4">
           {/* Logo & Description */}
           <div className="lg:col-span-2">
             <div className="mb-4 flex items-center space-x-2 text-2xl font-bold">
@@ -41,16 +27,16 @@ export default function Footer() {
             </div>
 
             <p className="max-w-md leading-relaxed text-[#ffffffbf]">
-              GoHacker is a builder-led team creating tools for evaluating and
-              rewarding real contributors in Web3. We’ve launched GitHub-based
-              project analytics, open-source leaderboards, and LaunchPad
-              incentives — and are proud winners of the Virtuals Hackathon Top
-              10 and BNB AI Hack Tier 4 Award.
+              We’re a team of Web3 builders on a mission to create fair
+              incentives for open-source contributors. Our background spans
+              Apache, CNCF, Linux Foundation, and top companies like Alibaba
+              Cloud, ByteDance, Tencent — with academic roots at NUS, UC
+              Berkeley, Harvard, SJTU, and HIT.
             </p>
           </div>
 
           {/* Quick Links */}
-          <div>
+          {/* <div>
             <h3 className="mb-4 text-lg font-semibold text-white">Partners</h3>
             <div className="flex flex-wrap flex-col gap-10">
               {partners.map((partner) => (
@@ -63,7 +49,7 @@ export default function Footer() {
                 />
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Contact & Social */}
           <div>
@@ -88,19 +74,17 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        {/* <div className="border-t border-white/10 pt-8">
-          <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-y-0">
-            <div className="flex items-center space-x-2 text-sm text-gray-400">
-              <span>© 2025YouBetDao. All rights reserved.</span>
-            </div>
-
-            <div className="flex items-center space-x-2 text-sm text-gray-400">
-              <span>Made with</span>
-              <Heart className="h-4 w-4 animate-pulse text-red-500" />
-              <span>for the Web3 community</span>
-            </div>
-          </div>
-        </div> */}
+        <div className="flex justify-end items-center space-x-2 text-sm ">
+          © 2025 GoHacker. Built by developers, powered by
+          <a
+            href="https://according.work"
+            target="_blank"
+            className="underline hover:text-white ml-2"
+          >
+            According.Work
+          </a>
+          .
+        </div>
       </div>
     </footer>
   );
