@@ -47,6 +47,8 @@ const SortField = [
   },
 ];
 
+const isAddress = (name: string) => name.startsWith("0x");
+
 // ====================== 工具函数 ==========================
 const getRankDisplay = (rank: number) => {
   const colorMap = {
@@ -233,9 +235,11 @@ export default function Dashboard() {
                 </TableCell>
                 {/* 开发者 */}
                 <TableCell className="py-4">
-                  <div className="flex items-center justify-center space-x-3">
+                  <div className="flex items-center space-x-3">
                     <Avatar className="h-12 w-12">
-                      <AvatarImage src={item.avatarUrl ?? ""} />
+                      {item.avatarUrl && (
+                        <AvatarImage src={item.avatarUrl} />
+                      )}
                       <AvatarFallback className="bg-gradient-to-br from-purple-500 to-blue-500 text-white font-bold text-sm">
                         {item.username?.charAt(0)?.toUpperCase() || "U"}
                       </AvatarFallback>
@@ -243,7 +247,11 @@ export default function Dashboard() {
                     <div>
                       <div className="flex items-center space-x-2">
                         <span className="font-bold text-lg text-white">
-                          {item.username}
+                          {!isAddress(item.username)
+                            ? item.username.slice(0, 6) + "..."
+                            : item.username.slice(0, 6) +
+                              "..." +
+                              item.username.slice(-4)}
                         </span>
                       </div>
                       <div className="flex items-center gap-1 text-[12px] text-[#999999]">

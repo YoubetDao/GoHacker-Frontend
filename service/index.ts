@@ -81,7 +81,7 @@ export const getDevelopers = async ({
   }
 
   const res = await fetch(
-    `http://127.0.0.1:50061/leaderboard/builders?${params.toString()}`,
+    `http://43.130.247.176:50061/leaderboard/builders?${params.toString()}`,
     {
       method: "GET",
       headers: {
