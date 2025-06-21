@@ -11,6 +11,7 @@ const NAVS = [
   {
     name: "Launch Pad",
     href: "/launchpad",
+    isComingSoon: true,
   },
 ];
 export default function Nav() {
@@ -27,11 +28,16 @@ export default function Nav() {
         {NAVS.map((nav) => (
           <div
             key={nav.name}
-            className={`text-base font-bold text-white cursor-pointer  pb-1 ${
+            className={`text-base font-bold text-white cursor-pointer items-center  flex gap-2 pb-1 ${
               isActive(nav.href) ? "border-b-1 border-[#fff]" : ""
             }`}
           >
             {nav.name}
+            {nav.isComingSoon && (
+              <div className=" h-[20px] px-1 rounded-full text-[12px] text-[#999999] bg-[rgba(28,13,71,0.5)] border ">
+                Coming soon
+              </div>
+            )}
           </div>
         ))}
       </div>

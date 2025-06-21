@@ -25,3 +25,10 @@ body {
   font-family: "Figtree", "Figtree Placeholder", sans-serif;
   font-size: 14px;
 }
+
+@font-face {
+  font-family: "CenturyGothic";
+  src: url("/font/CenturyGothic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}

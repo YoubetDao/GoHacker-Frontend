@@ -1,6 +1,6 @@
 export default function Tools() {
   return (
-    <div className="py-25 px-4 md:px-10 bg-black">
+    <div id="features" className="py-25 px-4 md:px-10 bg-black">
       <div className="max-w-[1200px] mx-auto flex flex-col items-center">
         <div className="text-4xl font-bold max-w-[1000px] text-center mb-12 text-white md:text-6xl">
           What You Can Do with GoHacker
