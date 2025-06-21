@@ -5,19 +5,34 @@ const socialLinks = [
     icon: <Twitter className="h-5 w-5" />,
     href: "https://x.com/GoHacker_AI",
     label: "Twitter",
-    color: "hover:text-blue-400",
+    color: "hover:text-white",
   },
   {
     icon: <Github className="h-5 w-5" />,
     href: "https://github.com/YoubetDao",
     label: "GitHub",
-    color: "hover:text-gray-300",
+    color: "hover:text-white",
+  },
+];
+
+const links = [
+  {
+    name: "YoubetDAO",
+    href: "https://youbetdao.github.io/",
+  },
+  {
+    name: "According.Work",
+    href: "https://according.work",
+  },
+  {
+    name: "Study Group",
+    href: "https://youbetdao.github.io/weekly/",
   },
 ];
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black py-12">
+    <footer id="footer" className="border-t border-white/10 bg-black py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-4 flex flex-col md:flex-row justify-between gap-4">
           {/* Logo & Description */}
@@ -36,20 +51,22 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          {/* <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">Partners</h3>
-            <div className="flex flex-wrap flex-col gap-10">
-              {partners.map((partner) => (
-                <Image
-                  key={partner.name}
-                  src={partner.image}
-                  alt={partner.name}
-                  width={100}
-                  height={100}
-                />
+          <div>
+            <h3 className="mb-4 text-lg font-semibold text-white">Explore</h3>
+            <div className="flex flex-wrap flex-col gap-3 ">
+              {links.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#ffffffbf] hover:text-white"
+                >
+                  {link.name}
+                </a>
               ))}
             </div>
-          </div> */}
+          </div>
 
           {/* Contact & Social */}
           <div>
@@ -77,11 +94,11 @@ export default function Footer() {
         <div className="flex justify-end items-center space-x-2 text-sm ">
           © 2025 GoHacker. Built by developers, powered by
           <a
-            href="https://according.work"
+            href="https://github.com/YoubetDao"
             target="_blank"
             className="underline hover:text-white ml-2"
           >
-            According.Work
+            YoubetDAO
           </a>
           .
         </div>

@@ -11,7 +11,7 @@ export default function DashboardLayout({
       style={{
         backgroundImage: "url(/bg.png)",
         backgroundColor: "#0a0f1c", // 深色背景作为兜底
-        fontFamily: "CenturyGothic, CenturyGothic",
+        fontFamily: "CenturyGothic, sans-serif",
       }}
     >
       <div className="relative max-w-[1440px] z-10 px-20 mx-auto text-white pb-12">

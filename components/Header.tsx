@@ -6,18 +6,28 @@ import Image from "next/image";
 
 const navs = [
   {
-    name: "Study Group",
-    href: "https://youbetdao.github.io/weekly/",
+    name: "Features",
+    href: "#features",
   },
   {
-    name: "According.Work",
-    href: "https://according.work",
+    name: "About us",
+    href: "#footer",
   },
 ];
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
+
+  const scrollToAnchor = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
   return (
     <div className="border-b border-[#222222] py-2.5 px-4 md:px-10 fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm">
       <div className="max-w-[1200px] h-10 flex justify-between mx-auto items-center text-white relative">
@@ -33,7 +43,8 @@ export default function Header() {
               <div
                 key={nav.name}
                 onClick={() => {
-                  window.open(nav.href, "_blank");
+                  // window.open(nav.href, "_blank");
+                  scrollToAnchor(nav.href);
                 }}
                 className="text-base font-medium text-white cursor-pointer hover:underline"
               >
