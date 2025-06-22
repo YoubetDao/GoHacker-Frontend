@@ -81,9 +81,9 @@ export const getDevelopers = async ({
   }
 
   const res = await fetch(
-    // `/api/proxy?path=/leaderboard/builders?${params.toString()}`,
+    `/api/leaderboard/builders?${params.toString()}`,
     // `http://43.130.247.176:50061/leaderboard/builders?${params.toString()}`,
-    `https://api.hunknownz.xyz:2096/leaderboard/builders?${params.toString()}`,
+    // `https://api.hunknownz.xyz:2096/leaderboard/builders?${params.toString()}`,
     {
       method: "GET",
       headers: {
