@@ -35,21 +35,6 @@ export default function Footer() {
     <footer id="footer" className="border-t border-white/10 bg-black py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-4 flex flex-col md:flex-row justify-between gap-4">
-          {/* Logo & Description */}
-          <div className="lg:col-span-2">
-            <div className="mb-4 flex items-center space-x-2 text-2xl font-bold">
-              About Us
-            </div>
-
-            <p className="max-w-md leading-relaxed text-[#ffffffbf]">
-              We’re a team of Web3 builders on a mission to create fair
-              incentives for open-source contributors. Our background spans
-              Apache, CNCF, Linux Foundation, and top companies like Alibaba
-              Cloud, ByteDance, Tencent — with academic roots at NUS, UC
-              Berkeley, Harvard, SJTU, and HIT.
-            </p>
-          </div>
-
           {/* Quick Links */}
           <div>
             <h3 className="mb-4 text-lg font-semibold text-white">Explore</h3>

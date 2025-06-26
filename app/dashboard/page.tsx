@@ -18,7 +18,9 @@ import {
   Send,
   ChevronLeft,
   ChevronRight,
+  Info,
 } from "lucide-react";
+
 import { Developer, getDevelopers } from "@/service";
 import {
   Select,
@@ -27,6 +29,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 const SortField = [
   {
@@ -40,10 +47,12 @@ const SortField = [
   {
     type: "github_analysis.rating",
     label: "Rating",
+    info: "Rating is the average of the project's rating",
   },
   {
     type: "github_analysis.activity",
     label: "Activity",
+    info: "Activity is the average of the project's activity",
   },
 ];
 
@@ -102,7 +111,7 @@ export default function Dashboard() {
   const [developerList, setDeveloperList] = useState<Developer[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("Upcoming");
 
   // 三态排序简化
   const handleSort = (field: SortField) => {
@@ -173,7 +182,7 @@ export default function Dashboard() {
         <div>
           <div className="text-2xl font-bold">Developer Leaderboard</div>
         </div>
-        <div className="w-[160px]">
+        <div>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.5)] text-white">
               <SelectValue placeholder="Filter by status" />
@@ -199,17 +208,20 @@ export default function Dashboard() {
       <div className="relative bg-[rgba(34,39,63,0.5)] border-[2px] border-[rgba(151,151,151,0.54)] rounded-[20px]">
         <Table>
           <TableHeader>
-            <TableRow className="bg-[rgba(34,39,63,0.5)] border-b border-[rgba(153,150,198,0.36)]">
+            <TableRow className="bg-[rgba(34,39,63,0.5)] hover:bg-[rgba(34,39,63,0.5)] border-b border-[rgba(153,150,198,0.36)]">
               <TableHead className="text-[#999999] text-base py-6 text-center">
                 No.
               </TableHead>
-              <TableHead className="text-[#999999] text-base text-center">
+              <TableHead className="text-[#999999] text-base">
                 Developers
+              </TableHead>
+              <TableHead className="text-[#999999] text-base">
+                Social Links
               </TableHead>
               <TableHead className="text-[#999999] text-base">
                 Project
               </TableHead>
-              {SortField.map(({ type, label }) => (
+              {SortField.map(({ type, label, info }) => (
                 <TableHead
                   key={type}
                   className="text-[#999999] text-base text-center cursor-pointer"
@@ -218,6 +230,16 @@ export default function Dashboard() {
                   <div className="flex items-center justify-center">
                     {label}
                     {getSortIcon(type as SortField)}
+                    {info && (
+                      <HoverCard>
+                        <HoverCardTrigger>
+                          <Info className="w-4 h-4" />
+                        </HoverCardTrigger>
+                        <HoverCardContent className="bg-[#222] border-[#222] text-white">
+                          {info}
+                        </HoverCardContent>
+                      </HoverCard>
+                    )}
                   </div>
                 </TableHead>
               ))}
@@ -234,17 +256,18 @@ export default function Dashboard() {
                   {getRankDisplay((currentPage - 1) * 10 + index + 1)}
                 </TableCell>
                 {/* 开发者 */}
-                <TableCell className="py-4">
-                  <div className="flex items-center space-x-3">
-                    <Avatar className="h-12 w-12">
-                      {item.avatarUrl && (
+                <TableCell className="py-4 w-[200px] overflow-hidden">
+                  <div className="flex items-center w-[200px] gap-2">
+                    {item.avatarUrl ? (
+                      <Avatar className="h-12 w-12">
                         <AvatarImage src={item.avatarUrl} />
-                      )}
-                      <AvatarFallback className="bg-gradient-to-br from-purple-500 to-blue-500 text-white font-bold text-sm">
+                      </Avatar>
+                    ) : (
+                      <div className="h-12 w-12 bg-gradient-to-br from-orange-400 to-pink-500 text-white font-bold text-xs flex items-center justify-center rounded-full">
                         {item.username?.charAt(0)?.toUpperCase() || "U"}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
+                      </div>
+                    )}
+                    <div className="w-[calc(100%-60px)] overflow-hidden">
                       <div className="flex items-center space-x-2">
                         <span className="font-bold text-lg text-white">
                           {!isAddress(item.username)
@@ -256,22 +279,28 @@ export default function Dashboard() {
                       </div>
                       <div className="flex items-center gap-1 text-[12px] text-[#999999]">
                         <span>{item.title}</span>
-                        {item.socials.github && (
-                          <a href={item.socials.github} target="_blank">
-                            <GithubIcon className="w-4 h-4" />
-                          </a>
-                        )}
-                        {item.socials.telegram && (
-                          <a href={item.socials.telegram} target="_blank">
-                            <Send className="w-4 h-4" />
-                          </a>
-                        )}
-                        {item.socials.twitter && (
-                          <a href={item.socials.twitter} target="_blank">
-                            <TwitterIcon className="w-4 h-4" />
-                          </a>
-                        )}
                       </div>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="py-4">
+                  <div>
+                    <div className="flex items-center gap-1 text-[12px] text-[#999999]">
+                      {item.socials.github && (
+                        <a href={item.socials.github} target="_blank">
+                          <GithubIcon className="w-4 h-4" />
+                        </a>
+                      )}
+                      {item.socials.telegram && (
+                        <a href={item.socials.telegram} target="_blank">
+                          <Send className="w-4 h-4" />
+                        </a>
+                      )}
+                      {item.socials.twitter && (
+                        <a href={item.socials.twitter} target="_blank">
+                          <TwitterIcon className="w-4 h-4" />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </TableCell>
@@ -299,14 +328,14 @@ export default function Dashboard() {
                 </TableCell>
                 {/* 数据列 */}
                 <TableCell className="text-center font-bold py-4 text-white">
-                  {item.githubAnalysis?.followers}
+                  {item.githubAnalysis?.followers ?? "No Verified Github"}
                 </TableCell>
                 <TableCell className="text-center font-bold py-4 text-white">
-                  {item.githubAnalysis?.stars}
+                  {item.githubAnalysis?.stars ?? "No Verified Github"}
                 </TableCell>
                 <TableCell className="text-center py-4">
                   <span className="text-[#17E1A4] font-bold">
-                    {item.githubAnalysis?.rating}
+                    {item.githubAnalysis?.rating ?? "No Verified Github"}
                   </span>
                 </TableCell>
                 <TableCell className="text-center py-4">
@@ -314,7 +343,7 @@ export default function Dashboard() {
                     style={{ background: "rgba(126,143,255,0.24)" }}
                     className="text-[#7EB8FF] px-[20px] py-2 rounded-[16px] font-bold"
                   >
-                    {item.githubAnalysis?.activity}
+                    {item.githubAnalysis?.activity ?? "No Verified Github"}
                   </span>
                 </TableCell>
               </TableRow>
