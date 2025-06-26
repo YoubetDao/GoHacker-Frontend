@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/common/Button";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const NAVS = [
   {
@@ -17,9 +17,13 @@ const NAVS = [
 export default function Nav() {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
+  const router = useRouter();
   return (
     <div className="pt-5 pb-6  mb-6 flex justify-between items-center">
-      <div className="text-xl font-semibold flex items-center gap-3 ">
+      <div
+        className="text-xl font-semibold flex items-center gap-3 cursor-pointer"
+        onClick={() => router.push("/")}
+      >
         <Image src="/logo.svg" alt="GoHacker" width={28} height={28} />
         GoHacker
       </div>
