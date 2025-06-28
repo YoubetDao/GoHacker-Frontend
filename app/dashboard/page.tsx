@@ -47,12 +47,12 @@ const SortField = [
   {
     type: "github_analysis.rating",
     label: "Rating",
-    info: "Rating is the average of the project's rating",
+    info: "Higher scores indicate stronger developer expertise and open-source influence, leading to more reliable projects with lower technical risk.",
   },
   {
     type: "github_analysis.activity",
     label: "Activity",
-    info: "Activity is the average of the project's activity",
+    info: "This measures how actively the developer is currently building and contributing to projects.",
   },
 ];
 
@@ -106,8 +106,10 @@ type SortDirection = "asc" | "desc" | null;
 
 // ====================== 主组件 ==========================
 export default function Dashboard() {
-  const [sortField, setSortField] = useState<SortField | null>(null);
-  const [sortDirection, setSortDirection] = useState<SortDirection>(null);
+  const [sortField, setSortField] = useState<SortField | null>(
+    "github_analysis.rating"
+  );
+  const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [developerList, setDeveloperList] = useState<Developer[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
