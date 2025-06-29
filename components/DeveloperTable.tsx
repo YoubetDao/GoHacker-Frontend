@@ -173,7 +173,7 @@ export default function DeveloperTable({ statusFilter }: DeveloperTableProps) {
   };
 
   return (
-    <div>
+    <div className={` ${developerList.length === 0 ? "mb-[940px]" : ""}`}>
       {/* 表格 */}
       <div className="relative bg-[rgba(34,39,63,0.5)] border-[2px] border-[rgba(151,151,151,0.54)] rounded-[20px]">
         <Table>
@@ -346,4 +346,4 @@ export default function DeveloperTable({ statusFilter }: DeveloperTableProps) {
       )}
     </div>
   );
-} 
+}

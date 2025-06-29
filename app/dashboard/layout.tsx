@@ -1,4 +1,5 @@
 import Nav from "./_components/Nav";
+import Footer from "../_components/footer";
 
 export default function DashboardLayout({
   children,
@@ -17,6 +18,7 @@ export default function DashboardLayout({
       <div className="relative max-w-[1440px] z-10 px-20 mx-auto text-white pb-12">
         <Nav />
         {children}
+        <Footer />
       </div>
     </div>
   );

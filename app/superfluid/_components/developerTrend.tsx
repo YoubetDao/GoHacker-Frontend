@@ -33,9 +33,19 @@ interface ApiResponse {
   total: number;
 }
 
-const generateRandomColor = () => {
-  const hue = Math.floor(Math.random() * 360);
-  return `hsl(${hue}, 70%, 50%)`;
+const generateColorFromUsername = (username: string) => {
+  // 简单的字符串hash函数
+  let hash = 0;
+  for (let i = 0; i < username.length; i++) {
+    const char = username.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // 转换为32位整数
+  }
+  
+  // 确保hash为正数，并映射到0-360的色相范围
+  const hue = Math.abs(hash) % 360;
+  // 使用较高的饱和度和亮度，确保颜色鲜明好看
+  return `hsl(${hue}, 70%, 55%)`;
 };
 
 export const DeveloperTrends = ({
@@ -82,7 +92,7 @@ export const DeveloperTrends = ({
           if (!developerMap.has(dev.actor_login)) {
             developerMap.set(dev.actor_login, []);
             allDevelopers.add(dev.actor_login);
-            colors[dev.actor_login] = generateRandomColor();
+            colors[dev.actor_login] = generateColorFromUsername(dev.actor_login);
           }
           developerMap.get(dev.actor_login)?.push({
             openrank: dev.openrank || 0,
@@ -162,7 +172,7 @@ export const DeveloperTrends = ({
   const isAllSelected = selectedDevelopers.size === developers.length;
 
   return (
-    <div className="w-full bg-black/20 backdrop-blur-sm rounded-xl border border-purple-800/20 p-6 max-h-[800px] overflow-y-auto">
+    <div className="w-full bg-black/20 backdrop-blur-sm rounded-xl border border-purple-800/20 p-6 max-h-[800px]">
       <div className="flex justify-between items-center mb-6">
         <div className="text-sm text-gray-400">
           {selectedDevelopers.size} developers selected

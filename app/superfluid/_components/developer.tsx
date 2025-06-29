@@ -9,7 +9,16 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useEffect, useState } from "react";
-import { GithubIcon, TwitterIcon, Send, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
+import {
+  GithubIcon,
+  TwitterIcon,
+  Send,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  ChevronDown,
+  ChevronsUpDown,
+} from "lucide-react";
 
 interface RankingItem {
   username: string;
@@ -50,7 +59,7 @@ const SortableFields = [
     label: "Rating",
   },
   {
-    type: "github_analysis.activity", 
+    type: "github_analysis.activity",
     label: "Activity",
   },
   {
@@ -63,14 +72,18 @@ const SortableFields = [
   },
 ];
 
-type SortField = "github_analysis.rating" | "github_analysis.activity" | "github_analysis.followers" | "github_analysis.stars";
+type SortField =
+  | "github_analysis.rating"
+  | "github_analysis.activity"
+  | "github_analysis.followers"
+  | "github_analysis.stars";
 type SortDirection = "asc" | "desc" | null;
 
 // 排名显示函数
 const getRankDisplay = (rank: number) => {
   const colorMap = {
     1: "from-[#FFF35A] to-[#FF8924]",
-    2: "from-[#80D7FF] to-[#6C90ED]", 
+    2: "from-[#80D7FF] to-[#6C90ED]",
     3: "from-[#FF9F46] to-[#A55513]",
   } as const;
   return rank <= 3 ? (
@@ -90,7 +103,9 @@ export default function Developer() {
   const [rankingData, setRankingData] = useState<RankingItem[]>([]);
   const [initLoading, setInitLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortField, setSortField] = useState<SortField | null>("github_analysis.rating");
+  const [sortField, setSortField] = useState<SortField | null>(
+    "github_analysis.rating"
+  );
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [pagination, setPagination] = useState<PaginationInfo>({
     page: 1,
@@ -119,14 +134,15 @@ export default function Developer() {
   const getSortIcon = (field: SortField) => {
     if (sortField !== field) return <ChevronsUpDown className="ml-2 h-4 w-4" />;
     if (sortDirection === "asc") return <ChevronUp className="ml-2 h-4 w-4" />;
-    if (sortDirection === "desc") return <ChevronDown className="ml-2 h-4 w-4" />;
+    if (sortDirection === "desc")
+      return <ChevronDown className="ml-2 h-4 w-4" />;
     return <ChevronsUpDown className="ml-2 h-4 w-4" />;
   };
 
   const fetchDevelopers = async (page: number = 1) => {
     try {
       let url = `/v1/leaderboard/builders?page=${page}&size=${DEFAULT_PAGE_SIZE}`;
-      
+
       // 添加排序参数
       if (sortField && sortDirection) {
         url += `&sortBy=${sortField}&sortOrder=${sortDirection}`;
@@ -138,14 +154,16 @@ export default function Developer() {
       console.log(res);
 
       setRankingData(res.data || []);
-      setPagination(res.pagination || {
-        page: 1,
-        limit: DEFAULT_PAGE_SIZE,
-        total: 0,
-        totalPages: 1,
-        hasNext: false,
-        hasPrev: false,
-      });
+      setPagination(
+        res.pagination || {
+          page: 1,
+          limit: DEFAULT_PAGE_SIZE,
+          total: 0,
+          totalPages: 1,
+          hasNext: false,
+          hasPrev: false,
+        }
+      );
       setCurrentPage(page);
       setInitLoading(false);
     } catch (error) {
@@ -165,12 +183,8 @@ export default function Developer() {
     fetchDevelopers(1);
   }, [sortField, sortDirection]); // 排序变化时重新获取数据
 
-  if (initLoading) {
-    return <div className="text-white text-center py-8">Loading...</div>;
-  }
-
   return (
-    <div>
+    <div className={` ${initLoading ? "mb-[940px]" : ""}`}>
       <div className="relative bg-[rgba(34,39,63,0.5)] border-[2px] border-[rgba(151,151,151,0.54)] rounded-[20px]">
         <Table>
           <TableHeader>
@@ -206,9 +220,11 @@ export default function Developer() {
               >
                 {/* 排名 */}
                 <TableCell className="font-bold text-lg text-center py-4">
-                  {getRankDisplay((currentPage - 1) * DEFAULT_PAGE_SIZE + index + 1)}
+                  {getRankDisplay(
+                    (currentPage - 1) * DEFAULT_PAGE_SIZE + index + 1
+                  )}
                 </TableCell>
-                
+
                 {/* 开发者信息 */}
                 <TableCell className="py-4 w-[200px] overflow-hidden">
                   <div className="flex items-center w-[200px] gap-2">
@@ -222,12 +238,16 @@ export default function Developer() {
                       <div className="flex items-center space-x-2">
                         <span className="font-bold text-lg text-white truncate">
                           {isAddress(item.username)
-                            ? item.username.slice(0, 6) + "..." + item.username.slice(-4)
+                            ? item.username.slice(0, 6) +
+                              "..." +
+                              item.username.slice(-4)
                             : item.username}
                         </span>
                       </div>
                       <div className="flex items-center gap-1 text-[12px] text-[#999999]">
-                        <span className="truncate">{item.title || item.bio}</span>
+                        <span className="truncate">
+                          {item.title || item.bio}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -249,7 +269,7 @@ export default function Developer() {
                       <a
                         href={item.socials.telegram}
                         target="_blank"
-                        className="text-blue-400 hover:text-blue-300"
+                        className="text-gray-400 hover:text-blue-300"
                       >
                         <Send className="w-4 h-4" />
                       </a>
@@ -258,7 +278,7 @@ export default function Developer() {
                       <a
                         href={item.socials.twitter}
                         target="_blank"
-                        className="text-blue-400 hover:text-blue-300"
+                        className="text-gray-400 hover:text-blue-300"
                       >
                         <TwitterIcon className="w-4 h-4" />
                       </a>
