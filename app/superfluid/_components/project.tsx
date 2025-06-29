@@ -119,14 +119,15 @@ export default function Project() {
   const getSortIcon = (field: SortField) => {
     if (sortField !== field) return <ChevronsUpDown className="ml-2 h-4 w-4" />;
     if (sortDirection === "asc") return <ChevronUp className="ml-2 h-4 w-4" />;
-    if (sortDirection === "desc") return <ChevronDown className="ml-2 h-4 w-4" />;
+    if (sortDirection === "desc")
+      return <ChevronDown className="ml-2 h-4 w-4" />;
     return <ChevronsUpDown className="ml-2 h-4 w-4" />;
   };
 
   const fetchProjects = async (page: number = 1) => {
     try {
       let url = `/v1/leaderboard/projects?page=${page}&limit=${DEFAULT_PAGE_SIZE}`;
-      
+
       // 添加排序参数
       if (sortField && sortDirection) {
         url += `&sortBy=github_analysis.${sortField}&sortOrder=${sortDirection}`;
@@ -167,12 +168,11 @@ export default function Project() {
     fetchProjects(1);
   }, [sortField, sortDirection]);
 
-  if (initLoading) {
-    return <div className="text-white text-center py-8">Loading...</div>;
-  }
+ 
+
 
   return (
-    <div>
+    <div className={` ${initLoading ? "mb-[940px]" : ""}`}>
       <div className="relative bg-[rgba(34,39,63,0.5)] border-[2px] border-[rgba(151,151,151,0.54)] rounded-[20px]">
         <Table>
           <TableHeader>

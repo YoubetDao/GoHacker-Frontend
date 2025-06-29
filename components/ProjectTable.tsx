@@ -161,7 +161,8 @@ const formatDate = (dateString: string) => {
 
 type SortField =
   | "github_analysis.overallRating"
-  | "github_analysis.overallActivity";
+  | "github_analysis.overallActivity"
+  | "genesis.endsAt";
 
 type SortDirection = "asc" | "desc" | null;
 
@@ -240,10 +241,8 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
       fetchProjects(page);
   };
 
-  console.log("projectList", projectList);
-
   return (
-    <div>
+    <div className={` ${projectList.length === 0 ? "mb-[940px]" : ""}`}>
       {/* 表格 */}
       <div className="relative bg-[rgba(34,39,63,0.5)] border-[2px] border-[rgba(151,151,151,0.54)] rounded-[20px]">
         <Table>
@@ -278,8 +277,14 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
                   </div>
                 </TableHead>
               ))}
-              <TableHead className="text-[#999999] text-base text-center">
-                End Time
+              <TableHead 
+                className="text-[#999999] text-base text-center cursor-pointer hover:text-white transition-colors"
+                onClick={() => handleSort("genesis.endsAt")}
+              >
+                <div className="flex items-center justify-center">
+                  Countdown
+                  {getSortIcon("genesis.endsAt")}
+                </div>
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -318,7 +323,7 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
                           <a
                             href={item.socials.VERIFIED_LINKS.TWITTER}
                             target="_blank"
-                            className="text-blue-400 hover:text-blue-300"
+                            className="text-gray-400 hover:text-blue-300"
                           >
                             <TwitterIcon className="w-4 h-4" />
                           </a>
