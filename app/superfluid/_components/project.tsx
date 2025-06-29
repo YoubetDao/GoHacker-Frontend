@@ -9,7 +9,15 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useEffect, useState } from "react";
-import { GithubIcon, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  GithubIcon,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  ChevronDown,
+  ChevronsUpDown,
+} from "lucide-react";
 
 interface ProjectItem {
   name: string;
@@ -37,13 +45,32 @@ interface PaginationInfo {
   hasPrev: boolean;
 }
 
+// 可排序字段定义
+const SortableFields = [
+  {
+    type: "stars",
+    label: "Stars",
+  },
+  {
+    type: "forks",
+    label: "Forks",
+  },
+  {
+    type: "rating",
+    label: "Rating",
+  },
+];
+
+type SortField = "stars" | "forks" | "rating";
+type SortDirection = "asc" | "desc" | null;
+
 const DEFAULT_PAGE_SIZE = 10;
 
 // 排名显示函数
 const getRankDisplay = (rank: number) => {
   const colorMap = {
     1: "from-[#FFF35A] to-[#FF8924]",
-    2: "from-[#80D7FF] to-[#6C90ED]", 
+    2: "from-[#80D7FF] to-[#6C90ED]",
     3: "from-[#FF9F46] to-[#A55513]",
   } as const;
   return rank <= 3 ? (
@@ -63,6 +90,8 @@ export default function Project() {
   const [projectData, setProjectData] = useState<ProjectItem[]>([]);
   const [initLoading, setInitLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortField, setSortField] = useState<SortField | null>("rating");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [pagination, setPagination] = useState<PaginationInfo>({
     page: 1,
     limit: DEFAULT_PAGE_SIZE,
@@ -72,25 +101,53 @@ export default function Project() {
     hasPrev: false,
   });
 
+  // 排序处理函数
+  const handleSort = (field: SortField) => {
+    setSortField((prevField) =>
+      prevField === field ? (sortDirection === "desc" ? null : field) : field
+    );
+    setSortDirection((prevDir) => {
+      if (sortField !== field) return "asc";
+      if (prevDir === "asc") return "desc";
+      if (prevDir === "desc") return null;
+      return "asc";
+    });
+    setCurrentPage(1); // 排序时重置到第一页
+  };
+
+  // 获取排序图标
+  const getSortIcon = (field: SortField) => {
+    if (sortField !== field) return <ChevronsUpDown className="ml-2 h-4 w-4" />;
+    if (sortDirection === "asc") return <ChevronUp className="ml-2 h-4 w-4" />;
+    if (sortDirection === "desc") return <ChevronDown className="ml-2 h-4 w-4" />;
+    return <ChevronsUpDown className="ml-2 h-4 w-4" />;
+  };
+
   const fetchProjects = async (page: number = 1) => {
     try {
-      const data = await fetch(
-        `/v1/leaderboard/projects?page=${page}&limit=${DEFAULT_PAGE_SIZE}`
-      );
+      let url = `/v1/leaderboard/projects?page=${page}&limit=${DEFAULT_PAGE_SIZE}`;
+      
+      // 添加排序参数
+      if (sortField && sortDirection) {
+        url += `&sortBy=github_analysis.${sortField}&sortOrder=${sortDirection}`;
+      }
 
+      const data = await fetch(url);
       const res = await data.json();
 
       console.log(res);
 
       setProjectData(res.data || []);
-      setPagination(res.pagination || {
-        page: 1,
-        limit: DEFAULT_PAGE_SIZE,
-        total: 0,
-        totalPages: 1,
-        hasNext: false,
-        hasPrev: false,
-      });
+      setPagination(
+        res.pagination || {
+          page: 1,
+          limit: DEFAULT_PAGE_SIZE,
+          total: 0,
+          totalPages: 1,
+          hasNext: false,
+          hasPrev: false,
+        }
+      );
       setCurrentPage(page);
       setInitLoading(false);
     } catch (error) {
@@ -108,7 +165,7 @@ export default function Project() {
 
   useEffect(() => {
     fetchProjects(1);
-  }, []);
+  }, [sortField, sortDirection]);
 
   if (initLoading) {
     return <div className="text-white text-center py-8">Loading...</div>;
@@ -129,18 +186,18 @@ export default function Project() {
               <TableHead className="text-[#999999] text-base">
                 Social Link
               </TableHead>
-              <TableHead className="text-[#999999] text-base text-center">
-                Stars
-              </TableHead>
-              <TableHead className="text-[#999999] text-base text-center">
-                Forks
-              </TableHead>
-              <TableHead className="text-[#999999] text-base text-center">
-                Rating
-              </TableHead>
-              <TableHead className="text-[#999999] text-base text-center">
-                Activity
-              </TableHead>
+              {SortableFields.map(({ type, label }) => (
+                <TableHead
+                  key={type}
+                  className="text-[#999999] text-base text-center cursor-pointer hover:text-white transition-colors"
+                  onClick={() => handleSort(type as SortField)}
+                >
+                  <div className="flex items-center justify-center">
+                    {label}
+                    {getSortIcon(type as SortField)}
+                  </div>
+                </TableHead>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -151,9 +208,11 @@ export default function Project() {
               >
                 {/* 排名 */}
                 <TableCell className="font-bold text-lg text-center py-4">
-                  {getRankDisplay((currentPage - 1) * DEFAULT_PAGE_SIZE + index + 1)}
+                  {getRankDisplay(
+                    (currentPage - 1) * DEFAULT_PAGE_SIZE + index + 1
+                  )}
                 </TableCell>
-                
+
                 {/* 项目信息 */}
                 <TableCell className="py-4 w-[300px] overflow-hidden">
                   <div className="flex items-center w-[300px] gap-3">
@@ -214,16 +273,6 @@ export default function Project() {
                 <TableCell className="text-center py-4">
                   <span className="text-[#17E1A4] font-bold">
                     {item.githubAnalysis?.rating?.toFixed(1) ?? "N/A"}
-                  </span>
-                </TableCell>
-
-                {/* Activity */}
-                <TableCell className="text-center py-4">
-                  <span
-                    style={{ background: "rgba(126,143,255,0.24)" }}
-                    className="text-[#7EB8FF] px-[20px] py-2 rounded-[16px] font-bold"
-                  >
-                    {item.githubAnalysis?.activity?.toFixed(1) ?? "N/A"}
                   </span>
                 </TableCell>
               </TableRow>
