@@ -9,7 +9,12 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useEffect, useState } from "react";
-import { GithubIcon, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  GithubIcon,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 interface ProjectItem {
   name: string;
@@ -43,7 +48,7 @@ const DEFAULT_PAGE_SIZE = 10;
 const getRankDisplay = (rank: number) => {
   const colorMap = {
     1: "from-[#FFF35A] to-[#FF8924]",
-    2: "from-[#80D7FF] to-[#6C90ED]", 
+    2: "from-[#80D7FF] to-[#6C90ED]",
     3: "from-[#FF9F46] to-[#A55513]",
   } as const;
   return rank <= 3 ? (
@@ -83,14 +88,16 @@ export default function Project() {
       console.log(res);
 
       setProjectData(res.data || []);
-      setPagination(res.pagination || {
-        page: 1,
-        limit: DEFAULT_PAGE_SIZE,
-        total: 0,
-        totalPages: 1,
-        hasNext: false,
-        hasPrev: false,
-      });
+      setPagination(
+        res.pagination || {
+          page: 1,
+          limit: DEFAULT_PAGE_SIZE,
+          total: 0,
+          totalPages: 1,
+          hasNext: false,
+          hasPrev: false,
+        }
+      );
       setCurrentPage(page);
       setInitLoading(false);
     } catch (error) {
@@ -138,9 +145,6 @@ export default function Project() {
               <TableHead className="text-[#999999] text-base text-center">
                 Rating
               </TableHead>
-              <TableHead className="text-[#999999] text-base text-center">
-                Activity
-              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -151,9 +155,11 @@ export default function Project() {
               >
                 {/* 排名 */}
                 <TableCell className="font-bold text-lg text-center py-4">
-                  {getRankDisplay((currentPage - 1) * DEFAULT_PAGE_SIZE + index + 1)}
+                  {getRankDisplay(
+                    (currentPage - 1) * DEFAULT_PAGE_SIZE + index + 1
+                  )}
                 </TableCell>
-                
+
                 {/* 项目信息 */}
                 <TableCell className="py-4 w-[300px] overflow-hidden">
                   <div className="flex items-center w-[300px] gap-3">
@@ -214,16 +220,6 @@ export default function Project() {
                 <TableCell className="text-center py-4">
                   <span className="text-[#17E1A4] font-bold">
                     {item.githubAnalysis?.rating?.toFixed(1) ?? "N/A"}
-                  </span>
-                </TableCell>
-
-                {/* Activity */}
-                <TableCell className="text-center py-4">
-                  <span
-                    style={{ background: "rgba(126,143,255,0.24)" }}
-                    className="text-[#7EB8FF] px-[20px] py-2 rounded-[16px] font-bold"
-                  >
-                    {item.githubAnalysis?.activity?.toFixed(1) ?? "N/A"}
                   </span>
                 </TableCell>
               </TableRow>
