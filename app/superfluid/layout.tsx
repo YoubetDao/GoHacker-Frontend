@@ -1,4 +1,4 @@
-import Nav from "./_components/Nav";
+import Nav from "../dashboard/_components/Nav";
 
 export default function DashboardLayout({
   children,

@@ -8,6 +8,130 @@ interface Project {
   url: string;
 }
 
+// 定义项目社交媒体类型
+interface ProjectSocials {
+  VERIFIED_LINKS?: {
+    TWITTER?: string;
+    GITHUB?: string;
+    TELEGRAM?: string;
+    DISCORD?: string;
+    WEBSITE?: string;
+  };
+}
+
+// 定义创世信息类型
+interface Genesis {
+  id: number;
+  endsAt: string;
+  result: unknown;
+  status: string;
+  startsAt: string;
+  stepData: unknown;
+  createdAt: string;
+  genesisId: string;
+  genesisTx: string;
+  updatedAt: string;
+  genesisAddress: string;
+  processedParticipants: string;
+}
+
+// 定义代币释放信息
+interface TokenRelease {
+  id: number;
+  bips: number;
+  type: string;
+  duration: number | null;
+  startsAt: string;
+  createdAt: string;
+  updatedAt: string;
+  durationUnit: string | null;
+}
+
+// 定义代币接收者
+interface TokenRecipient {
+  id: number;
+  amount: string;
+  actualId: unknown;
+  createdAt: string;
+  updatedAt: string;
+  recipientAddress: string;
+}
+
+// 定义代币经济学
+interface Tokenomics {
+  id: number;
+  bips: number;
+  name: string;
+  project: unknown;
+  isLocked: boolean;
+  releases: TokenRelease[];
+  startsAt: string;
+  linearBips: number[];
+  recipients: TokenRecipient[];
+  description: string;
+  numOfUnlocksForEachLinear: number[];
+  linearEndTimestampRelative: number;
+  linearStartTimestampRelative: number[];
+}
+
+// 定义项目成员
+interface ProjectMember {
+  id: number;
+  bio: string;
+  title: string;
+  userId: number;
+  socials: {
+    github: string | null;
+    twitter: string | null;
+    telegram: string | null;
+  };
+  username: string;
+  avatarUrl: string;
+  createdAt: string;
+  hasGithub: boolean;
+  updatedAt: string;
+  virtualId: number;
+  isAccepted: boolean;
+  walletAddress: string;
+  githubAnalysis: unknown;
+}
+
+// 定义GitHub分析
+interface ProjectGitHubAnalysis {
+  devs: number;
+  overallRating: number;
+  overallActivity: number;
+}
+
+// 定义完整项目详情
+export interface ProjectDetail {
+  id: number;
+  virtualId: number;
+  virtualIdString: string;
+  role: string;
+  status: string;
+  name: string;
+  overview: string;
+  description: string;
+  isVerified: boolean;
+  category: string;
+  chain: string;
+  agentFramework: string;
+  socials: ProjectSocials;
+  url: string;
+  symbol: string;
+  image: string;
+  genesis: Genesis;
+  tokenomics: Tokenomics[];
+  tags: string[];
+  projectMembers: ProjectMember[];
+  metrics: Record<string, unknown>;
+  addresses: Record<string, unknown>;
+  githubAnalysis: ProjectGitHubAnalysis;
+  createdAt: string;
+  updatedAt: string;
+}
+
 // 定义社交媒体类型
 interface Socials {
   github: string | null;
@@ -53,6 +177,19 @@ export interface DevelopersResponse {
   };
 }
 
+// 定义项目 API 响应类型
+export interface ProjectsResponse {
+  data: ProjectDetail[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+}
+
 export const getDevelopers = async ({
   page = 1,
   pageSize = 10,
@@ -80,17 +217,12 @@ export const getDevelopers = async ({
     params.append("projectStatus", projectStatus);
   }
 
-  const res = await fetch(
-    `/api/leaderboard/builders?${params.toString()}`,
-    // `http://43.130.247.176:50061/leaderboard/builders?${params.toString()}`,
-    // `https://api.hunknownz.xyz:2096/leaderboard/builders?${params.toString()}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const res = await fetch(`/api/leaderboard/builders?${params.toString()}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
   if (!res.ok) {
     throw new Error(`HTTP error! status: ${res.status}`);
@@ -109,6 +241,61 @@ export const getDevelopers = async ({
       totalPages: Math.ceil((data.total || 0) / pageSize),
       hasNextPage: false,
       hasNext: false,
+    },
+  };
+};
+
+export const getProjects = async ({
+  page = 1,
+  pageSize = 10,
+  sortBy,
+  sortOrder,
+  projectStatus,
+}: {
+  page?: number;
+  pageSize?: number;
+  sortBy?: string;
+  sortOrder?: string;
+  projectStatus?: string;
+}): Promise<ProjectsResponse> => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    limit: pageSize.toString(), // 注意这里使用 limit 而不是 pageSize，根据你的 JSON 数据
+  });
+
+  if (sortBy && sortOrder) {
+    params.append("sortBy", sortBy);
+    params.append("sortOrder", sortOrder);
+  }
+
+  if (projectStatus && projectStatus !== "all") {
+    params.append("projectStatus", projectStatus);
+  }
+
+  const res = await fetch(`/api/leaderboard/projects?${params.toString()}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`HTTP error! status: ${res.status}`);
+  }
+
+  const data = await res.json();
+  console.log("Raw Projects API Response:", data); // 调试日志
+
+  // 适配 API 响应格式
+  return {
+    data: data.data || data || [],
+    pagination: data.pagination || {
+      page: page,
+      limit: pageSize,
+      total: data.total || 0,
+      totalPages: Math.ceil((data.total || 0) / pageSize),
+      hasNext: false,
+      hasPrev: false,
     },
   };
 };

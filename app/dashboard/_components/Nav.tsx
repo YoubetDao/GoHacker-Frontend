@@ -18,8 +18,14 @@ export default function Nav() {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
   const router = useRouter();
+
+  const handleShareToX = () => {
+    const shareUrl = `${window.location.origin}${window.location.pathname}`;
+    window.open(`https://x.com/intent/tweet?url=${shareUrl}`, "_blank");
+  };
+
   return (
-    <div className="pt-5 pb-6  mb-6 flex justify-between items-center">
+    <div className="pt-5 pb-6  mb-6 flex items-center">
       <div
         className="text-xl font-semibold flex items-center gap-3 cursor-pointer"
         onClick={() => router.push("/")}
@@ -28,7 +34,7 @@ export default function Nav() {
         GoHacker
       </div>
 
-      <div className="flex items-center gap-16">
+      <div className="flex items-center gap-16 ml-auto mr-auto">
         {NAVS.map((nav) => (
           <div
             key={nav.name}
@@ -45,7 +51,11 @@ export default function Nav() {
           </div>
         ))}
       </div>
-      <Button className="font-medium rounded-full">Connect Wallet</Button>
+      <div className="ml-auto">
+        <Button className="font-medium rounded-full" onClick={handleShareToX}>
+          Share to X
+        </Button>
+      </div>
     </div>
   );
 }
