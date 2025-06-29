@@ -14,6 +14,9 @@ import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
+  ChevronDown,
+  ChevronsUpDown,
 } from "lucide-react";
 
 interface ProjectItem {
@@ -42,6 +45,25 @@ interface PaginationInfo {
   hasPrev: boolean;
 }
 
+// 可排序字段定义
+const SortableFields = [
+  {
+    type: "stars",
+    label: "Stars",
+  },
+  {
+    type: "forks",
+    label: "Forks",
+  },
+  {
+    type: "rating",
+    label: "Rating",
+  },
+];
+
+type SortField = "stars" | "forks" | "rating";
+type SortDirection = "asc" | "desc" | null;
+
 const DEFAULT_PAGE_SIZE = 10;
 
 // 排名显示函数
@@ -68,6 +90,8 @@ export default function Project() {
   const [projectData, setProjectData] = useState<ProjectItem[]>([]);
   const [initLoading, setInitLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortField, setSortField] = useState<SortField | null>("rating");
+  const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [pagination, setPagination] = useState<PaginationInfo>({
     page: 1,
     limit: DEFAULT_PAGE_SIZE,
@@ -77,12 +101,38 @@ export default function Project() {
     hasPrev: false,
   });
 
+  // 排序处理函数
+  const handleSort = (field: SortField) => {
+    setSortField((prevField) =>
+      prevField === field ? (sortDirection === "desc" ? null : field) : field
+    );
+    setSortDirection((prevDir) => {
+      if (sortField !== field) return "asc";
+      if (prevDir === "asc") return "desc";
+      if (prevDir === "desc") return null;
+      return "asc";
+    });
+    setCurrentPage(1); // 排序时重置到第一页
+  };
+
+  // 获取排序图标
+  const getSortIcon = (field: SortField) => {
+    if (sortField !== field) return <ChevronsUpDown className="ml-2 h-4 w-4" />;
+    if (sortDirection === "asc") return <ChevronUp className="ml-2 h-4 w-4" />;
+    if (sortDirection === "desc") return <ChevronDown className="ml-2 h-4 w-4" />;
+    return <ChevronsUpDown className="ml-2 h-4 w-4" />;
+  };
+
   const fetchProjects = async (page: number = 1) => {
     try {
-      const data = await fetch(
-        `/v1/leaderboard/projects?page=${page}&limit=${DEFAULT_PAGE_SIZE}`
-      );
+      let url = `/v1/leaderboard/projects?page=${page}&limit=${DEFAULT_PAGE_SIZE}`;
+      
+      // 添加排序参数
+      if (sortField && sortDirection) {
+        url += `&sortBy=github_analysis.${sortField}&sortOrder=${sortDirection}`;
+      }
 
+      const data = await fetch(url);
       const res = await data.json();
 
       console.log(res);
@@ -115,7 +165,7 @@ export default function Project() {
 
   useEffect(() => {
     fetchProjects(1);
-  }, []);
+  }, [sortField, sortDirection]);
 
   if (initLoading) {
     return <div className="text-white text-center py-8">Loading...</div>;
@@ -136,15 +186,18 @@ export default function Project() {
               <TableHead className="text-[#999999] text-base">
                 Social Link
               </TableHead>
-              <TableHead className="text-[#999999] text-base text-center">
-                Stars
-              </TableHead>
-              <TableHead className="text-[#999999] text-base text-center">
-                Forks
-              </TableHead>
-              <TableHead className="text-[#999999] text-base text-center">
-                Rating
-              </TableHead>
+              {SortableFields.map(({ type, label }) => (
+                <TableHead
+                  key={type}
+                  className="text-[#999999] text-base text-center cursor-pointer hover:text-white transition-colors"
+                  onClick={() => handleSort(type as SortField)}
+                >
+                  <div className="flex items-center justify-center">
+                    {label}
+                    {getSortIcon(type as SortField)}
+                  </div>
+                </TableHead>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
