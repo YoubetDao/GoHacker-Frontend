@@ -13,6 +13,11 @@ const NAVS = [
     href: "/launchpad",
     isComingSoon: true,
   },
+  {
+    name: "X Bot",
+    href: "/x-bot",
+    isComingSoon: true,
+  },
 ];
 export default function Nav() {
   const pathname = usePathname();
@@ -25,7 +30,7 @@ export default function Nav() {
   };
 
   return (
-    <div className="pt-5 pb-6  mb-6 flex items-center">
+    <div className="pt-5 pb-6  mb-6 flex items-center justify-between">
       <div
         className="text-xl font-semibold flex items-center gap-3 cursor-pointer"
         onClick={() => router.push("/")}
@@ -34,13 +39,20 @@ export default function Nav() {
         GoHacker
       </div>
 
-      <div className="flex items-center gap-16 ml-auto mr-auto">
+      <div className="flex items-center gap-16 absolute left-1/2 transform -translate-x-1/2">
         {NAVS.map((nav) => (
           <div
             key={nav.name}
             className={`text-base font-bold text-white cursor-pointer items-center  flex gap-2 pb-1 ${
               isActive(nav.href) ? "border-b-1 border-[#fff]" : ""
             }`}
+            onClick={() => {
+              if (nav.name === "X Bot") {
+                window.open("https://x.com/gohacker_ai", "_blank");
+              } else if (!nav.isComingSoon) {
+                router.push(nav.href);
+              }
+            }}
           >
             {nav.name}
             {nav.isComingSoon && (
@@ -51,7 +63,7 @@ export default function Nav() {
           </div>
         ))}
       </div>
-      <div className="ml-auto">
+      <div>
         <Button className="font-medium rounded-full" onClick={handleShareToX}>
           Share to X
         </Button>
