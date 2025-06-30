@@ -69,10 +69,10 @@ export default function Dashboard() {
         {/* 移动版 - 两行布局 */}
         <div className="flex md:hidden flex-col gap-4">
           {/* 第一行：Tab 切换 */}
-          <div className="flex justify-center">
-            <div className="flex rounded-[4px] bg-[rgba(34,39,63,0.7)] p-0.5">
+          <div className="w-full">
+            <div className="flex rounded-[4px] bg-[rgba(34,39,63,0.7)] p-0.5 w-full">
               <div
-                className={`px-4 py-2 cursor-pointer font-[500] rounded-[4px] text-sm ${
+                className={`flex-1 py-2 cursor-pointer font-[500] rounded-[4px] text-sm text-center ${
                   activeTab === Tab.Developer ? "bg-[#292F4E] font-[700]" : ""
                 }`}
                 onClick={() => setActiveTab(Tab.Developer)}
@@ -80,7 +80,7 @@ export default function Dashboard() {
                 Developer
               </div>
               <div
-                className={`px-4 py-2 cursor-pointer font-[500] rounded-[4px] text-sm ${
+                className={`flex-1 py-2 cursor-pointer font-[500] rounded-[4px] text-sm text-center ${
                   activeTab === Tab.Project ? "bg-[#292F4E] font-[700]" : ""
                 }`}
                 onClick={() => setActiveTab(Tab.Project)}
@@ -91,9 +91,9 @@ export default function Dashboard() {
           </div>
 
           {/* 第二行：状态筛选器 */}
-          <div className="flex justify-center">
+          <div className="w-full">
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.5)] text-white w-[180px]">
+              <SelectTrigger className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.5)] text-white w-full">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.95)] backdrop-blur-md">

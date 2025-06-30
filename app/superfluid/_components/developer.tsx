@@ -185,137 +185,283 @@ export default function Developer() {
 
   return (
     <div className={` ${initLoading ? "mb-[940px]" : ""}`}>
-      <div className="relative bg-[rgba(34,39,63,0.5)] border-[2px] border-[rgba(151,151,151,0.54)] rounded-[20px]">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-[rgba(34,39,63,0.5)] hover:bg-[rgba(34,39,63,0.5)] border-b border-[rgba(153,150,198,0.36)]">
-              <TableHead className="text-[#999999] text-base py-6 text-center">
-                No.
-              </TableHead>
-              <TableHead className="text-[#999999] text-base">
-                Developers
-              </TableHead>
-              <TableHead className="text-[#999999] text-base">
-                Social link
-              </TableHead>
-              {SortableFields.map(({ type, label }) => (
-                <TableHead
-                  key={type}
-                  className="text-[#999999] text-base text-center cursor-pointer hover:text-white transition-colors"
-                  onClick={() => handleSort(type as SortField)}
-                >
-                  <div className="flex items-center justify-center">
-                    {label}
-                    {getSortIcon(type as SortField)}
-                  </div>
+      <div className="relative bg-[rgba(34,39,63,0.5)] border-[2px] border-[rgba(151,151,151,0.54)] rounded-[20px] overflow-hidden">
+        {/* 表格容器 - 桌面版 */}
+        <div className="hidden md:block">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-[rgba(34,39,63,0.5)] hover:bg-[rgba(34,39,63,0.5)] border-b border-[rgba(153,150,198,0.36)]">
+                <TableHead className="text-[#999999] text-base py-6 text-center">
+                  No.
                 </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {rankingData.map((item, index) => (
-              <TableRow
-                key={item.username}
-                className="border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.02)] h-[84px]"
-              >
-                {/* 排名 */}
-                <TableCell className="font-bold text-lg text-center py-4">
-                  {getRankDisplay(
-                    (currentPage - 1) * DEFAULT_PAGE_SIZE + index + 1
-                  )}
-                </TableCell>
+                <TableHead className="text-[#999999] text-base">
+                  Developers
+                </TableHead>
+                <TableHead className="text-[#999999] text-base">
+                  Social link
+                </TableHead>
+                {SortableFields.map(({ type, label }) => (
+                  <TableHead
+                    key={type}
+                    className="text-[#999999] text-base text-center cursor-pointer hover:text-white transition-colors"
+                    onClick={() => handleSort(type as SortField)}
+                  >
+                    <div className="flex items-center justify-center">
+                      {label}
+                      {getSortIcon(type as SortField)}
+                    </div>
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {rankingData.map((item, index) => (
+                <TableRow
+                  key={item.username}
+                  className="border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.02)] h-[84px]"
+                >
+                  {/* 排名 */}
+                  <TableCell className="font-bold text-lg text-center py-4">
+                    {getRankDisplay(
+                      (currentPage - 1) * DEFAULT_PAGE_SIZE + index + 1
+                    )}
+                  </TableCell>
 
-                {/* 开发者信息 */}
-                <TableCell className="py-4 w-[200px] overflow-hidden">
-                  <div className="flex items-center w-[200px] gap-2">
-                    <Avatar className="h-12 w-12">
-                      <AvatarImage src={item.avatarUrl} />
-                      <AvatarFallback className="bg-gradient-to-br from-orange-400 to-pink-500 text-white font-bold text-xs">
-                        {item.username?.charAt(0)?.toUpperCase() || "U"}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="w-[calc(100%-60px)] overflow-hidden">
-                      <div className="flex items-center space-x-2">
-                        <span className="font-bold text-lg text-white truncate">
-                          {isAddress(item.username)
-                            ? item.username.slice(0, 6) +
-                              "..." +
-                              item.username.slice(-4)
-                            : item.username}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1 text-[12px] text-[#999999]">
-                        <span className="truncate">
-                          {item.title || item.bio}
-                        </span>
+                  {/* 开发者信息 */}
+                  <TableCell className="py-4 w-[200px] overflow-hidden">
+                    <div className="flex items-center w-[200px] gap-2">
+                      <Avatar className="h-12 w-12">
+                        <AvatarImage src={item.avatarUrl} />
+                        <AvatarFallback className="bg-gradient-to-br from-orange-400 to-pink-500 text-white font-bold text-xs">
+                          {item.username?.charAt(0)?.toUpperCase() || "U"}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="w-[calc(100%-60px)] overflow-hidden">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-bold text-lg text-white truncate">
+                            {isAddress(item.username)
+                              ? item.username.slice(0, 6) +
+                                "..." +
+                                item.username.slice(-4)
+                              : item.username}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1 text-[12px] text-[#999999]">
+                          <span className="truncate">
+                            {item.title || item.bio}
+                          </span>
+                        </div>
                       </div>
                     </div>
+                  </TableCell>
+
+                  {/* 社交链接 */}
+                  <TableCell className="py-4">
+                    <div className="flex items-center gap-2">
+                      {item.socials.github && (
+                        <a
+                          href={item.socials.github}
+                          target="_blank"
+                          className="text-gray-400 hover:text-gray-300"
+                        >
+                          <GithubIcon className="w-4 h-4" />
+                        </a>
+                      )}
+                      {item.socials.telegram && (
+                        <a
+                          href={item.socials.telegram}
+                          target="_blank"
+                          className="text-gray-400 hover:text-blue-300"
+                        >
+                          <Send className="w-4 h-4" />
+                        </a>
+                      )}
+                      {item.socials.twitter && (
+                        <a
+                          href={item.socials.twitter}
+                          target="_blank"
+                          className="text-gray-400 hover:text-blue-300"
+                        >
+                          <TwitterIcon className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
+                  </TableCell>
+
+                  {/* Rating */}
+                  <TableCell className="text-center py-4">
+                    <span className="text-[#17E1A4] font-bold">
+                      {item.githubAnalysis?.rating?.toFixed(1) ?? "N/A"}
+                    </span>
+                  </TableCell>
+
+                  {/* Activity */}
+                  <TableCell className="text-center py-4">
+                    <span
+                      style={{ background: "rgba(126,143,255,0.24)" }}
+                      className="text-[#7EB8FF] px-[20px] py-2 rounded-[16px] font-bold"
+                    >
+                      {item.githubAnalysis?.activity?.toFixed(1) ?? "N/A"}
+                    </span>
+                  </TableCell>
+
+                  {/* Followers */}
+                  <TableCell className="text-center font-bold py-4 text-white">
+                    {item.githubAnalysis?.followers ?? "N/A"}
+                  </TableCell>
+
+                  {/* Stars */}
+                  <TableCell className="text-center font-bold py-4 text-white">
+                    {item.githubAnalysis?.stars ?? "N/A"}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+
+        {/* 移动端固定列表格 */}
+        <div className="block md:hidden">
+          <div className="flex">
+            {/* 固定的No.列 */}
+            <div className="flex-shrink-0 bg-[rgba(34,39,63,0.7)]">
+              <div className="border-b border-[rgba(153,150,198,0.36)] bg-[rgba(34,39,63,0.5)] py-6 px-4 text-center">
+                <div className="text-[#999999] text-base font-medium">No.</div>
+              </div>
+              {rankingData.map((_, index) => (
+                <div
+                  key={index}
+                  className="border-b border-[rgba(255,255,255,0.05)] h-[84px] flex items-center justify-center px-4"
+                >
+                  <div className="font-bold text-lg text-center">
+                    {getRankDisplay((currentPage - 1) * DEFAULT_PAGE_SIZE + index + 1)}
                   </div>
-                </TableCell>
+                </div>
+              ))}
+            </div>
 
-                {/* 社交链接 */}
-                <TableCell className="py-4">
-                  <div className="flex items-center gap-2">
-                    {item.socials.github && (
-                      <a
-                        href={item.socials.github}
-                        target="_blank"
-                        className="text-gray-400 hover:text-gray-300"
-                      >
-                        <GithubIcon className="w-4 h-4" />
-                      </a>
-                    )}
-                    {item.socials.telegram && (
-                      <a
-                        href={item.socials.telegram}
-                        target="_blank"
-                        className="text-gray-400 hover:text-blue-300"
-                      >
-                        <Send className="w-4 h-4" />
-                      </a>
-                    )}
-                    {item.socials.twitter && (
-                      <a
-                        href={item.socials.twitter}
-                        target="_blank"
-                        className="text-gray-400 hover:text-blue-300"
-                      >
-                        <TwitterIcon className="w-4 h-4" />
-                      </a>
-                    )}
+            {/* 可滚动的其他列 */}
+            <div className="flex-1 overflow-x-auto">
+              <div className="min-w-[800px]">
+                {/* 表头 */}
+                <div className="flex border-b border-[rgba(153,150,198,0.36)] bg-[rgba(34,39,63,0.5)]">
+                  <div className="flex-shrink-0 w-[200px] py-6 px-4">
+                    <div className="text-[#999999] text-base">Developers</div>
                   </div>
-                </TableCell>
-
-                {/* Rating */}
-                <TableCell className="text-center py-4">
-                  <span className="text-[#17E1A4] font-bold">
-                    {item.githubAnalysis?.rating?.toFixed(1) ?? "N/A"}
-                  </span>
-                </TableCell>
-
-                {/* Activity */}
-                <TableCell className="text-center py-4">
-                  <span
-                    style={{ background: "rgba(126,143,255,0.24)" }}
-                    className="text-[#7EB8FF] px-[20px] py-2 rounded-[16px] font-bold"
+                  <div className="flex-shrink-0 w-[120px] py-6 px-4">
+                    <div className="text-[#999999] text-base">Social Link</div>
+                  </div>
+                  {SortableFields.map(({ type, label }) => (
+                    <div
+                      key={type}
+                      className="flex-shrink-0 w-[120px] py-6 px-4 text-center cursor-pointer"
+                      onClick={() => handleSort(type as SortField)}
+                    >
+                      <div className="flex items-center justify-center text-[#999999] text-base">
+                        {label}
+                        {getSortIcon(type as SortField)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* 数据行 */}
+                {rankingData.map((item, index) => (
+                  <div
+                    key={item.username}
+                    className="flex border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.02)] h-[84px]"
                   >
-                    {item.githubAnalysis?.activity?.toFixed(1) ?? "N/A"}
-                  </span>
-                </TableCell>
-
-                {/* Followers */}
-                <TableCell className="text-center font-bold py-4 text-white">
-                  {item.githubAnalysis?.followers ?? "N/A"}
-                </TableCell>
-
-                {/* Stars */}
-                <TableCell className="text-center font-bold py-4 text-white">
-                  {item.githubAnalysis?.stars ?? "N/A"}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                    {/* 开发者 */}
+                    <div className="flex-shrink-0 w-[200px] py-4 px-4">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src={item.avatarUrl} />
+                          <AvatarFallback className="bg-gradient-to-br from-orange-400 to-pink-500 text-white font-bold text-xs">
+                            {item.username?.charAt(0)?.toUpperCase() || "U"}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="overflow-hidden">
+                          <div className="flex items-center space-x-2">
+                            <span className="font-bold text-lg text-white truncate">
+                              {isAddress(item.username)
+                                ? item.username.slice(0, 6) +
+                                  "..." +
+                                  item.username.slice(-4)
+                                : item.username}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1 text-[12px] text-[#999999]">
+                            <span className="truncate">
+                              {item.title || item.bio}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* 社交链接 */}
+                    <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center">
+                      <div className="flex items-center gap-2">
+                        {item.socials.github && (
+                          <a
+                            href={item.socials.github}
+                            target="_blank"
+                            className="text-gray-400 hover:text-gray-300"
+                          >
+                            <GithubIcon className="w-4 h-4" />
+                          </a>
+                        )}
+                        {item.socials.telegram && (
+                          <a
+                            href={item.socials.telegram}
+                            target="_blank"
+                            className="text-gray-400 hover:text-blue-300"
+                          >
+                            <Send className="w-4 h-4" />
+                          </a>
+                        )}
+                        {item.socials.twitter && (
+                          <a
+                            href={item.socials.twitter}
+                            target="_blank"
+                            className="text-gray-400 hover:text-blue-300"
+                          >
+                            <TwitterIcon className="w-4 h-4" />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* 数据列 */}
+                    <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
+                      <span className="text-[#17E1A4] font-bold">
+                        {item.githubAnalysis?.rating?.toFixed(1) ?? "N/A"}
+                      </span>
+                    </div>
+                    <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
+                      <span
+                        style={{ background: "rgba(126,143,255,0.24)" }}
+                        className="text-[#7EB8FF] px-[12px] py-1 rounded-[16px] font-bold text-sm"
+                      >
+                        {item.githubAnalysis?.activity?.toFixed(1) ?? "N/A"}
+                      </span>
+                    </div>
+                    <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
+                      <span className="text-center font-bold text-white">
+                        {item.githubAnalysis?.followers ?? "N/A"}
+                      </span>
+                    </div>
+                    <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
+                      <span className="text-center font-bold text-white">
+                        {item.githubAnalysis?.stars ?? "N/A"}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* 翻页器 */}

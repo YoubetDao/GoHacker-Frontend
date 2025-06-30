@@ -16,27 +16,68 @@ export default function Superfluid() {
 
   return (
     <div className="pt-8">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex  rounded-[4px] bg-[rgba(34,39,63,0.7)] p-0.5 ">
-          <div
-            className={`px-3 py-1.5 cursor-pointer font-[500] rounded-[4px] ${
-              activeTab === Tab.Developer ? "bg-[#292F4E] font-[700]" : ""
-            }`}
-            onClick={() => setActiveTab(Tab.Developer)}
-          >
-            Developer
+      {/* 头部与筛选 */}
+      <div className="mb-6">
+        {/* 桌面版 - 单行布局 */}
+        <div className="hidden md:flex justify-between items-center">
+          {/* Tab 切换 */}
+          <div className="flex rounded-[4px] bg-[rgba(34,39,63,0.7)] p-0.5">
+            <div
+              className={`px-3 py-1.5 cursor-pointer font-[500] rounded-[4px] ${
+                activeTab === Tab.Developer ? "bg-[#292F4E] font-[700]" : ""
+              }`}
+              onClick={() => setActiveTab(Tab.Developer)}
+            >
+              Developer
+            </div>
+            <div
+              className={`px-3 py-1.5 cursor-pointer font-[500] rounded-[4px] ${
+                activeTab === Tab.Project ? "bg-[#292F4E] font-[700]" : ""
+              }`}
+              onClick={() => setActiveTab(Tab.Project)}
+            >
+              Project
+            </div>
           </div>
-          <div
-            className={`px-3 py-1.5 cursor-pointer font-[500] rounded-[4px] ${
-              activeTab === Tab.Project ? "bg-[#292F4E] font-[700]" : ""
-            }`}
-            onClick={() => setActiveTab(Tab.Project)}
-          >
-            Project
-          </div>
+
+          {/* Trends Chart 按钮 */}
+          <Button onClick={() => setOpen(true)}>Trends Chart</Button>
         </div>
 
-        <Button onClick={() => setOpen(true)}>Trends Chart</Button>
+        {/* 移动版 - 两行布局 */}
+        <div className="flex md:hidden flex-col gap-4">
+          {/* 第一行：Tab 切换 */}
+          <div className="w-full">
+            <div className="flex rounded-[4px] bg-[rgba(34,39,63,0.7)] p-0.5 w-full">
+              <div
+                className={`flex-1 py-2 cursor-pointer font-[500] rounded-[4px] text-sm text-center ${
+                  activeTab === Tab.Developer ? "bg-[#292F4E] font-[700]" : ""
+                }`}
+                onClick={() => setActiveTab(Tab.Developer)}
+              >
+                Developer
+              </div>
+              <div
+                className={`flex-1 py-2 cursor-pointer font-[500] rounded-[4px] text-sm text-center ${
+                  activeTab === Tab.Project ? "bg-[#292F4E] font-[700]" : ""
+                }`}
+                onClick={() => setActiveTab(Tab.Project)}
+              >
+                Project
+              </div>
+            </div>
+          </div>
+
+          {/* 第二行：Trends Chart 按钮 */}
+          <div className="w-full">
+            <Button 
+              className="w-full font-medium px-4 py-2 text-sm"
+              onClick={() => setOpen(true)}
+            >
+              Trends Chart
+            </Button>
+          </div>
+        </div>
       </div>
 
       {activeTab === Tab.Developer && <Developer />}
