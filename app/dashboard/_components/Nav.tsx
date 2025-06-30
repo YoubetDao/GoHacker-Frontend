@@ -2,6 +2,7 @@
 import Button from "@/components/common/Button";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { Share } from "lucide-react";
 
 const NAVS = [
   {
@@ -9,13 +10,12 @@ const NAVS = [
     href: "/dashboard",
   },
   {
-    name: "Launch Pad",
-    href: "/launchpad",
-    isComingSoon: true,
-  },
-  {
     name: "X Bot",
     href: "/x-bot",
+  },
+  {
+    name: "Launch Pad",
+    href: "/launchpad",
     isComingSoon: true,
   },
 ];
@@ -64,7 +64,11 @@ export default function Nav() {
         ))}
       </div>
       <div>
-        <Button className="font-medium rounded-full" onClick={handleShareToX}>
+        <Button
+          className="font-medium px-4 py-2 text-sm flex items-center gap-2 whitespace-nowrap bg-transparent border border-[rgba(151,151,151,0.54)]  hover:border-white/40 text-white hover:bg-white/5"
+          onClick={handleShareToX}
+        >
+          <Share className="w-4 h-4" />
           Share to X
         </Button>
       </div>
