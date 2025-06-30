@@ -15,7 +15,7 @@ export default function DashboardLayout({
         fontFamily: "CenturyGothic, sans-serif",
       }}
     >
-      <div className="relative max-w-[1440px] z-10 px-20 mx-auto text-white pb-12">
+      <div className="relative max-w-[1440px] z-10 px-4 sm:px-3 md:px-8 lg:px-12 xl:px-20 mx-auto text-white pb-12">
         <Nav />
         {children}
         <Footer />

@@ -22,46 +22,96 @@ export default function Dashboard() {
   return (
     <div className="mt-8">
       {/* 头部与筛选 */}
-      <div className="flex justify-between items-center mb-6">
-        {/* Tab 切换 */}
-        <div className="flex  rounded-[4px] bg-[rgba(34,39,63,0.7)] p-0.5 ">
-          <div
-            className={`px-3 py-1.5 cursor-pointer font-[500] rounded-[4px] ${
-              activeTab === Tab.Developer ? "bg-[#292F4E] font-[700]" : ""
-            }`}
-            onClick={() => setActiveTab(Tab.Developer)}
-          >
-            Developer
+      <div className="mb-6">
+        {/* 桌面版 - 单行布局 */}
+        <div className="hidden md:flex justify-between items-center">
+          {/* Tab 切换 */}
+          <div className="flex rounded-[4px] bg-[rgba(34,39,63,0.7)] p-0.5">
+            <div
+              className={`px-3 py-1.5 cursor-pointer font-[500] rounded-[4px] ${
+                activeTab === Tab.Developer ? "bg-[#292F4E] font-[700]" : ""
+              }`}
+              onClick={() => setActiveTab(Tab.Developer)}
+            >
+              Developer
+            </div>
+            <div
+              className={`px-3 py-1.5 cursor-pointer font-[500] rounded-[4px] ${
+                activeTab === Tab.Project ? "bg-[#292F4E] font-[700]" : ""
+              }`}
+              onClick={() => setActiveTab(Tab.Project)}
+            >
+              Project
+            </div>
           </div>
-          <div
-            className={`px-3 py-1.5 cursor-pointer font-[500] rounded-[4px] ${
-              activeTab === Tab.Project ? "bg-[#292F4E] font-[700]" : ""
-            }`}
-            onClick={() => setActiveTab(Tab.Project)}
-          >
-            Project
-          </div>
+
+          {/* 状态筛选器 */}
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.5)] text-white w-[160px]">
+              <SelectValue placeholder="Filter by status" />
+            </SelectTrigger>
+            <SelectContent className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.95)] backdrop-blur-md">
+              {["all", "Live", "Upcoming", "Ended"].map((val) => (
+                <SelectItem
+                  key={val}
+                  value={val}
+                  className="text-white hover:bg-[rgba(129,74,200,0.3)] cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    {val === "all" ? "All Projects" : val}
+                  </span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* 状态筛选器 - 在两个 tab 都显示 */}
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.5)] text-white w-[160px]">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.95)] backdrop-blur-md">
-            {["all", "Live", "Upcoming", "Ended"].map((val) => (
-              <SelectItem
-                key={val}
-                value={val}
-                className="text-white hover:bg-[rgba(129,74,200,0.3)] cursor-pointer"
+        {/* 移动版 - 两行布局 */}
+        <div className="flex md:hidden flex-col gap-4">
+          {/* 第一行：Tab 切换 */}
+          <div className="flex justify-center">
+            <div className="flex rounded-[4px] bg-[rgba(34,39,63,0.7)] p-0.5">
+              <div
+                className={`px-4 py-2 cursor-pointer font-[500] rounded-[4px] text-sm ${
+                  activeTab === Tab.Developer ? "bg-[#292F4E] font-[700]" : ""
+                }`}
+                onClick={() => setActiveTab(Tab.Developer)}
               >
-                <span className="flex items-center gap-2">
-                  {val === "all" ? "All Projects" : val}
-                </span>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+                Developer
+              </div>
+              <div
+                className={`px-4 py-2 cursor-pointer font-[500] rounded-[4px] text-sm ${
+                  activeTab === Tab.Project ? "bg-[#292F4E] font-[700]" : ""
+                }`}
+                onClick={() => setActiveTab(Tab.Project)}
+              >
+                Project
+              </div>
+            </div>
+          </div>
+
+          {/* 第二行：状态筛选器 */}
+          <div className="flex justify-center">
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.5)] text-white w-[180px]">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.95)] backdrop-blur-md">
+                {["all", "Live", "Upcoming", "Ended"].map((val) => (
+                  <SelectItem
+                    key={val}
+                    value={val}
+                    className="text-white hover:bg-[rgba(129,74,200,0.3)] cursor-pointer"
+                  >
+                    <span className="flex items-center gap-2">
+                      {val === "all" ? "All Projects" : val}
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
       </div>
 
       {/* 表格内容 */}

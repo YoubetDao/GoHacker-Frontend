@@ -244,149 +244,317 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
   return (
     <div className={` ${projectList.length === 0 ? "mb-[940px]" : ""}`}>
       {/* 表格 */}
-      <div className="relative bg-[rgba(34,39,63,0.5)] border-[2px] border-[rgba(151,151,151,0.54)] rounded-[20px]">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-[rgba(34,39,63,0.5)] hover:bg-[rgba(34,39,63,0.5)] border-b border-[rgba(153,150,198,0.36)]">
-              <TableHead className="text-[#999999] text-base py-6 text-center">
-                No.
-              </TableHead>
-              <TableHead className="text-[#999999] text-base">
-                Project
-              </TableHead>
+      <div className="relative bg-[rgba(34,39,63,0.5)] border-[2px] border-[rgba(151,151,151,0.54)] rounded-[20px] overflow-hidden">
+        {/* 表格容器 - 桌面版 */}
+        <div className="hidden md:block">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-[rgba(34,39,63,0.5)] hover:bg-[rgba(34,39,63,0.5)] border-b border-[rgba(153,150,198,0.36)]">
+                <TableHead className="text-[#999999] text-base py-6 text-center">
+                  No.
+                </TableHead>
+                <TableHead className="text-[#999999] text-base">
+                  Project
+                </TableHead>
 
-              {SortField.map(({ type, label, info, sort }) => (
-                <TableHead
-                  key={type}
-                  className="text-[#999999] text-base text-center cursor-pointer"
-                  onClick={() => handleSort(type as SortField)}
+                {SortField.map(({ type, label, info, sort }) => (
+                  <TableHead
+                    key={type}
+                    className="text-[#999999] text-base text-center cursor-pointer"
+                    onClick={() => handleSort(type as SortField)}
+                  >
+                    <div className="flex items-center justify-center">
+                      {label}
+                      {sort && getSortIcon(type as SortField)}
+                      {info && (
+                        <HoverCard>
+                          <HoverCardTrigger>
+                            <Info className="w-4 h-4" />
+                          </HoverCardTrigger>
+                          <HoverCardContent className="bg-[#222] border-[#222] text-white">
+                            {info}
+                          </HoverCardContent>
+                        </HoverCard>
+                      )}
+                    </div>
+                  </TableHead>
+                ))}
+                <TableHead 
+                  className="text-[#999999] text-base text-center cursor-pointer hover:text-white transition-colors"
+                  onClick={() => handleSort("genesis.endsAt")}
                 >
                   <div className="flex items-center justify-center">
-                    {label}
-                    {sort && getSortIcon(type as SortField)}
-                    {info && (
-                      <HoverCard>
-                        <HoverCardTrigger>
-                          <Info className="w-4 h-4" />
-                        </HoverCardTrigger>
-                        <HoverCardContent className="bg-[#222] border-[#222] text-white">
-                          {info}
-                        </HoverCardContent>
-                      </HoverCard>
-                    )}
+                    Countdown
+                    {getSortIcon("genesis.endsAt")}
                   </div>
                 </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {projectList.map((item, index) => (
+                <TableRow
+                  key={index}
+                  className="border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.02)] h-[84px]"
+                >
+                  {/* 排名 */}
+                  <TableCell className="font-bold text-lg text-center py-4">
+                    {getRankDisplay((currentPage - 1) * 10 + index + 1)}
+                  </TableCell>
+                  {/* 项目 */}
+                  <TableCell className="py-4 w-[200px] overflow-hidden">
+                    <div className="flex items-center w-[200px] gap-2">
+                      <Avatar className="h-12 w-12">
+                        <AvatarImage src={item.image} />
+                        <AvatarFallback className="bg-gradient-to-br from-orange-400 to-pink-500 text-white font-bold text-xs">
+                          {item.name?.charAt(0)?.toUpperCase() || "P"}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="w-[calc(100%-60px)] overflow-hidden">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-bold text-lg text-white truncate">
+                            {item.name}
+                          </span>
+                          {item.isVerified && (
+                            <span className="text-blue-400 text-xs">✓</span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1 text-[12px] text-[#999999]">
+                          <span>{item.symbol}</span>
+
+                          {item.socials.VERIFIED_LINKS?.TWITTER && (
+                            <a
+                              href={item.socials.VERIFIED_LINKS.TWITTER}
+                              target="_blank"
+                              className="text-gray-400 hover:text-blue-300"
+                            >
+                              <TwitterIcon className="w-4 h-4" />
+                            </a>
+                          )}
+                          {item.socials.VERIFIED_LINKS?.GITHUB && (
+                            <a
+                              href={item.socials.VERIFIED_LINKS.GITHUB}
+                              target="_blank"
+                              className="text-gray-400 hover:text-gray-300"
+                            >
+                              <GithubIcon className="w-4 h-4" />
+                            </a>
+                          )}
+                          {item.url && (
+                            <a
+                              href={item.url}
+                              target="_blank"
+                              className="text-gray-400 hover:text-gray-300"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                            </a>
+                          )}
+
+                          {/* <span>{getStatusDisplay(item.status)}</span> */}
+                        </div>
+                      </div>
+                    </div>
+                  </TableCell>
+
+                  {/* GitHub 评分 */}
+                  <TableCell className="text-center py-4">
+                    <span className="text-[#17E1A4] font-bold">
+                      {item.githubAnalysis?.overallRating ?? "N/A"}
+                    </span>
+                  </TableCell>
+                  {/* 活跃度 */}
+                  <TableCell className="text-center py-4">
+                    <span
+                      style={{ background: "rgba(126,143,255,0.24)" }}
+                      className="text-[#7EB8FF] px-[20px] py-2 rounded-[16px] font-bold"
+                    >
+                      {item.githubAnalysis?.overallActivity ?? "N/A"}
+                    </span>
+                  </TableCell>
+                  {/* 开发者数量 */}
+                  <TableCell className="text-center font-bold py-4 text-white">
+                    {item.githubAnalysis?.devs ?? "N/A"}
+                  </TableCell>
+                  {/* 创建时间 */}
+                  <TableCell className="text-center py-4 text-gray-300">
+                    {formatDate(item.genesis.startsAt)}
+                  </TableCell>
+                  {/* 结束时间 */}
+                  <TableCell className="text-center py-4 text-gray-300">
+                    <div className="flex flex-col items-center gap-1">
+                      {getStatusDisplay(item.genesis.status)}
+                      <CountdownTimer endTime={item.genesis.endsAt} />
+                    </div>
+                  </TableCell>
+                </TableRow>
               ))}
-              <TableHead 
-                className="text-[#999999] text-base text-center cursor-pointer hover:text-white transition-colors"
-                onClick={() => handleSort("genesis.endsAt")}
-              >
-                <div className="flex items-center justify-center">
-                  Countdown
-                  {getSortIcon("genesis.endsAt")}
+            </TableBody>
+          </Table>
+        </div>
+
+        {/* 移动端固定列表格 */}
+        <div className="block md:hidden">
+          <div className="flex">
+            {/* 固定的No.列 */}
+            <div className="flex-shrink-0 bg-[rgba(34,39,63,0.7)]">
+              <div className="border-b border-[rgba(153,150,198,0.36)] bg-[rgba(34,39,63,0.5)] py-6 px-4 text-center">
+                <div className="text-[#999999] text-base font-medium">No.</div>
+              </div>
+              {projectList.map((_, index) => (
+                <div
+                  key={index}
+                  className="border-b border-[rgba(255,255,255,0.05)] h-[84px] flex items-center justify-center px-4"
+                >
+                  <div className="font-bold text-lg text-center">
+                    {getRankDisplay((currentPage - 1) * 10 + index + 1)}
+                  </div>
                 </div>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {projectList.map((item, index) => (
-              <TableRow
-                key={index}
-                className="border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.02)] h-[84px]"
-              >
-                {/* 排名 */}
-                <TableCell className="font-bold text-lg text-center py-4">
-                  {getRankDisplay((currentPage - 1) * 10 + index + 1)}
-                </TableCell>
-                {/* 项目 */}
-                <TableCell className="py-4 w-[200px] overflow-hidden">
-                  <div className="flex items-center w-[200px] gap-2">
-                    <Avatar className="h-12 w-12">
-                      <AvatarImage src={item.image} />
-                      <AvatarFallback className="bg-gradient-to-br from-orange-400 to-pink-500 text-white font-bold text-xs">
-                        {item.name?.charAt(0)?.toUpperCase() || "P"}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="w-[calc(100%-60px)] overflow-hidden">
-                      <div className="flex items-center space-x-2">
-                        <span className="font-bold text-lg text-white truncate">
-                          {item.name}
-                        </span>
-                        {item.isVerified && (
-                          <span className="text-blue-400 text-xs">✓</span>
+              ))}
+            </div>
+
+            {/* 可滚动的其他列 */}
+            <div className="flex-1 overflow-x-auto">
+              <div className="min-w-[1000px]">
+                {/* 表头 */}
+                <div className="flex border-b border-[rgba(153,150,198,0.36)] bg-[rgba(34,39,63,0.5)]">
+                  <div className="flex-shrink-0 w-[200px] py-6 px-4">
+                    <div className="text-[#999999] text-base">Project</div>
+                  </div>
+                  {SortField.map(({ type, label, info, sort }) => (
+                    <div
+                      key={type}
+                      className="flex-shrink-0 w-[120px] py-6 px-4 text-center cursor-pointer"
+                      onClick={() => handleSort(type as SortField)}
+                    >
+                      <div className="flex items-center justify-center text-[#999999] text-base">
+                        {label}
+                        {sort && getSortIcon(type as SortField)}
+                        {info && (
+                          <HoverCard>
+                            <HoverCardTrigger>
+                              <Info className="w-4 h-4 ml-1" />
+                            </HoverCardTrigger>
+                            <HoverCardContent className="bg-[#222] border-[#222] text-white">
+                              {info}
+                            </HoverCardContent>
+                          </HoverCard>
                         )}
                       </div>
-                      <div className="flex items-center gap-1 text-[12px] text-[#999999]">
-                        <span>{item.symbol}</span>
+                    </div>
+                  ))}
+                  <div 
+                    className="flex-shrink-0 w-[180px] py-6 px-4 text-center cursor-pointer"
+                    onClick={() => handleSort("genesis.endsAt")}
+                  >
+                    <div className="flex items-center justify-center text-[#999999] text-base">
+                      Countdown
+                      {getSortIcon("genesis.endsAt")}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* 数据行 */}
+                {projectList.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.02)] h-[84px]"
+                  >
+                    {/* 项目 */}
+                    <div className="flex-shrink-0 w-[200px] py-4 px-4">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src={item.image} />
+                          <AvatarFallback className="bg-gradient-to-br from-orange-400 to-pink-500 text-white font-bold text-xs">
+                            {item.name?.charAt(0)?.toUpperCase() || "P"}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="overflow-hidden">
+                          <div className="flex items-center space-x-2">
+                            <span className="font-bold text-lg text-white truncate">
+                              {item.name}
+                            </span>
+                            {item.isVerified && (
+                              <span className="text-blue-400 text-xs">✓</span>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-1 text-[12px] text-[#999999]">
+                            <span className="truncate">{item.symbol}</span>
 
-                        {item.socials.VERIFIED_LINKS?.TWITTER && (
-                          <a
-                            href={item.socials.VERIFIED_LINKS.TWITTER}
-                            target="_blank"
-                            className="text-gray-400 hover:text-blue-300"
-                          >
-                            <TwitterIcon className="w-4 h-4" />
-                          </a>
-                        )}
-                        {item.socials.VERIFIED_LINKS?.GITHUB && (
-                          <a
-                            href={item.socials.VERIFIED_LINKS.GITHUB}
-                            target="_blank"
-                            className="text-gray-400 hover:text-gray-300"
-                          >
-                            <GithubIcon className="w-4 h-4" />
-                          </a>
-                        )}
-                        {item.url && (
-                          <a
-                            href={item.url}
-                            target="_blank"
-                            className="text-gray-400 hover:text-gray-300"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        )}
-
-                        {/* <span>{getStatusDisplay(item.status)}</span> */}
+                            {item.socials.VERIFIED_LINKS?.TWITTER && (
+                              <a
+                                href={item.socials.VERIFIED_LINKS.TWITTER}
+                                target="_blank"
+                                className="text-gray-400 hover:text-blue-300"
+                              >
+                                <TwitterIcon className="w-4 h-4" />
+                              </a>
+                            )}
+                            {item.socials.VERIFIED_LINKS?.GITHUB && (
+                              <a
+                                href={item.socials.VERIFIED_LINKS.GITHUB}
+                                target="_blank"
+                                className="text-gray-400 hover:text-gray-300"
+                              >
+                                <GithubIcon className="w-4 h-4" />
+                              </a>
+                            )}
+                            {item.url && (
+                              <a
+                                href={item.url}
+                                target="_blank"
+                                className="text-gray-400 hover:text-gray-300"
+                              >
+                                <ExternalLink className="w-4 h-4" />
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* GitHub 评分 */}
+                    <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
+                      <span className="text-[#17E1A4] font-bold">
+                        {item.githubAnalysis?.overallRating ?? "N/A"}
+                      </span>
+                    </div>
+                    
+                    {/* 活跃度 */}
+                    <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
+                      <span
+                        style={{ background: "rgba(126,143,255,0.24)" }}
+                        className="text-[#7EB8FF] px-[12px] py-1 rounded-[16px] font-bold text-sm"
+                      >
+                        {item.githubAnalysis?.overallActivity ?? "N/A"}
+                      </span>
+                    </div>
+                    
+                    {/* 开发者数量 */}
+                    <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
+                      <span className="text-center font-bold text-white">
+                        {item.githubAnalysis?.devs ?? "N/A"}
+                      </span>
+                    </div>
+                    
+                    {/* 创建时间 */}
+                    <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
+                      <span className="text-center text-gray-300">
+                        {formatDate(item.genesis.startsAt)}
+                      </span>
+                    </div>
+                    
+                    {/* 结束时间 */}
+                    <div className="flex-shrink-0 w-[180px] py-4 px-4 flex items-center justify-center">
+                      <div className="flex flex-col items-center gap-1">
+                        {getStatusDisplay(item.genesis.status)}
+                        <CountdownTimer endTime={item.genesis.endsAt} />
                       </div>
                     </div>
                   </div>
-                </TableCell>
-
-                {/* GitHub 评分 */}
-                <TableCell className="text-center py-4">
-                  <span className="text-[#17E1A4] font-bold">
-                    {item.githubAnalysis?.overallRating ?? "N/A"}
-                  </span>
-                </TableCell>
-                {/* 活跃度 */}
-                <TableCell className="text-center py-4">
-                  <span
-                    style={{ background: "rgba(126,143,255,0.24)" }}
-                    className="text-[#7EB8FF] px-[20px] py-2 rounded-[16px] font-bold"
-                  >
-                    {item.githubAnalysis?.overallActivity ?? "N/A"}
-                  </span>
-                </TableCell>
-                {/* 开发者数量 */}
-                <TableCell className="text-center font-bold py-4 text-white">
-                  {item.githubAnalysis?.devs ?? "N/A"}
-                </TableCell>
-                {/* 创建时间 */}
-                <TableCell className="text-center py-4 text-gray-300">
-                  {formatDate(item.genesis.startsAt)}
-                </TableCell>
-                {/* 结束时间 */}
-                <TableCell className="text-center py-4 text-gray-300">
-                  <div className="flex flex-col items-center gap-1">
-                    {getStatusDisplay(item.genesis.status)}
-                    <CountdownTimer endTime={item.genesis.endsAt} />
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* 翻页器 */}
