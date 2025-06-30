@@ -77,15 +77,15 @@ export default function Footer() {
 
         {/* Bottom Section */}
         <div className="flex justify-end items-center space-x-2 text-sm ">
-          © 2025 GoHacker. Built by developers, powered by
+          © 2025 GoHacker. Built by{" "}
           <a
             href="https://github.com/YoubetDao"
             target="_blank"
-            className="underline hover:text-white ml-2"
+            className="underline hover:text-white ml-1 mr-1"
           >
             YoubetDAO
-          </a>
-          .
+          </a>{" "}
+          with ❤️.
         </div>
       </div>
     </footer>

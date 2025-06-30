@@ -74,7 +74,15 @@ export default function Footer() {
   return (
     <div className="flex justify-between mt-4 text-[12px] text-[#999999] font-medium">
       <div className="">
-        © 2025 GoHacker. Built by developers, powered by YoubetDAO
+        © 2025 GoHacker. Built by{" "}
+        <a
+          href="https://github.com/YoubetDao"
+          target="_blank"
+          className="underline hover:text-white"
+        >
+          YoubetDAO
+        </a>{" "}
+        with ❤️.
       </div>
       <div className="flex gap-4 ">
         {SOCIAL_LINKS.map((link) => (
