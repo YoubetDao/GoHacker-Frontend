@@ -179,60 +179,81 @@ export const DeveloperTrends = ({
         </div>
       </div>
 
-      <div className="w-full h-[600px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="rgba(255,255,255,0.1)"
-            />
-            <XAxis
-              dataKey="date"
-              stroke="#9ca3af"
-              tickFormatter={(value) => {
-                try {
-                  const date = new Date(value);
-                  if (isNaN(date.getTime())) {
+      {/* 滚动提示 */}
+      {data.length > 10 && (
+        <div className="flex items-center gap-2 mb-2 text-xs text-gray-400">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+          </svg>
+          <span>Scroll horizontally to view all data points</span>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </div>
+      )}
+      
+      <div className="w-full h-[600px] overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-track-gray-700 scrollbar-thumb-purple-500">
+        <div 
+          className="w-full h-full"
+          style={{ 
+            minWidth: Math.max(800, data.length * 60) + 'px' 
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgba(255,255,255,0.1)"
+              />
+              <XAxis
+                dataKey="date"
+                stroke="#9ca3af"
+                interval={Math.max(0, Math.floor(data.length / 10))}
+                tickFormatter={(value) => {
+                  try {
+                    const date = new Date(value);
+                    if (isNaN(date.getTime())) {
+                      return "Invalid Date";
+                    }
+                    return format(date, "MMM dd");
+                  } catch {
                     return "Invalid Date";
                   }
-                  return format(date, "MMM dd");
-                } catch {
-                  return "Invalid Date";
-                }
-              }}
-            />
-            <YAxis stroke="#9ca3af" />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "rgba(17, 24, 39, 0.9)",
-                border: "1px solid rgba(167, 139, 250, 0.2)",
-                borderRadius: "0.5rem",
-                color: "#fff",
-              }}
-              formatter={(value: number) => value.toFixed(2)}
-            />
-            <Legend />
-            {Array.from(selectedDevelopers).map((developer) => (
-              <Line
-                key={developer}
-                type="monotone"
-                dataKey={developer}
-                name={developer}
-                stroke={developerColors[developer]}
-                dot={false}
-                strokeWidth={2}
+                }}
               />
-            ))}
-          </LineChart>
-        </ResponsiveContainer>
+              <YAxis stroke="#9ca3af" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "rgba(17, 24, 39, 0.9)",
+                  border: "1px solid rgba(167, 139, 250, 0.2)",
+                  borderRadius: "0.5rem",
+                  color: "#fff",
+                }}
+                formatter={(value: number) => value.toFixed(2)}
+              />
+              <Legend />
+              {Array.from(selectedDevelopers).map((developer) => (
+                <Line
+                  key={developer}
+                  type="monotone"
+                  dataKey={developer}
+                  name={developer}
+                  stroke={developerColors[developer]}
+                  dot={false}
+                  strokeWidth={2}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       <div className="mt-6">

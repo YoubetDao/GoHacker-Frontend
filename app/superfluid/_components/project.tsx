@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   GithubIcon,
   ExternalLink,
@@ -124,7 +124,7 @@ export default function Project() {
     return <ChevronsUpDown className="ml-2 h-4 w-4" />;
   };
 
-  const fetchProjects = async (page: number = 1) => {
+  const fetchProjects = useCallback(async (page: number = 1) => {
     try {
       let url = `/v1/leaderboard/projects?page=${page}&limit=${DEFAULT_PAGE_SIZE}`;
 
@@ -155,7 +155,7 @@ export default function Project() {
       console.error("Error fetching projects:", error);
       setInitLoading(false);
     }
-  };
+  }, [sortField, sortDirection]);
 
   // 翻页处理函数
   const handlePageChange = (page: number) => {
@@ -166,7 +166,7 @@ export default function Project() {
 
   useEffect(() => {
     fetchProjects(1);
-  }, [sortField, sortDirection]);
+  }, [fetchProjects]);
 
  
 
@@ -329,7 +329,7 @@ export default function Project() {
                 </div>
                 
                 {/* 数据行 */}
-                {projectData.map((item, index) => (
+                {projectData.map((item) => (
                   <div
                     key={item.name}
                     className="flex border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.02)] h-[84px]"

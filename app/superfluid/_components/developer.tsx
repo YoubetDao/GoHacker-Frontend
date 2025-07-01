@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   GithubIcon,
   TwitterIcon,
@@ -139,7 +139,7 @@ export default function Developer() {
     return <ChevronsUpDown className="ml-2 h-4 w-4" />;
   };
 
-  const fetchDevelopers = async (page: number = 1) => {
+  const fetchDevelopers = useCallback(async (page: number = 1) => {
     try {
       let url = `/v1/leaderboard/builders?page=${page}&size=${DEFAULT_PAGE_SIZE}`;
 
@@ -170,7 +170,7 @@ export default function Developer() {
       console.error("Error fetching developers:", error);
       setInitLoading(false);
     }
-  };
+  }, [sortField, sortDirection]);
 
   // 翻页处理函数
   const handlePageChange = (page: number) => {
@@ -181,7 +181,7 @@ export default function Developer() {
 
   useEffect(() => {
     fetchDevelopers(1);
-  }, [sortField, sortDirection]); // 排序变化时重新获取数据
+  }, [fetchDevelopers]); // 排序变化时重新获取数据
 
   return (
     <div className={` ${initLoading ? "mb-[940px]" : ""}`}>
@@ -366,7 +366,7 @@ export default function Developer() {
                 </div>
                 
                 {/* 数据行 */}
-                {rankingData.map((item, index) => (
+                {rankingData.map((item) => (
                   <div
                     key={item.username}
                     className="flex border-b border-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.02)] h-[84px]"
