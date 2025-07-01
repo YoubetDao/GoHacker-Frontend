@@ -41,7 +41,20 @@ export default function Superfluid() {
           </div>
 
           {/* Trends Chart 按钮 */}
-          <Button onClick={() => setOpen(true)}>Trends Chart</Button>
+          <div className="flex gap-2">
+            <Button
+              className="font-medium px-4 py-2 text-sm flex items-center gap-2 whitespace-nowrap bg-transparent border border-[rgba(151,151,151,0.54)] hover:border-white/40 text-white hover:bg-white/5"
+              onClick={() => {
+                window.open(
+                  "https://according.work/dashboard?superfluid=true",
+                  "_blank"
+                );
+              }}
+            >
+              Bind Github
+            </Button>
+            <Button onClick={() => setOpen(true)}>Trends Chart</Button>
+          </div>
         </div>
 
         {/* 移动版 - 两行布局 */}
@@ -70,7 +83,7 @@ export default function Superfluid() {
 
           {/* 第二行：Trends Chart 按钮 */}
           <div className="w-full">
-            <Button 
+            <Button
               className="w-full font-medium px-4 py-2 text-sm"
               onClick={() => setOpen(true)}
             >
