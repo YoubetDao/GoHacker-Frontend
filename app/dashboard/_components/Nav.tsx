@@ -13,6 +13,7 @@ const NAVS = [
   {
     name: "Yapper Board",
     href: "/yapper",
+    isNew: true,
   },
   {
     name: "X Bot",
@@ -68,6 +69,11 @@ export default function Nav() {
                 onClick={() => handleNavClick(nav)}
               >
                 {nav.name}
+                {nav.isNew && (
+                  <div className="h-[20px] px-2 rounded-full text-[10px] text-white bg-gradient-to-r from-purple-600 to-blue-500 border border-purple-400 font-bold flex items-center animate-pulse shadow-lg shadow-purple-500/25">
+                    NEW
+                  </div>
+                )}
                 {nav.isComingSoon && (
                   <div className="h-[20px] px-1 rounded-full text-[12px] text-[#999999] bg-[rgba(28,13,71,0.5)] border">
                     Coming soon
@@ -154,9 +160,16 @@ export default function Nav() {
                     } ${nav.isComingSoon ? "opacity-60 cursor-not-allowed" : ""}`}
                     onClick={() => handleNavClick(nav)}
                   >
-                    <span className="text-lg font-medium text-white">
-                      {nav.name}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-medium text-white">
+                        {nav.name}
+                      </span>
+                      {nav.isNew && (
+                        <div className="h-[20px] px-2 rounded-full text-[10px] text-white bg-gradient-to-r from-purple-600 to-blue-500 border border-purple-400 font-bold flex items-center animate-pulse shadow-lg shadow-purple-500/25">
+                          NEW
+                        </div>
+                      )}
+                    </div>
                     {nav.isComingSoon && (
                       <div className="h-[20px] px-2 rounded-full text-[12px] text-[#999999] bg-[rgba(28,13,71,0.5)] border flex items-center">
                         Coming soon

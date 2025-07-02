@@ -10,33 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { TwitterIcon } from "lucide-react";
 import TwitterAvatar from "@/components/TwitterAvatar";
-
-interface YapperUser {
-  id: number;
-  twitterHandle: string;
-  twitterUserId: string | null;
-  displayName: string;
-  avatarUrl: string | null;
-  bio: string | null;
-  followersCount: number;
-  followingCount: number;
-  tweetCount: number;
-  score: string;
-  statistics: {
-    totalLikes: number;
-    totalTweets: number;
-    totalReplies: number;
-    weeklyTweets: number;
-    monthlyTweets: number;
-    totalRetweets: number;
-    lastActivityDate: string;
-    avgEngagementRate: number;
-  };
-  rank: number | null;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import { getYappers, YapperUser } from "@/service";
 
 const getRankDisplay = (rank: number) => {
   const colorMap = {
@@ -66,13 +40,7 @@ export default function YapperBoard() {
     const fetchYappers = async () => {
       try {
         setLoading(true);
-        const response = await fetch(
-          "https://api.hunknownz.xyz:2096/yapper/leaderboard"
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+        const data = await getYappers();
 
         // Sort by score (descending) and add ranks
         const sortedData = data

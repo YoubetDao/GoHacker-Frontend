@@ -299,3 +299,66 @@ export const getProjects = async ({
     },
   };
 };
+
+// 定义 Yapper 用户类型
+export interface YapperUser {
+  id: number;
+  twitterHandle: string;
+  twitterUserId: string | null;
+  displayName: string;
+  avatarUrl: string | null;
+  bio: string | null;
+  followersCount: number;
+  followingCount: number;
+  tweetCount: number;
+  score: string;
+  statistics: {
+    totalLikes: number;
+    totalTweets: number;
+    totalReplies: number;
+    weeklyTweets: number;
+    monthlyTweets: number;
+    totalRetweets: number;
+    lastActivityDate: string;
+    avgEngagementRate: number;
+  };
+  rank: number | null;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// 定义 Yapper API 响应类型
+export interface YapperResponse {
+  data?: YapperUser[];
+  // 如果API返回的是数组，则直接是 YapperUser[]
+}
+
+export const getYappers = async (): Promise<YapperUser[]> => {
+  const res = await fetch('/api/yapper/leaderboard', {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`HTTP error! status: ${res.status}`);
+  }
+
+  const data = await res.json();
+  console.log("Raw Yapper API Response:", data); // 调试日志
+
+  // 根据API响应格式进行适配
+  // 如果返回的是 { data: YapperUser[] } 格式
+  if (Array.isArray(data.data)) {
+    return data.data;
+  }
+  // 如果直接返回 YapperUser[] 数组
+  if (Array.isArray(data)) {
+    return data;
+  }
+  
+  // 兜底返回空数组
+  return [];
+};
