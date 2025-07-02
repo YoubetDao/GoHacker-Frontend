@@ -11,6 +11,10 @@ const NAVS = [
     href: "/dashboard",
   },
   {
+    name: "Yapper Board",
+    href: "/yapper",
+  },
+  {
     name: "X Bot",
     href: "/x-bot",
   },
