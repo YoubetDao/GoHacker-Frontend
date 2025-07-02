@@ -105,9 +105,6 @@ export default function YapperBoard() {
                     Twitter
                   </TableHead>
                   <TableHead className="text-[#999999] text-base text-center">
-                    Followers
-                  </TableHead>
-                  <TableHead className="text-[#999999] text-base text-center">
                     Mentions
                   </TableHead>
                   <TableHead className="text-[#999999] text-base text-center">
@@ -156,11 +153,6 @@ export default function YapperBoard() {
                       </div>
                     </TableCell>
 
-                    {/* Followers */}
-                    <TableCell className="text-center font-bold py-4 text-white">
-                      {user.followersCount.toLocaleString()}
-                    </TableCell>
-
                     {/* Mentions */}
                     <TableCell className="text-center font-bold py-4 text-white">
                       {user.statistics.totalTweets}
@@ -202,14 +194,11 @@ export default function YapperBoard() {
 
               {/* 可滚动的其他列 */}
               <div className="flex-1 overflow-x-auto">
-                <div className="min-w-[800px]">
+                <div className="min-w-[500px]">
                   {/* 表头 */}
                   <div className="flex border-b border-[rgba(153,150,198,0.36)] bg-[rgba(34,39,63,0.5)]">
                     <div className="flex-shrink-0 w-[200px] py-6 px-4">
                       <div className="text-[#999999] text-base">Twitter</div>
-                    </div>
-                    <div className="flex-shrink-0 w-[120px] py-6 px-4 text-center">
-                      <div className="text-[#999999] text-base">Followers</div>
                     </div>
                     <div className="flex-shrink-0 w-[180px] py-6 px-4 text-center">
                       <div className="text-[#999999] text-base">Mentions</div>
@@ -255,13 +244,6 @@ export default function YapperBoard() {
                             </div>
                           </div>
                         </div>
-                      </div>
-
-                      {/* Followers */}
-                      <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
-                        <span className="text-center font-bold text-white">
-                          {user.followersCount.toLocaleString()}
-                        </span>
                       </div>
 
                       {/* Mentions */}
