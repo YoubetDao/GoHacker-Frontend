@@ -311,7 +311,7 @@ export interface YapperUser {
   followersCount: number;
   followingCount: number;
   tweetCount: number;
-  score: string;
+  score: string | null;
   statistics: {
     totalLikes: number;
     totalTweets: number;
@@ -321,7 +321,7 @@ export interface YapperUser {
     totalRetweets: number;
     lastActivityDate: string;
     avgEngagementRate: number;
-  };
+  } | null;
   rank: number | null;
   isActive: boolean;
   createdAt: string;

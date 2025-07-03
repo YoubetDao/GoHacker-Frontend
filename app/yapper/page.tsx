@@ -46,7 +46,7 @@ export default function YapperBoard() {
         const sortedData = data
           .sort(
             (a: YapperUser, b: YapperUser) =>
-              parseFloat(b.score) - parseFloat(a.score)
+              parseFloat(b.score || '0') - parseFloat(a.score || '0')
           )
           .map((user: YapperUser, index: number) => ({
             ...user,
@@ -155,13 +155,13 @@ export default function YapperBoard() {
 
                     {/* Mentions */}
                     <TableCell className="text-center font-bold py-4 text-white">
-                      {user.statistics.totalTweets}
+                      {user.statistics?.totalTweets || 0}
                     </TableCell>
 
                     {/* Score */}
                     <TableCell className="text-center py-4">
                       <span className="text-[#17E1A4] font-bold">
-                        {parseFloat(user.score).toFixed(2)}
+                        {user.score ? parseFloat(user.score).toFixed(2) : '0.00'}
                       </span>
                     </TableCell>
                   </TableRow>
@@ -249,14 +249,14 @@ export default function YapperBoard() {
                       {/* Mentions */}
                       <div className="flex-shrink-0 w-[180px] py-4 px-4 flex items-center justify-center">
                         <span className="text-center font-bold text-white">
-                          {user.statistics.totalTweets}
+                          {user.statistics?.totalTweets || 0}
                         </span>
                       </div>
 
                       {/* Score */}
                       <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
                         <span className="text-[#17E1A4] font-bold">
-                          {parseFloat(user.score).toFixed(2)}
+                          {user.score ? parseFloat(user.score).toFixed(2) : '0.00'}
                         </span>
                       </div>
                     </div>
