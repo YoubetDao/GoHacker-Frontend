@@ -11,7 +11,7 @@ export default function Hero() {
     <section className="pt-[180px] px-10 pb-[100px] h-screen flex flex-col justify-center items-center relative">
       <Starfield starCount={200} speed={0.3} className="absolute inset-0" />
       <div className="text-center text-sm  text-white bg-[#814ac8] px-4 py-2 rounded-full mb-4">
-        Virtuals Hackathon top 10
+       🏆 Virtuals Hackathon top 10 & BNB AI Hacker Winner 
       </div>
       <h1 className="text-4xl font-bold max-w-[900px] text-center text-white md:text-6xl">
         <TypeAnimation
