@@ -168,10 +168,15 @@ type SortDirection = "asc" | "desc" | null;
 
 interface ProjectTableProps {
   statusFilter: string;
-  onStatusFilterChange: (value: string) => void;
+  dateFilter: string;
 }
 
-export default function ProjectTable({ statusFilter }: ProjectTableProps) {
+export default function ProjectTable({
+  statusFilter,
+  dateFilter,
+}: ProjectTableProps) {
+  console.log("dateFilter", dateFilter);
+  console.log("statusFilter", statusFilter);
   const [sortField, setSortField] = useState<SortField | null>(
     "github_analysis.overallRating"
   );
@@ -212,12 +217,18 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
           sortBy?: string;
           sortOrder?: string;
           projectStatus?: string;
+          genesisStartsTo?: string;
         } = { page, pageSize: 10 };
         if (sortField && sortDirection) {
           params.sortBy = sortField;
           params.sortOrder = sortDirection;
         }
         if (statusFilter !== "all") params.projectStatus = statusFilter;
+        if (dateFilter !== "all") {
+          const daysFromNow = new Date();
+          daysFromNow.setDate(daysFromNow.getDate() + parseInt(dateFilter));
+          params.genesisStartsTo = daysFromNow.toISOString();
+        }
         const data = await getProjects(params);
         setProjectList(data.data ?? []);
         setTotalPages(data.pagination?.totalPages ?? 1);
@@ -227,7 +238,7 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
         setTotalPages(1);
       }
     },
-    [sortField, sortDirection, statusFilter]
+    [sortField, sortDirection, statusFilter, dateFilter]
   );
 
   // 只需监听主要参数
@@ -279,7 +290,7 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
                     </div>
                   </TableHead>
                 ))}
-                <TableHead 
+                <TableHead
                   className="text-[#999999] text-base text-center cursor-pointer hover:text-white transition-colors"
                   onClick={() => handleSort("genesis.endsAt")}
                 >
@@ -441,7 +452,7 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
                       </div>
                     </div>
                   ))}
-                  <div 
+                  <div
                     className="flex-shrink-0 w-[180px] py-6 px-4 text-center cursor-pointer"
                     onClick={() => handleSort("genesis.endsAt")}
                   >
@@ -451,7 +462,7 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* 数据行 */}
                 {projectList.map((item, index) => (
                   <div
@@ -510,14 +521,14 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
                         </div>
                       </div>
                     </div>
-                    
+
                     {/* GitHub 评分 */}
                     <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
                       <span className="text-[#17E1A4] font-bold">
                         {item.githubAnalysis?.overallRating ?? "N/A"}
                       </span>
                     </div>
-                    
+
                     {/* 活跃度 */}
                     <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
                       <span
@@ -527,21 +538,21 @@ export default function ProjectTable({ statusFilter }: ProjectTableProps) {
                         {item.githubAnalysis?.overallActivity ?? "N/A"}
                       </span>
                     </div>
-                    
+
                     {/* 开发者数量 */}
                     <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
                       <span className="text-center font-bold text-white">
                         {item.githubAnalysis?.devs ?? "N/A"}
                       </span>
                     </div>
-                    
+
                     {/* 创建时间 */}
                     <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
                       <span className="text-center text-gray-300">
                         {formatDate(item.genesis.startsAt)}
                       </span>
                     </div>
-                    
+
                     {/* 结束时间 */}
                     <div className="flex-shrink-0 w-[180px] py-4 px-4 flex items-center justify-center">
                       <div className="flex flex-col items-center gap-1">

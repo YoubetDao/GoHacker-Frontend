@@ -251,12 +251,14 @@ export const getProjects = async ({
   sortBy,
   sortOrder,
   projectStatus,
+  genesisStartsTo,
 }: {
   page?: number;
   pageSize?: number;
   sortBy?: string;
   sortOrder?: string;
   projectStatus?: string;
+  genesisStartsTo?: string;
 }): Promise<ProjectsResponse> => {
   const params = new URLSearchParams({
     page: page.toString(),
@@ -270,6 +272,10 @@ export const getProjects = async ({
 
   if (projectStatus && projectStatus !== "all") {
     params.append("projectStatus", projectStatus);
+  }
+
+  if (genesisStartsTo && genesisStartsTo !== "all") {
+    params.append("genesisStartsTo", genesisStartsTo);
   }
 
   const res = await fetch(`/api/leaderboard/projects?${params.toString()}`, {
@@ -335,7 +341,7 @@ export interface YapperResponse {
 }
 
 export const getYappers = async (): Promise<YapperUser[]> => {
-  const res = await fetch('/api/yapper/leaderboard', {
+  const res = await fetch("/api/yapper/leaderboard", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -358,7 +364,7 @@ export const getYappers = async (): Promise<YapperUser[]> => {
   if (Array.isArray(data)) {
     return data;
   }
-  
+
   // 兜底返回空数组
   return [];
 };
