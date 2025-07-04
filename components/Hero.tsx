@@ -5,7 +5,6 @@ import Starfield from "./Starfield";
 import { TypeAnimation } from "react-type-animation";
 import { useRouter } from "next/navigation";
 import { PartnersSection } from "./partners";
-import Orb from "./Orb";
 
 export default function Hero() {
   const router = useRouter();
