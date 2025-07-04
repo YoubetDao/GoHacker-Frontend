@@ -7,12 +7,13 @@ import Image from "next/image";
 // 导入图片
 import animocaLogo from "@/assets/logos/animoca.png";
 import openCampusLogo from "@/assets/logos/openCampus.png";
-import openbuildLogo from "@/assets/logos/openbuild.svg";
 import socialLayerLogo from "@/assets/logos/socialLayer.png";
 import virtualsLogo from "@/assets/logos/virtuals.png";
-import bewaterLogo from "@/assets/logos/bewater.jpeg";
 import cosetLogo from "@/assets/logos/cosetLogo.png";
 import accordingWorkLogo from "@/assets/logos/accordingWork.png";
+import superfluidLogo from "@/assets/logos/superfluid.png";
+import openbuildLogo from "@/assets/logos/openbuild.png";
+import bewaterLogo from "@/assets/logos/bewater.png";
 
 const partners = [
   {
@@ -35,10 +36,10 @@ const partners = [
     name: "Social Layer",
     logo: socialLayerLogo,
   },
-  // {
-  //   name: 'Superfluid',
-  //   logo: superfluidLogo,
-  // },
+  {
+    name: "Superfluid",
+    logo: superfluidLogo,
+  },
   {
     name: "Virtuals",
     logo: virtualsLogo,
