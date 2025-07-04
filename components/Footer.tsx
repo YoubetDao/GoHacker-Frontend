@@ -75,7 +75,7 @@ export default function Footer() {
                   href="https://github.com/YoubetDao"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-purple-400 hover:text-purple-300 transition-colors duration-200 ml-1"
+                  className="text-white underline transition-colors duration-200 ml-1"
                 >
                   YoubetDAO
                 </a>
@@ -90,7 +90,7 @@ export default function Footer() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-purple-400 hover:text-purple-300 transition-colors duration-200 ml-1"
+                      className="text-[rgba(255, 255, 255, 0.50)] hover:text-white transition-colors duration-200 ml-1"
                     >
                       {link.name}
                     </a>

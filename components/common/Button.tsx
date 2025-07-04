@@ -18,8 +18,9 @@ const Button: React.FC<ButtonProps> = ({
   const baseStyles = "px-3 py-2 rounded-[6px] transition-all duration-200";
 
   const variantStyles = {
-    primary: "bg-[rgb(129,74,200)] hover:bg-[rgb(139,84,210)] text-white",
-    secondary: "bg-black hover:bg-gray-800 text-white border border-white/10",
+    primary: "bg-gradient-to-r from-[#004FFF] to-[#8C00FF] text-white",
+    secondary:
+      "bg-black hover:bg-gray-800 text-white border border-white/50 bg-white/3",
   };
 
   return (
