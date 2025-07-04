@@ -10,8 +10,8 @@ export default function Tools() {
     <div id="features" className="py-16 md:py-25 px-4 md:px-10 bg-black">
       <div className="max-w-[1200px] mx-auto">
         {/* For Investors Section */}
-        <div className="flex flex-col items-center mb-20 md:mb-30">
-          <div className="text-2xl md:text-4xl lg:text-5xl font-bold text-center mb-4 text-white">
+        <div className="flex flex-col items-center mb-20 md:mb-20">
+          <div className="text-2xl md:text-4xl lg:text-5xl font-bold text-center mb-5 text-white">
             For Investors
           </div>
           <div className="text-center text-sm md:text-lg max-w-[700px] text-white/75 mb-12 md:mb-20 px-4 md:px-0">
@@ -58,7 +58,7 @@ export default function Tools() {
         </div>
 
         {/* Project Evaluator X Bot Section */}
-        <div className="flex flex-col lg:flex-row-reverse gap-6 md:gap-10 w-full mb-20 md:mb-32">
+        <div className="flex flex-col lg:flex-row-reverse gap-6 md:gap-10 w-full mb-20 ">
           <div className="flex-1 flex justify-center">
             <Image
               src={xbot}
@@ -105,7 +105,7 @@ export default function Tools() {
           </div>
 
           {/* LaunchPad Section */}
-          <div className="flex flex-col lg:flex-row gap-6 md:gap-10 w-full mb-24 md:mb-40">
+          <div className="flex flex-col lg:flex-row gap-6 md:gap-10 w-full mb-20">
             {/* Left side - GoHacker Interface */}
             <div className="flex-1 flex justify-center">
               <Image

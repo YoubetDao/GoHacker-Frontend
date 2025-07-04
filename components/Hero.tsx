@@ -11,25 +11,25 @@ export default function Hero() {
   return (
     <section className="pt-[180px] px-10 pb-[100px] h-screen flex flex-col justify-between items-center relative overflow-x-hidden">
       <Starfield starCount={200} speed={0.3} className="absolute inset-0" />
-      <div className="flex flex-col justify-center items-center gap-10">
-        <div className="border border-[#FFFFFF1A] rounded-full p-2 font-semibold text-sm flex items-center gap-1 mb-4 w-fit">
-          <div className="bg-[#8C29FF] rounded-[30px] px-2 h-7 w-fit flex items-center justify-center">
+      <div className="flex flex-col justify-center items-center gap-12">
+        <div className="border border-[#FFFFFF1A] rounded-full p-2 font-semibold text-sm flex items-center gap-1 w-fit bg-[#110D11]">
+          <div className="bg-gradient-to-r from-[#004FFF] to-[#8C00FF] rounded-full w-7 h-7 flex items-center justify-center text-sm">
             🏆
           </div>
           Virtuals Hackathon top 10 & BNB AI Hacker Winner
         </div>
         <h1 className="text-4xl font-bold max-w-[1200px] text-center text-white md:text-7xl">
           <TypeAnimation
-            sequence={["Turn Open Source Activity Into Investment Alpha", 1000]}
+            sequence={["Follow the Builders. Find the Alpha.", 1000]}
             wrapper="span"
             speed={50}
             style={{ display: "inline-block" }}
             repeat={0}
           />
         </h1>
-        <div className="text-center text-lg max-w-[700px] font-medium text-white/75 mt-4 mb-6">
-          We surface real builders behind Web3 projects so investors can make
-          better decisions and developers can gain fair recognition.
+        <div className="text-center text-lg max-w-[700px] font-medium text-white/75 ">
+          We identify real builders powering open-source projects—so investors
+          gain signal, not noise, and developers get the credit they deserve
         </div>
         <div className="flex gap-4 z-10">
           <Button

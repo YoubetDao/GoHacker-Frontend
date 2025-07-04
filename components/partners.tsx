@@ -1,7 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-import useEmblaCarousel from "embla-carousel-react";
-import { useEffect } from "react";
 import Image from "next/image";
 
 // 导入图片
@@ -55,51 +53,21 @@ const partners = [
 ];
 
 export const PartnersSection = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "start",
-    dragFree: true,
-    skipSnaps: false,
-  });
-
-  useEffect(() => {
-    let autoplay: NodeJS.Timeout;
-    if (emblaApi) {
-      const startAutoplay = () => {
-        autoplay = setInterval(() => {
-          emblaApi.scrollNext();
-        }, 2000); // 每2秒滚动一次
-      };
-
-      const stopAutoplay = () => {
-        clearInterval(autoplay);
-      };
-
-      // 开始自动播放
-      startAutoplay();
-
-      // 当用户手动操作时暂停自动播放
-      emblaApi.on("pointerDown", stopAutoplay);
-      emblaApi.on("pointerUp", startAutoplay);
-    }
-
-    return () => clearInterval(autoplay);
-  }, [emblaApi]);
   return (
     <div className="ml-4 mr-4">
-      <div className="text-center text-xs sm:text-sm md:text-base text-white/95 mb-3 md:mb-4 max-w-md md:max-w-none mx-auto">
-        We&apos;re proud to work with industry leaders to deliver the best
-        experience.
+      <div className="text-center text-xs sm:text-sm md:text-base text-white/95 mb-3 md:mb-10 max-w-md md:max-w-none mx-auto">
+        Over 10+ business trust us
       </div>
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="mx-auto w-[1200px] max-w-full"
+        className="mx-auto w-[1000px] max-w-full"
       >
-        <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex">
+        <div className="overflow-hidden relative carousel-container">
+          <div className="flex animate-scroll">
+            {/* 第一组 */}
             {partners.map((partner, index) => (
               <div
                 key={index}
@@ -114,6 +82,7 @@ export const PartnersSection = () => {
                 </div>
               </div>
             ))}
+            {/* 第二组 */}
             {partners.map((partner, index) => (
               <div
                 key={`duplicate-${index}`}
@@ -131,6 +100,70 @@ export const PartnersSection = () => {
           </div>
         </div>
       </motion.div>
+      
+      <style jsx global>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        
+        .animate-scroll {
+          animation: scroll 20s linear infinite;
+        }
+        
+        .animate-scroll:hover {
+          animation-play-state: paused;
+        }
+        
+        .carousel-container::before,
+        .carousel-container::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          width: 80px;
+          height: 100%;
+          z-index: 10;
+          pointer-events: none;
+        }
+        
+        .carousel-container::before {
+          left: 0;
+          background: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0.8) 0%,
+            rgba(0, 0, 0, 0.4) 50%,
+            transparent 100%
+          );
+        }
+        
+        .carousel-container::after {
+          right: 0;
+          background: linear-gradient(
+            to left,
+            rgba(0, 0, 0, 0.8) 0%,
+            rgba(0, 0, 0, 0.4) 50%,
+            transparent 100%
+          );
+        }
+        
+        @media (min-width: 768px) {
+          .carousel-container::before,
+          .carousel-container::after {
+            width: 120px;
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .carousel-container::before,
+          .carousel-container::after {
+            width: 150px;
+          }
+        }
+      `}</style>
     </div>
   );
 };

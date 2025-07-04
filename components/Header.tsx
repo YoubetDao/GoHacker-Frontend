@@ -53,6 +53,7 @@ export default function Header() {
             ))}
           </div>
           <Button
+            className="bg-gradient-to-r from-[#004FFF] to-[#8C00FF] text-white"
             onClick={() => {
               router.push("/dashboard");
             }}
@@ -104,7 +105,13 @@ export default function Header() {
             </div>
           ))}
           <div className="pt-2">
-            <Button>Go to App</Button>
+            <Button
+              onClick={() => {
+                router.push("/dashboard");
+              }}
+            >
+              Go to App
+            </Button>
           </div>
         </div>
       </div>
