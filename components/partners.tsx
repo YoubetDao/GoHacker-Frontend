@@ -8,10 +8,10 @@ import Image from "next/image";
 import animocaLogo from "@/assets/logos/animoca.png";
 import openCampusLogo from "@/assets/logos/openCampus.png";
 import openbuildLogo from "@/assets/logos/openbuild.svg";
-import socialLayerLogo from "@/assets/logos/social_layer.svg";
-import virtualsLogo from "@/assets/logos/virtuals.svg";
+import socialLayerLogo from "@/assets/logos/socialLayer.png";
+import virtualsLogo from "@/assets/logos/virtuals.png";
 import bewaterLogo from "@/assets/logos/bewater.jpeg";
-import cosetLogo from "@/assets/logos/coset.svg";
+import cosetLogo from "@/assets/logos/cosetLogo.png";
 import accordingWorkLogo from "@/assets/logos/accordingWork.png";
 
 const partners = [
@@ -85,59 +85,51 @@ export const PartnersSection = () => {
     return () => clearInterval(autoplay);
   }, [emblaApi]);
   return (
-    <section id="partners" className="py-24 bg-black ">
-      <div className="container mx-auto px-4">
-        <div className="mb-10 text-center">
-          <h2 className="mb-4  text-2xl font-bold  text-white md:text-4xl">
-            Our valued partners
-          </h2>
-          <p className="text-center text-lg font-medium text-white/75  mb-4">
-            We&apos;re proud to work with industry leaders to deliver the best
-            experience.
-          </p>
-        </div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mx-auto max-w-[1200px]"
-        >
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex">
-              {partners.map((partner, index) => (
-                <div
-                  key={index}
-                  className="w-[150px] flex-shrink-0 pl-4 md:w-[200px] md:pl-6"
-                >
-                  <div className="flex h-[80px] items-center justify-center p-4">
-                    <Image
-                      src={partner.logo}
-                      alt={`${partner.name} logo`}
-                      className="h-[40px] w-auto max-w-[100px] object-contain"
-                    />
-                  </div>
-                </div>
-              ))}
-              {/* 复制一遍内容以确保无缝循环 */}
-              {partners.map((partner, index) => (
-                <div
-                  key={`duplicate-${index}`}
-                  className="w-[150px] flex-shrink-0 pl-4 md:w-[200px] md:pl-6"
-                >
-                  <div className="flex h-[80px] items-center justify-center p-4">
-                    <Image
-                      src={partner.logo}
-                      alt={`${partner.name} logo`}
-                      className="h-[30px] w-auto max-w-[100px] object-contain"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+    <div className="ml-4 mr-4">
+      <div className="text-center text-xs sm:text-sm md:text-base text-white/95 mb-3 md:mb-4 max-w-md md:max-w-none mx-auto">
+        We&apos;re proud to work with industry leaders to deliver the best
+        experience.
       </div>
-    </section>
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="mx-auto w-[1200px] max-w-full"
+      >
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex">
+            {partners.map((partner, index) => (
+              <div
+                key={index}
+                className="w-[120px] md:w-[150px] lg:w-[200px] flex-shrink-0 pl-3 md:pl-4 lg:pl-6"
+              >
+                <div className="flex h-[60px] md:h-[80px] items-center justify-center p-2 md:p-4">
+                  <Image
+                    src={partner.logo}
+                    alt={`${partner.name} logo`}
+                    className="h-[24px] md:h-[30px] lg:h-[40px] w-auto max-w-[80px] md:max-w-[100px] object-contain"
+                  />
+                </div>
+              </div>
+            ))}
+            {partners.map((partner, index) => (
+              <div
+                key={`duplicate-${index}`}
+                className="w-[120px] md:w-[150px] lg:w-[200px] flex-shrink-0 pl-3 md:pl-4 lg:pl-6"
+              >
+                <div className="flex h-[60px] md:h-[80px] items-center justify-center p-2 md:p-4">
+                  <Image
+                    src={partner.logo}
+                    alt={`${partner.name} logo`}
+                    className="h-[24px] md:h-[30px] lg:h-[40px] w-auto max-w-[80px] md:max-w-[100px] object-contain"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 };

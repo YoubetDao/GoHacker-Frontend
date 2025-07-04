@@ -46,7 +46,7 @@ export default function Header() {
                   // window.open(nav.href, "_blank");
                   scrollToAnchor(nav.href);
                 }}
-                className="text-base font-medium text-white cursor-pointer hover:underline"
+                className="text-base text-white cursor-pointer hover:underline"
               >
                 {nav.name}
               </div>

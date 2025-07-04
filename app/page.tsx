@@ -6,7 +6,7 @@ import About from "@/components/About";
 
 export default function Home() {
   return (
-    <div className="bg-black h-screen text-white">
+    <div className="bg-black min-h-screen text-white">
       <Header />
       <Hero />
       <Tools />

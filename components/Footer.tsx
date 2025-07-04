@@ -1,21 +1,21 @@
 import { Github, Twitter } from "lucide-react";
+import Image from "next/image";
 
 const socialLinks = [
   {
-    icon: <Twitter className="h-5 w-5" />,
+    icon: <Twitter className="h-4 w-4" />,
     href: "https://x.com/GoHacker_AI",
     label: "Twitter",
-    color: "hover:text-white",
   },
+
   {
-    icon: <Github className="h-5 w-5" />,
+    icon: <Github className="h-4 w-4" />,
     href: "https://github.com/YoubetDao",
     label: "GitHub",
-    color: "hover:text-white",
   },
 ];
 
-const links = [
+const exploreLinks = [
   {
     name: "YoubetDAO",
     href: "https://youbetdao.github.io/",
@@ -32,60 +32,76 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer id="footer" className="border-t border-white/10 bg-black py-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-4 flex flex-col md:flex-row justify-between gap-4">
-          {/* Quick Links */}
-          <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">Explore</h3>
-            <div className="flex flex-wrap flex-col gap-3 ">
-              {links.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#ffffffbf] hover:text-white"
-                >
-                  {link.name}
-                </a>
-              ))}
+    <footer className="bg-black border-t border-white/10">
+      {/* Main Footer Content */}
+      <div className="py-6">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            {/* Left - Logo */}
+            <div className="flex items-center space-x-2 mb-4 md:mb-0">
+              <Image src="/logo.svg" alt="GoHacker" width={28} height={28} />
+              <span className="text-white font-bold text-xl">GoHacker</span>
             </div>
-          </div>
 
-          {/* Contact & Social */}
-          <div>
-            <h3 className="mb-4 text-lg font-semibold text-white">
-              Contact Us
-            </h3>
-            <div className="space-y-3">
-              {socialLinks.map((social, index) => (
-                <a
-                  key={index}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex items-center space-x-3 text-[#ffffffbf] ${social.color} text-sm transition-all duration-200`}
-                >
-                  {social.icon}
-                  <span>{social.label}</span>
-                </a>
-              ))}
+            {/* Right - Contact & Social */}
+            <div className="flex items-center space-x-4">
+              <span className="text-white/70 text-sm">Contact Us</span>
+              <div className="flex items-center space-x-3">
+                {socialLinks.map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-white/70 hover:text-white transition-colors duration-200"
+                    title={social.label}
+                  >
+                    {social.icon}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Section */}
-        <div className="flex justify-end items-center space-x-2 text-sm ">
-          © 2025 GoHacker. Built by{" "}
-          <a
-            href="https://github.com/YoubetDao"
-            target="_blank"
-            className="underline hover:text-white ml-1 mr-1"
-          >
-            YoubetDAO
-          </a>{" "}
-          with ❤️.
+        <div className=" bg-black">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex flex-col md:flex-row justify-between items-center text-sm text-white/60">
+              {/* Left - Copyright */}
+              <div className="mb-2 md:mb-0">
+                Copyright © 2025 GoHacker. Built by
+                <a
+                  href="https://github.com/YoubetDao"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-purple-400 hover:text-purple-300 transition-colors duration-200 ml-1"
+                >
+                  YoubetDAO
+                </a>
+              </div>
+
+              {/* Right - Explore Links */}
+              <div className="flex items-center space-x-1">
+                <span>Explore:</span>
+                {exploreLinks.map((link, index) => (
+                  <span key={link.name} className="flex items-center">
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 hover:text-purple-300 transition-colors duration-200 ml-1"
+                    >
+                      {link.name}
+                    </a>
+                    {index < exploreLinks.length - 1 && (
+                      <span className="mx-1 text-white/40">•</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
