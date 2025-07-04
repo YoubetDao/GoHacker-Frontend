@@ -12,10 +12,6 @@ export default function Hero() {
   return (
     <section className="pt-[180px] px-10 pb-[100px] h-screen flex flex-col justify-between items-center relative overflow-x-hidden">
       <Starfield starCount={200} speed={0.3} className="absolute inset-0" />
-      <div className="absolute w-full h-[500px]">
-        <Orb />
-      </div>
-
       <div className="flex flex-col justify-center items-center gap-10">
         <div className="border border-[#FFFFFF1A] rounded-full p-2 font-semibold text-sm flex items-center gap-1 mb-4 w-fit">
           <div className="bg-[#8C29FF] rounded-[30px] px-2 h-7 w-fit flex items-center justify-center">
