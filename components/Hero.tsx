@@ -5,7 +5,7 @@ import Starfield from "./Starfield";
 import { TypeAnimation } from "react-type-animation";
 import { useRouter } from "next/navigation";
 import { PartnersSection } from "./partners";
-import GlowBackground from "./GlowBackground";
+// import GlowBackground from "./GlowBackground";
 
 export default function Hero() {
   const router = useRouter();
@@ -14,7 +14,7 @@ export default function Hero() {
       id="home"
       className="pt-[180px] px-10 pb-10 xl:pb-[100px] h-screen flex flex-col justify-between items-center relative overflow-x-hidden"
     >
-      <GlowBackground />
+      {/* <GlowBackground /> */}
       <Starfield starCount={200} speed={0.3} className="absolute inset-0" />
       <div className="flex flex-col justify-center items-center gap-7.5">
         <div className="border border-[#FFFFFF1A] rounded-full p-2 font-semibold text-sm flex items-center gap-1 w-fit bg-[#110D11]">
@@ -24,13 +24,14 @@ export default function Hero() {
           Virtuals Hackathon top 10 & BNB AI Hacker Winner
         </div>
         <h1 className="text-4xl font-bold max-w-[1200px] text-center text-white md:text-7xl">
-          <TypeAnimation
+          {/* <TypeAnimation
             sequence={["Follow the Builders. Find the Alpha.", 1000]}
             wrapper="span"
             speed={50}
             style={{ display: "inline-block" }}
             repeat={0}
-          />
+          /> */}
+          Follow the Builders. <br /> Find the Alpha.
         </h1>
         <div className="text-center text-lg max-w-[700px]  text-white/70 ">
           We identify real builders powering open-source projects—so investors
