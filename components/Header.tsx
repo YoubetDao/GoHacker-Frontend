@@ -11,7 +11,7 @@ const navs = [
   },
   {
     name: "About us",
-    href: "#footer",
+    href: "#about",
   },
 ];
 
