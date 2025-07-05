@@ -2,7 +2,7 @@
 import Button from "./common/Button";
 import { ArrowRight } from "lucide-react";
 import Starfield from "./Starfield";
-import { TypeAnimation } from "react-type-animation";
+// import { TypeAnimation } from "react-type-animation";
 import { useRouter } from "next/navigation";
 import { PartnersSection } from "./partners";
 // import GlowBackground from "./GlowBackground";
