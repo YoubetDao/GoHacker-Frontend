@@ -1,15 +1,30 @@
-import { Github, Twitter } from "lucide-react";
 import Image from "next/image";
+import x from "@/assets/svg/x.svg";
+import github from "@/assets/svg/github.svg";
+const navLinks = [
+  {
+    name: "Home",
+    href: "#home",
+  },
+  {
+    name: "Features",
+    href: "#features",
+  },
+  {
+    name: "App",
+    href: "/dashboard",
+  },
+];
 
 const socialLinks = [
   {
-    icon: <Twitter className="h-4 w-4" />,
+    icon: <Image src={x} alt="x" width={18} height={18} />,
     href: "https://x.com/GoHacker_AI",
     label: "Twitter",
   },
 
   {
-    icon: <Github className="h-4 w-4" />,
+    icon: <Image src={github} alt="github" width={18} height={18} />,
     href: "https://github.com/YoubetDao",
     label: "GitHub",
   },
@@ -32,74 +47,75 @@ const exploreLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-black border-t border-white/10">
-      {/* Main Footer Content */}
-      <div className="py-6">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            {/* Left - Logo */}
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
+    <footer className="bg-black border-t border-[#222222] py-6">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
+          {/* Left Section - Brand & Copyright */}
+          <div className="flex flex-col items-center lg:items-start space-y-5">
+            <div className="flex items-center space-x-2">
               <Image src="/logo.svg" alt="GoHacker" width={28} height={28} />
               <span className="text-white font-bold text-xl">GoHacker</span>
             </div>
-
-            {/* Right - Contact & Social */}
-            <div className="flex items-center space-x-4">
-              <span className="text-white/70 text-sm">Contact Us</span>
-              <div className="flex items-center space-x-3">
-                {socialLinks.map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white/70 hover:text-white transition-colors duration-200"
-                    title={social.label}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Section */}
-        <div className=" bg-black">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex flex-col md:flex-row justify-between items-center text-sm text-white/60">
-              {/* Left - Copyright */}
-              <div className="mb-2 md:mb-0">
+            <div className="text-white/50 text-sm text-center lg:text-left">
+              <div>
                 Copyright © 2025 GoHacker. Built by
                 <a
                   href="https://github.com/YoubetDao"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white underline transition-colors duration-200 ml-1"
+                  className="ml-1 text-white underline"
                 >
                   YoubetDAO
                 </a>
               </div>
+            </div>
+          </div>
 
-              {/* Right - Explore Links */}
-              <div className="flex items-center space-x-1">
-                <span>Explore:</span>
-                {exploreLinks.map((link, index) => (
-                  <span key={link.name} className="flex items-center">
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[rgba(255, 255, 255, 0.50)] hover:text-white transition-colors duration-200 ml-1"
-                    >
-                      {link.name}
-                    </a>
-                    {index < exploreLinks.length - 1 && (
-                      <span className="mx-1 text-white/40">•</span>
-                    )}
-                  </span>
-                ))}
-              </div>
+          {/* Center Section - Navigation */}
+          <div className="flex flex-col items-center space-y-5">
+            <nav className="flex items-center space-x-10">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-white/90 hover:text-white text-base "
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+            <div className="flex items-center space-x-1 text-white/50 text-sm">
+              <span>Explore:</span>
+              {exploreLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/50 hover:text-white transition-colors duration-200 ml-2.5"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Section - Contact & Social */}
+          <div className="flex flex-col items-center lg:items-end space-y-4">
+            <span className="text-white/95 text-base ">Contact Us</span>
+            <div className="flex items-center space-x-3">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/70 hover:text-white transition-colors duration-200 hover:scale-110 transform"
+                  title={social.label}
+                >
+                  {social.icon}
+                </a>
+              ))}
             </div>
           </div>
         </div>
