@@ -1,20 +1,7 @@
 import Image from "next/image";
 import x from "@/assets/svg/x.svg";
 import github from "@/assets/svg/github.svg";
-const navLinks = [
-  {
-    name: "Home",
-    href: "#home",
-  },
-  {
-    name: "Features",
-    href: "#features",
-  },
-  {
-    name: "App",
-    href: "/dashboard",
-  },
-];
+import { Send } from "lucide-react";
 
 const socialLinks = [
   {
@@ -22,26 +9,15 @@ const socialLinks = [
     href: "https://x.com/GoHacker_AI",
     label: "Twitter",
   },
-
+  {
+    icon: <Send width={18} height={18} />,
+    href: "https://t.me/+_a-io1KqMIc5ZjQ9",
+    label: "Telegram",
+  },
   {
     icon: <Image src={github} alt="github" width={18} height={18} />,
     href: "https://github.com/YoubetDao",
     label: "GitHub",
-  },
-];
-
-const exploreLinks = [
-  {
-    name: "YoubetDAO",
-    href: "https://youbetdao.github.io/",
-  },
-  {
-    name: "According.Work",
-    href: "https://according.work",
-  },
-  {
-    name: "Study Group",
-    href: "https://youbetdao.github.io/weekly/",
   },
 ];
 
@@ -60,7 +36,7 @@ export default function Footer() {
               <div>
                 Copyright © 2025 GoHacker. Built by
                 <a
-                  href="https://github.com/YoubetDao"
+                  href="https://www.youbetdao.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="ml-1 text-white underline"
@@ -68,35 +44,6 @@ export default function Footer() {
                   YoubetDAO
                 </a>
               </div>
-            </div>
-          </div>
-
-          {/* Center Section - Navigation */}
-          <div className="flex flex-col items-center space-y-5">
-            <nav className="flex items-center space-x-10">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-white/90 hover:text-white text-base "
-                >
-                  {link.name}
-                </a>
-              ))}
-            </nav>
-            <div className="flex items-center space-x-1 text-white/50 text-sm">
-              <span>Explore:</span>
-              {exploreLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white/50 hover:text-white transition-colors duration-200 ml-2.5"
-                >
-                  {link.name}
-                </a>
-              ))}
             </div>
           </div>
 

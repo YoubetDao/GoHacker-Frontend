@@ -76,7 +76,7 @@ export default function Footer() {
       <div className="">
         © 2025 GoHacker. Built by{" "}
         <a
-          href="https://github.com/YoubetDao"
+          href="https://www.youbetdao.com/"
           target="_blank"
           className="underline hover:text-white"
         >
