@@ -56,7 +56,7 @@ export const PartnersSection = () => {
   return (
     <div className="ml-4 mr-4">
       <div className="text-center text-xs sm:text-sm md:text-base text-white/95 mb-3 md:mb-6 max-w-md md:max-w-none mx-auto">
-        Over 10+ Business Trust Us
+        Trusted by Leading Crypto Partners
       </div>
       <motion.div
         initial={{ opacity: 0 }}

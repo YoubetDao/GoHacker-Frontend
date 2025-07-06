@@ -20,7 +20,15 @@ export default function About() {
         </div>
 
         <p className="text-sm md:text-lg font-semibold text-white/75 mb-4 leading-relaxed">
-          We&apos;re a team of Web3 builders on a mission to create fair
+          <a
+            href="https://www.youbetdao.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white underline hover:text-white/90 transition-colors"
+          >
+            YoubetDAO
+          </a>{" "}
+          is a team of Web3 builders on a mission to create fair
           incentives for open-source contributors. Our background spans Apache,
           CNCF, Linux Foundation, and top companies like Alibaba Cloud,
           ByteDance, Tencent — with academic roots at NUS, UC Berkeley, Harvard,

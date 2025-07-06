@@ -35,7 +35,7 @@ export default function Hero() {
         </h1>
         <div className="text-center text-lg max-w-[700px]  text-white/70 ">
           We identify real builders powering open-source projects—so investors
-          gain signal, not noise, and developers get the credit they deserve
+          gain signal, not noise, and developers get the credit they deserve.
         </div>
         <div className="flex gap-4 z-10">
           <Button
