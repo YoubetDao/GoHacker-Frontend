@@ -11,7 +11,7 @@ const socialLinks = [
   },
   {
     icon: <Send width={18} height={18} />,
-    href: "https://t.me/+_a-io1KqMIc5ZjQ9",
+    href: "https://t.me/gohacker_club",
     label: "Telegram",
   },
   {

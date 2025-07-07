@@ -10,7 +10,7 @@ export const SOCIAL_LINKS = [
   },
   {
     name: "Telegram",
-    href: "https://t.me/+_a-io1KqMIc5ZjQ9",
+    href: "https://t.me/gohacker_club",
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg
         viewBox="0 0 24 24"
