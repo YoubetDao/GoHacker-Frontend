@@ -4,6 +4,8 @@ import { useState } from "react";
 import Developer from "./_components/developer";
 import Project from "./_components/project";
 import { DeveloperTrends } from "./_components/developerTrend";
+import RepositoryApplicationForm from "./_components/RepositoryApplicationForm";
+import { Toast } from "@/components/ui/toast";
 
 enum Tab {
   Developer = "Developer",
@@ -13,6 +15,24 @@ enum Tab {
 export default function Superfluid() {
   const [activeTab, setActiveTab] = useState<Tab>(Tab.Developer);
   const [open, setOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+    isVisible: boolean;
+  }>({
+    message: "",
+    type: "success",
+    isVisible: false,
+  });
+
+  const showToast = (message: string, type: "success" | "error") => {
+    setToast({ message, type, isVisible: true });
+  };
+
+  const hideToast = () => {
+    setToast((prev) => ({ ...prev, isVisible: false }));
+  };
 
   return (
     <div className="pt-8">
@@ -40,8 +60,14 @@ export default function Superfluid() {
             </div>
           </div>
 
-          {/* Trends Chart 按钮 */}
+          {/* Submit Project and Trends Chart 按钮 */}
           <div className="flex gap-2">
+            <Button
+              className="font-medium px-4 py-2 text-sm flex items-center gap-2 whitespace-nowrap bg-transparent border border-[rgba(151,151,151,0.54)] hover:border-white/40 text-white hover:bg-white/5"
+              onClick={() => setFormOpen(true)}
+            >
+              Submit Project
+            </Button>
             <Button
               className="font-medium px-4 py-2 text-sm flex items-center gap-2 whitespace-nowrap bg-transparent border border-[rgba(151,151,151,0.54)] hover:border-white/40 text-white hover:bg-white/5"
               onClick={() => {
@@ -81,10 +107,16 @@ export default function Superfluid() {
             </div>
           </div>
 
-          {/* 第二行：Trends Chart 按钮 */}
-          <div className="w-full">
+          {/* 第二行：Submit Project and Trends Chart 按钮 */}
+          <div className="w-full flex gap-2">
             <Button
-              className="w-full font-medium px-4 py-2 text-sm"
+              className="flex-1 font-medium px-4 py-2 text-sm bg-transparent border border-[rgba(151,151,151,0.54)] hover:border-white/40 text-white hover:bg-white/5"
+              onClick={() => setFormOpen(true)}
+            >
+              Submit Project
+            </Button>
+            <Button
+              className="flex-1 font-medium px-4 py-2 text-sm"
               onClick={() => setOpen(true)}
             >
               Trends Chart
@@ -134,6 +166,22 @@ export default function Superfluid() {
           </div>
         </div>
       )}
+
+      {/* Repository Application Form */}
+      <RepositoryApplicationForm
+        isOpen={formOpen}
+        onClose={() => setFormOpen(false)}
+        onSuccess={(message) => showToast(message, "success")}
+        onError={(message) => showToast(message, "error")}
+      />
+
+      {/* Toast Notification */}
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+      />
     </div>
   );
 }
