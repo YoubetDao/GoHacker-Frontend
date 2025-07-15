@@ -252,6 +252,8 @@ export default function ProjectTable({
       fetchProjects(page);
   };
 
+  console.log("projectList", projectList);
+
   return (
     <div className={` ${projectList.length === 0 ? "mb-[940px]" : ""}`}>
       {/* 表格 */}
@@ -393,7 +395,7 @@ export default function ProjectTable({
                   <TableCell className="text-center py-4 text-gray-300">
                     <div className="flex flex-col items-center gap-1">
                       {getStatusDisplay(item.genesis.status)}
-                      <CountdownTimer endTime={item.genesis.endsAt} />
+                      <CountdownTimer endTime={item.genesis.startsAt} />
                     </div>
                   </TableCell>
                 </TableRow>
