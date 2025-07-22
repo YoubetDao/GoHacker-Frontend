@@ -2,7 +2,7 @@ import Header from "./_components/Header";
 import Hero from "./_components/Hero";
 import Tools from "./_components/Tools";
 import About from "./_components/About";
-import Footer from "./_components/Footer";
+import Footer from "./_components/footer";
 
 export default function Home() {
   return (
