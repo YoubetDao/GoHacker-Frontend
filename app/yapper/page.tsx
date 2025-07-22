@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { useEffect, useState } from "react";
 import { TwitterIcon } from "lucide-react";
-import TwitterAvatar from "@/components/TwitterAvatar";
+import TwitterAvatar from "./_components/TwitterAvatar";
 import { getYappers, YapperUser } from "@/service";
 
 const getRankDisplay = (rank: number) => {
@@ -46,7 +46,7 @@ export default function YapperBoard() {
         const sortedData = data
           .sort(
             (a: YapperUser, b: YapperUser) =>
-              parseFloat(b.score || '0') - parseFloat(a.score || '0')
+              parseFloat(b.score || "0") - parseFloat(a.score || "0")
           )
           .map((user: YapperUser, index: number) => ({
             ...user,
@@ -161,7 +161,9 @@ export default function YapperBoard() {
                     {/* Score */}
                     <TableCell className="text-center py-4">
                       <span className="text-[#17E1A4] font-bold">
-                        {user.score ? parseFloat(user.score).toFixed(2) : '0.00'}
+                        {user.score
+                          ? parseFloat(user.score).toFixed(2)
+                          : "0.00"}
                       </span>
                     </TableCell>
                   </TableRow>
@@ -256,7 +258,9 @@ export default function YapperBoard() {
                       {/* Score */}
                       <div className="flex-shrink-0 w-[120px] py-4 px-4 flex items-center justify-center">
                         <span className="text-[#17E1A4] font-bold">
-                          {user.score ? parseFloat(user.score).toFixed(2) : '0.00'}
+                          {user.score
+                            ? parseFloat(user.score).toFixed(2)
+                            : "0.00"}
                         </span>
                       </div>
                     </div>

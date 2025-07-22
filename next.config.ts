@@ -16,6 +16,14 @@ const nextConfig: NextConfig = {
         destination: "https://api.hunknownz.xyz:2096/yapper/:path*",
       },
       {
+        source: "/api/ecosystem/:path*",
+        destination: "https://api.hunknownz.xyz:2096/ecosystem/:path*",
+      },
+      {
+        source: "/api/geneses/:path*",
+        destination: "https://api.hunknownz.xyz:2096/geneses/:path*",
+      },
+      {
         source: "/v1/applications",
         destination: "http://43.130.247.176:5200/v1/applications",
       },

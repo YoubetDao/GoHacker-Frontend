@@ -1,5 +1,5 @@
-import Nav from "../dashboard/_components/Nav";
-import Footer from "../_components/footer";
+import Nav from "@/components/common/Nav";
+import Footer from "@/components/common/footer";
 
 export default function YapperLayout({
   children,

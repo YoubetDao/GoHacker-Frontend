@@ -1,3 +1,64 @@
+// 实时项目数据接口定义
+export interface LiveProject {
+  projectName: string;
+  tokenSymbol: string;
+  tokenLogoUrl: string;
+  endTime: string; // ISO 8601 日期字符串
+  participantCount: number;
+  pointsPledged: number;
+  virtualCommitted: number;
+}
+
+// 分页信息接口定义
+export interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+}
+
+// 实时项目API响应接口定义
+export interface LiveProjectsResponse {
+  data: LiveProject[];
+  pagination: Pagination;
+}
+
+// 已启动项目数据接口定义
+export interface LaunchedProject {
+  virtualId: string;
+  projectName: string;
+  tokenSymbol: string;
+  tokenLogoUrl: string;
+  launchDate: string; // ISO 8601 日期字符串
+  daysFromFirstUnlock: number;
+  priceUSD: number;
+  finalMarketCap: number;
+  change24h: string; // 24小时变化百分比（字符串格式，如："-75.58"）
+}
+
+// 已启动项目API响应接口定义
+export interface LaunchedProjectsResponse {
+  data: LaunchedProject[];
+  pagination: Pagination;
+}
+
+// 生态系统信息接口定义
+export interface EcosystemInfo {
+  id: number;
+  name: string;
+  displayName: string;
+  totalGenesesProjects: number; // 创世项目总数
+  totalSentientProjects: number; // 智能项目总数
+  totalGenesesMarketCapUSD: string; // 创世项目总市值（USD）
+  totalSentientMarketCapUSD: string; // 智能项目总市值（USD）
+  totalUsers: number; // 总用户数
+  totalDevelopers: number; // 总开发者数
+  createdAt: string; // 创建时间 (ISO 8601格式)
+  updatedAt: string; // 更新时间 (ISO 8601格式)
+}
+
 // 定义项目类型
 interface Project {
   createdAt: string;
@@ -367,4 +428,74 @@ export const getYappers = async (): Promise<YapperUser[]> => {
 
   // 兜底返回空数组
   return [];
+};
+
+export const getLiveProjects =
+  async (): Promise<LiveProjectsResponse | null> => {
+    try {
+      const res = await fetch("/api/geneses/pledging", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data: LiveProjectsResponse = await res.json();
+      return data;
+    } catch (error) {
+      console.error("获取实时项目数据失败:", error);
+      return null;
+    }
+  };
+
+export const getLaunchedProjects = async (
+  page: number = 1,
+  limit: number = 10
+): Promise<LaunchedProjectsResponse | null> => {
+  try {
+    const res = await fetch(
+      `/api/geneses/succeeded?page=${page}&limit=${limit}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const data: LaunchedProjectsResponse = await res.json();
+    return data;
+  } catch (error) {
+    console.error("获取已启动项目数据失败:", error);
+    return null;
+  }
+};
+
+export const getEcosystemInfo = async (): Promise<EcosystemInfo | null> => {
+  try {
+    const res = await fetch("/api/ecosystem/virtuals-protocol", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const data: EcosystemInfo = await res.json();
+    return data;
+  } catch (error) {
+    console.error("获取生态系统信息失败:", error);
+    return null;
+  }
 };

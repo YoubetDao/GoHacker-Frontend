@@ -1,8 +1,8 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import Tools from "@/components/Tools";
-import Footer from "@/components/Footer";
-import About from "@/components/About";
+import Header from "./_components/Header";
+import Hero from "./_components/Hero";
+import Tools from "./_components/Tools";
+import About from "./_components/About";
+import Footer from "./_components/Footer";
 
 export default function Home() {
   return (

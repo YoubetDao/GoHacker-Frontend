@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import DeveloperTable from "@/components/DeveloperTable";
-import ProjectTable from "@/components/ProjectTable";
+import DeveloperTable from "./_components/DeveloperTable";
+import ProjectTable from "./_components/ProjectTable";
 import {
   Select,
   SelectContent,
@@ -76,7 +76,7 @@ export default function Dashboard() {
                 </SelectContent>
               </Select>
             )}
-            
+
             {/* 状态筛选器 */}
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="border-[rgba(151,151,151,0.54)] bg-[rgba(34,39,63,0.5)] text-white w-[160px]">
@@ -96,8 +96,6 @@ export default function Dashboard() {
                 ))}
               </SelectContent>
             </Select>
-
-            
           </div>
         </div>
 
@@ -186,10 +184,7 @@ export default function Dashboard() {
           onStatusFilterChange={setStatusFilter}
         />
       ) : (
-        <ProjectTable
-          statusFilter={statusFilter}
-          dateFilter={dateFilter}
-        />
+        <ProjectTable statusFilter={statusFilter} dateFilter={dateFilter} />
       )}
     </div>
   );
