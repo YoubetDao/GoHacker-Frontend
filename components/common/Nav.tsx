@@ -13,11 +13,11 @@ const NAVS = [
   {
     name: "Yapper Board",
     href: "/yapper",
-    isNew: true,
   },
   {
-    name: "X Bot",
-    href: "/x-bot",
+    name: "Signal",
+    href: "/signal",
+    isNew: true,
   },
   {
     name: "Launch Pad",
@@ -36,7 +36,7 @@ export default function Nav() {
     window.open(`https://x.com/intent/tweet?url=${shareUrl}`, "_blank");
   };
 
-  const handleNavClick = (nav: typeof NAVS[0]) => {
+  const handleNavClick = (nav: (typeof NAVS)[0]) => {
     if (nav.name === "X Bot") {
       window.open("https://x.com/gohacker_ai", "_blank");
     } else if (!nav.isComingSoon) {
@@ -82,7 +82,7 @@ export default function Nav() {
               </div>
             ))}
           </div>
-          
+
           <div>
             <Button
               className="font-medium px-4 py-2 text-sm flex items-center gap-2 whitespace-nowrap bg-transparent border border-[rgba(151,151,151,0.54)] hover:border-white/40 text-white hover:bg-white/5"
@@ -111,12 +111,16 @@ export default function Nav() {
             >
               <Share className="w-4 h-4" />
             </Button>
-            
+
             <button
               className="text-white p-2 hover:bg-white/10 rounded-md transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -126,18 +130,23 @@ export default function Nav() {
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden">
           {/* 背景遮罩 */}
-          <div 
+          <div
             className="fixed inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setIsMenuOpen(false)}
           />
-          
+
           {/* 抽屉内容 */}
           <div className="fixed top-0 right-0 h-full w-80 bg-[rgba(10,15,28,0.95)] backdrop-blur-md border-l border-[rgba(151,151,151,0.3)] shadow-2xl">
             <div className="p-6">
               {/* 抽屉头部 */}
               <div className="flex items-center justify-between mb-8">
                 <div className="text-xl font-semibold flex items-center gap-3">
-                  <Image src="/logo.svg" alt="GoHacker" width={28} height={28} />
+                  <Image
+                    src="/logo.svg"
+                    alt="GoHacker"
+                    width={28}
+                    height={28}
+                  />
                   GoHacker
                 </div>
                 <button
@@ -154,10 +163,12 @@ export default function Nav() {
                   <div
                     key={nav.name}
                     className={`flex items-center justify-between p-4 rounded-lg cursor-pointer transition-colors ${
-                      isActive(nav.href) 
-                        ? "bg-[rgba(129,74,200,0.2)] border border-[rgba(129,74,200,0.3)]" 
+                      isActive(nav.href)
+                        ? "bg-[rgba(129,74,200,0.2)] border border-[rgba(129,74,200,0.3)]"
                         : "hover:bg-white/5"
-                    } ${nav.isComingSoon ? "opacity-60 cursor-not-allowed" : ""}`}
+                    } ${
+                      nav.isComingSoon ? "opacity-60 cursor-not-allowed" : ""
+                    }`}
                     onClick={() => handleNavClick(nav)}
                   >
                     <div className="flex items-center gap-2">

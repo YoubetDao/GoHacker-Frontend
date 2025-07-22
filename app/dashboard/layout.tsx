@@ -1,5 +1,5 @@
-import Nav from "./_components/Nav";
-import Footer from "../_components/footer";
+import Footer from "@/components/common/footer";
+import Nav from "../../components/common/Nav";
 
 export default function DashboardLayout({
   children,

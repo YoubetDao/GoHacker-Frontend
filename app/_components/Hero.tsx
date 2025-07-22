@@ -1,5 +1,5 @@
 "use client";
-import Button from "./common/Button";
+import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Starfield from "./Starfield";
 // import { TypeAnimation } from "react-type-animation";
