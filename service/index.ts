@@ -33,15 +33,35 @@ export interface LaunchedProject {
   tokenLogoUrl: string;
   launchDate: string; // ISO 8601 日期字符串
   daysFromFirstUnlock: number;
+  participantCount: number; // 参与者数量
+  pointsPledged: number; // 承诺积分
+  virtualCommitted: number; // 承诺的$VIRTUAL
   priceUSD: number;
   finalMarketCap: number;
   change24h: string; // 24小时变化百分比（字符串格式，如："-75.58"）
+  holderCount: number; // 持有者数量
+  totalStakers: number; // 总质押者数量
+  totalStakedAmount: string; // 总质押金额（字符串格式）
+  developers: number; // 开发者数量
 }
 
 // 已启动项目API响应接口定义
 export interface LaunchedProjectsResponse {
   data: LaunchedProject[];
   pagination: Pagination;
+}
+
+// 涨跌幅代币数据接口
+export interface TokenData {
+  name: string;
+  symbol: string;
+  virtualId: string;
+  volume24hUSD: number;
+  currentPriceUSD: number;
+  priceChangePercent24h: number;
+  image: {
+    url: string;
+  };
 }
 
 // 生态系统信息接口定义
@@ -55,8 +75,10 @@ export interface EcosystemInfo {
   totalSentientMarketCapUSD: string; // 智能项目总市值（USD）
   totalUsers: number; // 总用户数
   totalDevelopers: number; // 总开发者数
-  createdAt: string; // 创建时间 (ISO 8601格式)
-  updatedAt: string; // 更新时间 (ISO 8601格式)
+  topGainers?: TokenData[]; // 涨幅榜
+  topLosers?: TokenData[]; // 跌幅榜
+  createdAt?: string; // 创建时间 (ISO 8601格式)
+  updatedAt?: string; // 更新时间 (ISO 8601格式)
 }
 
 // 定义项目类型
@@ -454,11 +476,23 @@ export const getLiveProjects =
 
 export const getLaunchedProjects = async (
   page: number = 1,
-  limit: number = 10
+  limit: number = 10,
+  sortBy?: string,
+  sortOrder: 'asc' | 'desc' = 'desc'
 ): Promise<LaunchedProjectsResponse | null> => {
   try {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+    });
+    
+    if (sortBy) {
+      params.append('sortBy', sortBy);
+      params.append('sortOrder', sortOrder);
+    }
+    
     const res = await fetch(
-      `/api/geneses/succeeded?page=${page}&limit=${limit}`,
+      `/api/geneses/succeeded?${params.toString()}`,
       {
         method: "GET",
         headers: {

@@ -22,9 +22,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Menu className="w-5 h-5" />
                 </SidebarTrigger>
               </div>
-              <div className="flex items-center space-x-4">
+              {/* <div className="flex items-center space-x-4">
                 <div className="w-8 h-8 bg-secondary rounded-full"></div>
-              </div>
+              </div> */}
             </div>
           </header>
 
