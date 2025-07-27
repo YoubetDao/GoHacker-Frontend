@@ -51,7 +51,7 @@ export default function DashboardMetrics() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-foreground">
-              {metricsData?.[metric.key as keyof EcosystemInfo]}
+              {metricsData?.[metric.key as keyof EcosystemInfo] as string}
             </div>
             {/* <p className="text-xs text-primary">
               {metric.change} from last month
