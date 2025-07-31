@@ -16,7 +16,7 @@ import { useParams } from "next/navigation";
 export const Clusters = () => {
   const params = useParams();
   const id = params.id as string;
-  
+
   const [clustersData, setClustersData] = useState<Cluster[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,12 +28,13 @@ export const Clusters = () => {
   useEffect(() => {
     const fetchClusters = async () => {
       if (!id) return;
-      
+
       setLoading(true);
       setError(null);
-      
+
       try {
         const response = await getProjectPledgeHoldersCluster(id);
+        console.log("response.clusters", response.clusters);
         setClustersData(response.clusters || []);
       } catch (err) {
         console.error("Failed to fetch clusters:", err);
@@ -66,11 +67,12 @@ export const Clusters = () => {
   if (clustersData.length === 0) {
     return (
       <div className="py-8 text-center">
-        <p className="text-sm text-muted-foreground">No cluster data available</p>
+        <p className="text-sm text-muted-foreground">
+          No cluster data available
+        </p>
       </div>
     );
   }
-
   return (
     <div className="space-y-6">
       {clustersData.map((cluster) => (
@@ -82,7 +84,9 @@ export const Clusters = () => {
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span>Size: {cluster.size}</span>
               <span>Total Points: {cluster.totalPoints.toLocaleString()}</span>
-              <span>Total Virtuals: {cluster.totalVirtuals.toLocaleString()}</span>
+              <span>
+                Total Virtuals: {cluster.totalVirtuals.toLocaleString()}
+              </span>
             </div>
           </div>
           <Table>
@@ -101,7 +105,9 @@ export const Clusters = () => {
                       onClick={() => copyAddress(node.address)}
                       className="flex items-center gap-1 text-xs hover:text-primary font-mono"
                     >
-                      {`${node.address.slice(0, 6)}...${node.address.slice(-4)}`}
+                      {`${node.address.slice(0, 6)}...${node.address.slice(
+                        -4
+                      )}`}
                       <Copy className="w-3 h-3" />
                     </button>
                   </TableCell>

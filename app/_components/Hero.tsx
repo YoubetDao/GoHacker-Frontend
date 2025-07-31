@@ -41,7 +41,7 @@ export default function Hero() {
           <Button
             className="flex items-center gap-1"
             onClick={() => {
-              router.push("/dashboard");
+              router.push("/v2/dashboard");
             }}
           >
             Go to App <ArrowRight className="w-4 h-4" />

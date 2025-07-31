@@ -303,7 +303,7 @@ export default function LaunchedProjects() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="opacity-50 cursor-pointer"
+                        className="cursor-pointer"
                         onClick={() => {
                           router.push(`/v2/project/${project.virtualId}`);
                         }}
