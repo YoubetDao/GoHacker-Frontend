@@ -1,3 +1,4 @@
+"use client";
 import DashboardMetrics from "./_components/DashboardMetrics";
 import LaunchedProjects from "./_components/LaunchedProjects";
 import LiveProjects from "./_components/LiveProjects";

@@ -1,7 +1,15 @@
 "use client";
-import { Home, MessageSquare, Trophy, Send as SendIcon } from "lucide-react";
+import {
+  Home,
+  MessageSquare,
+  Trophy,
+  Send as SendIcon,
+  Briefcase,
+  Search,
+  Zap,
+} from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   Sidebar,
@@ -12,6 +20,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
+  SidebarFooter,
   useSidebar,
 } from "@/components/ui/sidebar";
 
@@ -37,19 +46,19 @@ const socialLinks = [
 ];
 
 const navigation = [
-  { title: "Dashboard", url: "dashboard", icon: Home },
-  { title: "BuildScore", url: "leaderboard", icon: Trophy },
-  { title: "Yapper", url: "yapper", icon: MessageSquare },
-  // { title: "Virtuals Projects", url: "/virtuals", icon: Coins },
-  // { title: "My Portfolio", url: "/portfolio", icon: Briefcase },
-  // { title: "Alerts", url: "/alerts", icon: Bell },
-  // { title: "Settings", url: "/settings", icon: Settings },
+  { title: "Dashboard", url: "/v2/dashboard", icon: Home },
+  { title: "BuildScore", url: "/v2/leaderboard", icon: Trophy },
+  { title: "Yapper", url: "/v2/yapper", icon: MessageSquare },
+  { title: "My Portfolio", url: "#", icon: Briefcase, isComingSoon: true },
+  { title: "Agentic", url: "#", icon: Search, isComingSoon: true },
+  { title: "LaunchPad", url: "#", icon: Zap, isComingSoon: true },
 ];
 
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const pathname = usePathname();
+  const router = useRouter();
 
   const getNavCls = (url: string) => {
     const isActive = pathname === url;
@@ -88,12 +97,20 @@ export function AppSidebar() {
                       className={`${getNavCls(
                         item.url
                       )} flex items-center h-11 `}
+                      onClick={() => {
+                        router.push(item.url);
+                      }}
                     >
                       <item.icon className="w-5 h-5 flex-shrink-0" />
                       {!collapsed && (
                         <span className="ml-3  font-semibold">
                           {item.title}
                         </span>
+                      )}
+                      {item.isComingSoon && (
+                        <div className=" h-[20px] px-1 rounded-full text-[12px] text-[#999999] bg-[rgba(28,13,71,0.5)] border ">
+                          Coming soon
+                        </div>
                       )}
                     </Link>
                   </SidebarMenuButton>
@@ -105,8 +122,8 @@ export function AppSidebar() {
       </SidebarContent>
 
       {/* 社交媒体链接 */}
-      <div className="mt-auto p-4">
-        <div className="flex items-center justify-start space-x-4">
+      <SidebarFooter>
+        <div className="flex items-center justify-start space-x-4 px-2">
           {socialLinks.map((link, index) => (
             <a
               key={index}
@@ -120,7 +137,7 @@ export function AppSidebar() {
             </a>
           ))}
         </div>
-      </div>
+      </SidebarFooter>
     </Sidebar>
   );
 }

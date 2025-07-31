@@ -1,8 +1,18 @@
-export const config = {};
+import { getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { base } from "wagmi/chains";
+
+// Wagmi configuration - Base chain only
+export const config = getDefaultConfig({
+  appName: "GoHacker",
+  projectId:
+    process.env.NEXT_PUBLIC_WC_PROJECT_ID || "05c3ea68819376e65dc4a8802f90f41b",
+  chains: [base], // Only Base chain supported
+  ssr: true, // If your dApp uses server side rendering (SSR)
+});
 
 export const chain = {
-  id: 1,
-  name: "Ethereum",
+  id: 8453,
+  name: "Base",
   nativeCurrency: {
     name: "Ethereum",
     symbol: "ETH",
