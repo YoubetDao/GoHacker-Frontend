@@ -1,5 +1,4 @@
 "use client";
-import Button from "@/components/common/Button";
 import WalletConnect from "@/components/common/WalletConnect";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
