@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Users, Clock, Lock, DollarSign } from "lucide-react";
 import { getLiveProjects, LiveProject } from "@/service";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 function CountdownTimer({ endTime }: { endTime: Date }) {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -249,6 +249,7 @@ export default function LiveProjects() {
                 <Button
                   variant="outline"
                   className="w-full mt-4 opacity-50 cursor-pointer"
+                  disabled
                   onClick={() => {
                     router.push(`/v2/project/${project.virtualId}`);
                   }}
