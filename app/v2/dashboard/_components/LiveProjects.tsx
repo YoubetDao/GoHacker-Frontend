@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Users, Clock, Lock, DollarSign } from "lucide-react";
 import { getLiveProjects, LiveProject } from "@/service";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 function CountdownTimer({ endTime }: { endTime: Date }) {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -53,7 +53,7 @@ function CountdownTimer({ endTime }: { endTime: Date }) {
 export default function LiveProjects() {
   const [liveProjectsData, setLiveProjectsData] = useState<LiveProject[]>([]);
   const [loading, setLoading] = useState(true);
-  // const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchLiveProjects = async () => {
@@ -245,18 +245,15 @@ export default function LiveProjects() {
                   ></div>
                 </div>
               )} */}
-
-                {/* <Button
-                  variant="outline"
-                  className="w-full mt-4 opacity-50 cursor-pointer"
-                  disabled
+                <Button
+                  variant="default"
+                  className="w-full bg-primary hover:bg-primary/90 transition-all mt-4 text-primary-foreground font-medium hover:shadow-md cursor-pointer"
                   onClick={() => {
                     router.push(`/v2/project/${project.virtualId}`);
                   }}
                 >
-                  <Lock className="w-4 h-4 mr-2" />
                   View Insights
-                </Button> */}
+                </Button>
               </CardContent>
             </Card>
           ))}
