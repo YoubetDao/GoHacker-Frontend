@@ -2,6 +2,7 @@ import React from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./SiderBar";
 import { Menu } from "lucide-react";
+import WalletConnect from "@/components/common/WalletConnect";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -22,9 +23,12 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <Menu className="w-5 h-5" />
                 </SidebarTrigger>
               </div>
-              {/* <div className="flex items-center space-x-4">
-                <div className="w-8 h-8 bg-secondary rounded-full"></div>
-              </div> */}
+              
+              {/* Right side - Wallet Connection */}
+              <div className="flex items-center space-x-4">
+                <WalletConnect />
+              </div>
+              
             </div>
           </header>
 

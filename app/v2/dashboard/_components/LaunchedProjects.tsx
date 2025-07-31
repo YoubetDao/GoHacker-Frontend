@@ -11,13 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+
 import {
   Pagination,
   PaginationContent,
@@ -30,14 +24,13 @@ import {
   Calendar,
   TrendingUp,
   TrendingDown,
-  Lock,
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
 } from "lucide-react";
 import { getLaunchedProjects, LaunchedProject } from "@/service";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import { useRouter } from "next/navigation";
 // 排序类型定义
 type SortField = "totalStakers" | "totalStakedAmount" | "holderCount";
 type SortDirection = "asc" | "desc";
@@ -87,11 +80,11 @@ export default function LaunchedProjects() {
   const [totalPages, setTotalPages] = useState(0);
   const [currentProjects, setCurrentProjects] = useState<LaunchedProject[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showComingSoonDialog, setShowComingSoonDialog] = useState(false);
 
   // 排序状态
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchLaunchedProjects = async () => {
@@ -311,9 +304,10 @@ export default function LaunchedProjects() {
                         variant="outline"
                         size="sm"
                         className="opacity-50 cursor-pointer"
-                        onClick={() => setShowComingSoonDialog(true)}
+                        onClick={() => {
+                          router.push(`/v2/project/${project.virtualId}`);
+                        }}
                       >
-                        <Lock className="w-4 h-4 mr-1" />
                         View
                       </Button>
                     </TableCell>
@@ -372,43 +366,6 @@ export default function LaunchedProjects() {
           </Pagination>
         </div>
       )}
-
-      {/* Coming Soon Dialog */}
-      <Dialog
-        open={showComingSoonDialog}
-        onOpenChange={setShowComingSoonDialog}
-      >
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Coming Soon: Project Details</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div>🚧 New interface loading…</div>
-            <div>
-              We’re building fast, stay tuned for the full experience. Stake or
-              hold your $BUIDL early to unlock future rewards.
-            </div>
-          </div>
-          <DialogFooter className="flex gap-2 mt-6">
-            <Button
-              className="flex-1"
-              onClick={() => {
-                window.open("https://app.virtuals.io/virtuals/34247", "_blank");
-                setShowComingSoonDialog(false);
-              }}
-            >
-              🚀 Stake Now
-            </Button>
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={() => setShowComingSoonDialog(false)}
-            >
-              Got It
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }

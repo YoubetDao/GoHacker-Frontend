@@ -1,5 +1,6 @@
 // 实时项目数据接口定义
 export interface LiveProject {
+  virtualId: string;
   projectName: string;
   tokenSymbol: string;
   tokenLogoUrl: string;
@@ -478,28 +479,25 @@ export const getLaunchedProjects = async (
   page: number = 1,
   limit: number = 10,
   sortBy?: string,
-  sortOrder: 'asc' | 'desc' = 'desc'
+  sortOrder: "asc" | "desc" = "desc"
 ): Promise<LaunchedProjectsResponse | null> => {
   try {
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
     });
-    
+
     if (sortBy) {
-      params.append('sortBy', sortBy);
-      params.append('sortOrder', sortOrder);
+      params.append("sortBy", sortBy);
+      params.append("sortOrder", sortOrder);
     }
-    
-    const res = await fetch(
-      `/api/geneses/succeeded?${params.toString()}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+
+    const res = await fetch(`/api/geneses/succeeded?${params.toString()}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);

@@ -6,14 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Users, Clock, Lock, DollarSign } from "lucide-react";
 import { getLiveProjects, LiveProject } from "@/service";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-
+import { useRouter } from "next/navigation"
 function CountdownTimer({ endTime }: { endTime: Date }) {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -60,7 +53,8 @@ function CountdownTimer({ endTime }: { endTime: Date }) {
 export default function LiveProjects() {
   const [liveProjectsData, setLiveProjectsData] = useState<LiveProject[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showComingSoonDialog, setShowComingSoonDialog] = useState(false);
+  const router = useRouter();
+
   useEffect(() => {
     const fetchLiveProjects = async () => {
       setLoading(true);
@@ -81,9 +75,7 @@ export default function LiveProjects() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold text-foreground">
-          Live Geneses
-        </h2>
+        <h2 className="text-2xl font-semibold text-foreground">Live Geneses</h2>
       </div>
 
       {loading ? (
@@ -134,7 +126,8 @@ export default function LiveProjects() {
             No Genesis Launches Available
           </h3>
           <p className="text-sm text-muted-foreground max-w-md">
-            There are currently no live genesis launches. Check back later for new project opportunities.
+            There are currently no live genesis launches. Check back later for
+            new project opportunities.
           </p>
         </div>
       ) : (
@@ -256,7 +249,9 @@ export default function LiveProjects() {
                 <Button
                   variant="outline"
                   className="w-full mt-4 opacity-50 cursor-pointer"
-                  onClick={() => setShowComingSoonDialog(true)}
+                  onClick={() => {
+                    router.push(`/v2/project/${project.virtualId}`);
+                  }}
                 >
                   <Lock className="w-4 h-4 mr-2" />
                   View Insights
@@ -266,41 +261,6 @@ export default function LiveProjects() {
           ))}
         </div>
       )}
-      <Dialog
-        open={showComingSoonDialog}
-        onOpenChange={setShowComingSoonDialog}
-      >
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Coming Soon: Project Details</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div>🚧 New interface loading…</div>
-            <div>
-              We’re building fast, stay tuned for the full experience. Stake or
-              hold your $BUIDL early to unlock future rewards.
-            </div>
-          </div>
-          <DialogFooter className="flex gap-2 mt-6">
-            <Button
-              className="flex-1"
-              onClick={() => {
-                window.open("https://app.virtuals.io/virtuals/34247", "_blank");
-                setShowComingSoonDialog(false);
-              }}
-            >
-              🚀 Stake Now
-            </Button>
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={() => setShowComingSoonDialog(false)}
-            >
-              Got It
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
