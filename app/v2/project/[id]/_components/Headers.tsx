@@ -8,7 +8,11 @@ import { getProjectDetail, type ProjectDetail } from "@/service/detail";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
-export const Header = () => {
+interface HeaderProps {
+  showTradingView?: boolean;
+}
+
+export const Header = ({ showTradingView = true }: HeaderProps) => {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
@@ -185,29 +189,31 @@ export const Header = () => {
       </div>
 
       {/* Price Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Trading View</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-96 w-full">
-            {project.dexscreenerUrl ? (
-              <iframe
-                src={`${project.dexscreenerUrl}?embed=1&theme=dark&trades=0&info=0`}
-                className="w-full h-full border-0 rounded-lg"
-                allow="clipboard-write"
-                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-              />
-            ) : (
-              <div className="flex items-center justify-center h-full">
-                <p className="text-muted-foreground">
-                  No trading chart available
-                </p>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+      {showTradingView && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Trading View</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-96 w-full">
+              {project.dexscreenerUrl ? (
+                <iframe
+                  src={`${project.dexscreenerUrl}?embed=1&theme=dark&trades=0&info=0`}
+                  className="w-full h-full border-0 rounded-lg"
+                  allow="clipboard-write"
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                />
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-muted-foreground">
+                    No trading chart available
+                  </p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

@@ -23,7 +23,11 @@ import { useParams } from "next/navigation";
 import { getProjectTrades, TradeRecord } from "@/service/detail";
 import { format } from "date-fns";
 
-export const TradingEvent = () => {
+interface TradingEventProps {
+  onTradesAvailable?: (hasData: boolean) => void;
+}
+
+export const TradingEvent = ({ onTradesAvailable }: TradingEventProps) => {
   const params = useParams();
   const id = params.id as string;
   const [trades, setTrades] = useState<TradeRecord[]>([]);
@@ -42,10 +46,17 @@ export const TradingEvent = () => {
         setTrades(response.data);
         setHasMore(response.pagination.hasNext);
         setTotalPages(response.pagination.totalPages);
+        
+        // 通知父组件是否有交易数据
+        const hasTradesData = response.pagination.total > 0;
+        onTradesAvailable?.(hasTradesData);
       } catch (err) {
         console.error("Failed to fetch trade records:", err);
         setError("Failed to load trade records. Please try again later.");
         setTrades([]);
+        
+        // 出错时也通知父组件没有数据
+        onTradesAvailable?.(false);
       } finally {
         setLoading(false);
       }
@@ -56,7 +67,7 @@ export const TradingEvent = () => {
     }
 
     fetchTrades();
-  }, [id, page, hasMore]);
+  }, [id, page, hasMore, onTradesAvailable]);
 
   const copyAddress = (address: string) => {
     navigator.clipboard.writeText(address);
