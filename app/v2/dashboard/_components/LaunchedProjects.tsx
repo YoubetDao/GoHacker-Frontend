@@ -301,9 +301,9 @@ export default function LaunchedProjects() {
 
                     <TableCell className="text-center">
                       <Button
-                        variant="outline"
+                        variant="default"
                         size="sm"
-                        className="cursor-pointer bg-[#0051ff]"
+                        className="cursor-pointer bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-sm transition-all duration-200 hover:shadow-md"
                         onClick={() => {
                           router.push(`/v2/project/${project.virtualId}`);
                         }}

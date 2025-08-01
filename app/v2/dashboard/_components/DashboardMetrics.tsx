@@ -10,7 +10,6 @@ import {
   TrendingDown,
 } from "lucide-react";
 import { EcosystemInfo, TokenData, getEcosystemInfo } from "@/service";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 const metrics = [
@@ -127,20 +126,17 @@ export default function DashboardMetrics() {
                 <table className="w-full">
                   <thead className="sticky top-0 bg-card/95 backdrop-blur-sm z-10">
                     <tr className="border-b border-border/50">
-                      <th className="text-left py-3 text-xs font-medium text-muted-foreground" style={{width: "35%"}}>
+                      <th className="text-left py-3 text-xs font-medium text-muted-foreground" style={{width: "40%"}}>
                         Rank/Project
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "18%"}}>
+                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
                         Price
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "15%"}}>
+                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
                         Volume
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "18%"}}>
+                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
                         24h Change
-                      </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "14%"}}>
-                        Details
                       </th>
                     </tr>
                   </thead>
@@ -148,9 +144,12 @@ export default function DashboardMetrics() {
                     {topGainersData.map((token) => (
                       <tr
                         key={token.virtualId}
-                        className="border-b border-border/20 hover:bg-green-500/5 transition-colors duration-200 group"
+                        className="border-b border-border/20 hover:bg-green-500/5 transition-colors duration-200 group cursor-pointer"
+                        onClick={() => {
+                          router.push(`/v2/project/${token.virtualId}`);
+                        }}
                       >
-                        <td className="py-3" style={{width: "35%"}}>
+                        <td className="py-3" style={{width: "40%"}}>
                           <div className="flex items-center">
                             <Avatar className="h-8 w-8 mr-3 flex-shrink-0">
                               <AvatarImage
@@ -173,33 +172,21 @@ export default function DashboardMetrics() {
                             </div>
                           </div>
                         </td>
-                        <td className="text-right py-3 text-sm font-medium" style={{width: "18%"}}>
+                        <td className="text-right py-3 text-sm font-medium" style={{width: "20%"}}>
                           <div className="text-foreground">
                             {formatPrice(token.currentPriceUSD)}
                           </div>
                         </td>
-                        <td className="text-right py-3 text-xs" style={{width: "15%"}}>
+                        <td className="text-right py-3 text-xs" style={{width: "20%"}}>
                           <div className="text-muted-foreground">
                             {formatVolume(token.volume24hUSD)}
                           </div>
                         </td>
-                        <td className="text-right py-3" style={{width: "18%"}}>
+                        <td className="text-right py-3" style={{width: "20%"}}>
                           <div className="inline-flex items-center bg-green-500/10 text-green-500 px-2 py-1 rounded-md text-xs font-semibold">
                             <TrendingUp className="w-3 h-3 mr-1" />
                             {formatPercent(token.priceChangePercent24h)}
                           </div>
-                        </td>
-                        <td className="text-right py-3" style={{width: "14%"}}>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="cursor-pointer"
-                            onClick={() => {
-                              router.push(`/v2/project/${token.virtualId}`);
-                            }}
-                          >
-                            View
-                          </Button>
                         </td>
                       </tr>
                     ))}
@@ -235,20 +222,17 @@ export default function DashboardMetrics() {
                 <table className="w-full">
                   <thead className="sticky top-0 bg-card/95 backdrop-blur-sm z-10">
                     <tr className="border-b border-border/50">
-                      <th className="text-left py-3 text-xs font-medium text-muted-foreground" style={{width: "35%"}}>
+                      <th className="text-left py-3 text-xs font-medium text-muted-foreground" style={{width: "40%"}}>
                         Rank/Project
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "18%"}}>
+                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
                         Price
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "15%"}}>
+                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
                         Volume
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "18%"}}>
+                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
                         24h Change
-                      </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "14%"}}>
-                        Details
                       </th>
                     </tr>
                   </thead>
@@ -256,9 +240,12 @@ export default function DashboardMetrics() {
                     {topLosersData.map((token) => (
                       <tr
                         key={token.virtualId}
-                        className="border-b border-border/20 hover:bg-red-500/5 transition-colors duration-200 group"
+                        className="border-b border-border/20 hover:bg-red-500/5 transition-colors duration-200 group cursor-pointer"
+                        onClick={() => {
+                          router.push(`/v2/project/${token.virtualId}`);
+                        }}
                       >
-                        <td className="py-3" style={{width: "35%"}}>
+                        <td className="py-3" style={{width: "40%"}}>
                           <div className="flex items-center">
                             <Avatar className="h-8 w-8 mr-3 flex-shrink-0">
                               <AvatarImage
@@ -281,33 +268,21 @@ export default function DashboardMetrics() {
                             </div>
                           </div>
                         </td>
-                        <td className="text-right py-3 text-sm font-medium" style={{width: "18%"}}>
+                        <td className="text-right py-3 text-sm font-medium" style={{width: "20%"}}>
                           <div className="text-foreground">
                             {formatPrice(token.currentPriceUSD)}
                           </div>
                         </td>
-                        <td className="text-right py-3 text-xs" style={{width: "15%"}}>
+                        <td className="text-right py-3 text-xs" style={{width: "20%"}}>
                           <div className="text-muted-foreground">
                             {formatVolume(token.volume24hUSD)}
                           </div>
                         </td>
-                        <td className="text-right py-3" style={{width: "18%"}}>
+                        <td className="text-right py-3" style={{width: "20%"}}>
                           <div className="inline-flex items-center bg-red-500/10 text-red-500 px-2 py-1 rounded-md text-xs font-semibold">
                             <TrendingDown className="w-3 h-3 mr-1" />
                             {formatPercent(token.priceChangePercent24h)}
                           </div>
-                        </td>
-                        <td className="text-right py-3" style={{width: "14%"}}>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="cursor-pointer"
-                            onClick={() => {
-                              router.push(`/v2/project/${token.virtualId}`);
-                            }}
-                          >
-                            View
-                          </Button>
                         </td>
                       </tr>
                     ))}

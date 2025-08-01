@@ -2,21 +2,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Info } from "lucide-react";
+import { Info, Lock } from "lucide-react";
 import { useState } from "react";
 
 import { Header } from "./_components/Headers";
@@ -29,15 +21,18 @@ import { Clusters } from "./_components/Clusters";
 
 export default function ProjectDetailPage() {
   const { hasMinBalance } = useHasMinBuidlBalance();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("trading");
+  const [hasTradesData, setHasTradesData] = useState<boolean | null>(null); // null 表示尚未检查
 
-  const handleVipTabClick = (tabValue: string) => {
-    if (!hasMinBalance) {
-      setIsDialogOpen(true);
-      return;
+  const handleTradesAvailable = (hasData: boolean) => {
+    if (hasTradesData === null) {
+      // 首次设置数据状态
+      setHasTradesData(hasData);
+      // 如果没有交易数据，切换到第一个非交易标签
+      if (!hasData) {
+        setActiveTab("genesis");
+      }
     }
-    setActiveTab(tabValue);
   };
 
   // Tab说明内容
@@ -86,57 +81,36 @@ export default function ProjectDetailPage() {
     value: string;
     children: React.ReactNode;
     description: string;
-  }) => {
-    if (hasMinBalance) {
-      return (
-        <TabsTrigger value={value}>
-          <div className="flex items-center gap-1">
-            {children}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="h-3 w-3 text-muted-foreground hover:text-foreground cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent side="top" className="max-w-xs">
-                <p>{description}</p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
-        </TabsTrigger>
-      );
-    }
-
-    return (
-      <div
-        className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm cursor-pointer hover:bg-muted/50"
-        onClick={() => handleVipTabClick(value)}
-      >
-        <div className="flex items-center gap-1">
-          <div className="flex items-center gap-2">
-            {children}
+  }) => (
+    <TabsTrigger value={value}>
+      <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
+          {children}
+          {!hasMinBalance && (
             <Badge
               variant="outline"
               className="bg-gradient-to-r from-[#004FFF] to-[#8C00FF] text-white border-none text-xs"
             >
               VIP
             </Badge>
-          </div>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Info className="h-3 w-3 text-muted-foreground hover:text-foreground cursor-help" />
-            </TooltipTrigger>
-            <TooltipContent side="top" className="max-w-xs">
-              <p>{description}</p>
-            </TooltipContent>
-          </Tooltip>
+          )}
         </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Info className="h-3 w-3 text-muted-foreground hover:text-foreground cursor-help" />
+          </TooltipTrigger>
+          <TooltipContent side="top" className="max-w-xs">
+            <p>{description}</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
-    );
-  };
+    </TabsTrigger>
+  );
 
   return (
     <div className="min-h-screen bg-background">
       <div className="border-b border-border bg-card/50">
-        <Header />
+        <Header showTradingView={hasTradesData === true} />
 
         <div className="p-6">
           <div className="grid grid-cols-1 gap-6">
@@ -149,13 +123,19 @@ export default function ProjectDetailPage() {
                     onValueChange={setActiveTab}
                     className="w-full"
                   >
-                    <TabsList className="grid w-full grid-cols-5">
-                      <TabWithInfo
-                        value="trading"
-                        description={tabDescriptions.trading}
-                      >
-                        Trading Events
-                      </TabWithInfo>
+                    <TabsList
+                      className={`grid w-full ${
+                        hasTradesData === true ? "grid-cols-5" : "grid-cols-4"
+                      }`}
+                    >
+                      {hasTradesData === true && (
+                        <TabWithInfo
+                          value="trading"
+                          description={tabDescriptions.trading}
+                        >
+                          Trading Events
+                        </TabWithInfo>
+                      )}
                       <VipTabTrigger
                         value="genesis"
                         description={tabDescriptions.genesis}
@@ -183,96 +163,133 @@ export default function ProjectDetailPage() {
                     </TabsList>
 
                     <TabsContent value="trading" className="p-6">
-                      <TradingEvent />
+                      <TradingEvent onTradesAvailable={handleTradesAvailable} />
                     </TabsContent>
 
-                    {hasMinBalance && (
-                      <>
-                        <TabsContent value="genesis" className="p-6">
-                          <Genesis />
-                        </TabsContent>
+                    <TabsContent value="genesis" className="p-6">
+                      {hasMinBalance ? (
+                        <Genesis />
+                      ) : (
+                        <div className="flex items-center justify-center py-12">
+                          <div className="text-center space-y-4">
+                            <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
+                              <Lock className="w-5 h-5" />
+                              VIP Access Required
+                            </h3>
+                            <p className="text-muted-foreground max-w-md">
+                              This feature requires VIP membership. Hold at
+                              least 100,000 $BUIDL tokens to access Genesis
+                              participation data.
+                            </p>
+                            <Button
+                              onClick={() => {
+                                window.open(
+                                  "https://app.virtuals.io/virtuals/34247",
+                                  "_blank"
+                                );
+                              }}
+                              className="bg-gradient-to-r from-[#004FFF] to-[#8C00FF] hover:from-[#0040CC] hover:to-[#7A26E6] mt-4"
+                            >
+                              Buy BUIDL Now
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </TabsContent>
 
-                        <TabsContent value="holders" className="p-6">
-                          <Holders />
-                        </TabsContent>
+                    <TabsContent value="holders" className="p-6">
+                      {hasMinBalance ? (
+                        <Holders />
+                      ) : (
+                        <div className="flex items-center justify-center py-12">
+                          <div className="text-center space-y-4">
+                            <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
+                              <Lock className="w-5 h-5" />
+                              VIP Access Required
+                            </h3>
+                            <p className="text-muted-foreground max-w-md">
+                              This feature requires VIP membership. Hold at
+                              least 100,000 $BUIDL tokens to access holder
+                              analytics.
+                            </p>
+                            <Button
+                              onClick={() => {
+                                window.open(
+                                  "https://app.virtuals.io/virtuals/34247",
+                                  "_blank"
+                                );
+                              }}
+                              className="bg-gradient-to-r from-[#004FFF] to-[#8C00FF] hover:from-[#0040CC] hover:to-[#7A26E6] mt-4"
+                            >
+                              Buy BUIDL Now
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </TabsContent>
 
-                        <TabsContent value="staking" className="p-6">
-                          <Stackers />
-                        </TabsContent>
-                        <TabsContent value="Cluster" className="p-6">
-                          <Clusters />
-                        </TabsContent>
-                      </>
-                    )}
+                    <TabsContent value="staking" className="p-6">
+                      {hasMinBalance ? (
+                        <Stackers />
+                      ) : (
+                        <div className="flex items-center justify-center py-12">
+                          <div className="text-center space-y-4">
+                            <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
+                              <Lock className="w-5 h-5" />
+                              VIP Access Required
+                            </h3>
+                            <p className="text-muted-foreground max-w-md">
+                              This feature requires VIP membership. Hold at
+                              least 100,000 $BUIDL tokens to access staking
+                              statistics.
+                            </p>
+                            <Button
+                              onClick={() => {
+                                window.open(
+                                  "https://app.virtuals.io/virtuals/34247",
+                                  "_blank"
+                                );
+                              }}
+                              className="bg-gradient-to-r from-[#004FFF] to-[#8C00FF] hover:from-[#0040CC] hover:to-[#7A26E6] mt-4"
+                            >
+                              Buy BUIDL Now
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </TabsContent>
+
+                    <TabsContent value="Cluster" className="p-6">
+                      {hasMinBalance ? (
+                        <Clusters />
+                      ) : (
+                        <div className="flex items-center justify-center py-12">
+                          <div className="text-center space-y-4">
+                            <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
+                              <Lock className="w-5 h-5" />
+                              VIP Access Required
+                            </h3>
+                            <p className="text-muted-foreground max-w-md">
+                              This feature requires VIP membership. Stake at
+                              least 50,000 $BUIDL tokens or hold at least 100,000 
+                              $BUIDL tokens to access cluster analytics.
+                            </p>
+                            <Button
+                              onClick={() => {
+                                window.open(
+                                  "https://app.virtuals.io/virtuals/34247",
+                                  "_blank"
+                                );
+                              }}
+                              className="bg-gradient-to-r from-[#004FFF] to-[#8C00FF] hover:from-[#0040CC] hover:to-[#7A26E6] mt-4"
+                            >
+                              Buy BUIDL Now
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </TabsContent>
                   </Tabs>
-
-                  {/* Purchase Guide Dialog */}
-                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogContent className="sm:max-w-md">
-                      <DialogHeader>
-                        <DialogTitle className="flex items-center gap-2">
-                          <Badge
-                            variant="outline"
-                            className="bg-gradient-to-r from-[#004FFF] to-[#8C00FF] text-white border-none"
-                          >
-                            VIP
-                          </Badge>
-                          Exclusive Feature
-                        </DialogTitle>
-                        <DialogDescription>
-                          This feature is exclusively available to VIP members.
-                          Become a VIP to unlock Genesis participation data,
-                          holder analytics, staking statistics, and more
-                          advanced features.
-                        </DialogDescription>
-                      </DialogHeader>
-
-                      <div className="space-y-4">
-                        <div className="rounded-lg bg-muted/50 p-4">
-                          <h4 className="font-medium mb-2">
-                            VIP Member Benefits:
-                          </h4>
-                          <ul className="text-sm text-muted-foreground space-y-1">
-                            <li>
-                              • Access detailed Genesis participation data
-                            </li>
-                            <li>• Get comprehensive token holder analytics</li>
-                            <li>• View staking statistics and insights</li>
-                            <li>• Unlock exclusive data insights</li>
-                          </ul>
-                        </div>
-
-                        <div className="text-sm text-muted-foreground">
-                          <p>
-                            <strong>Membership Requirement:</strong> Hold at
-                            least 100,000 BUIDL tokens
-                          </p>
-                        </div>
-                      </div>
-
-                      <DialogFooter className="flex-col sm:flex-row gap-2">
-                        <Button
-                          variant="outline"
-                          onClick={() => setIsDialogOpen(false)}
-                        >
-                          Maybe Later
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            // Add logic to redirect to purchase page
-                            window.open(
-                              "https://app.virtuals.io/virtuals/34247",
-                              "_blank"
-                            );
-                            setIsDialogOpen(false);
-                          }}
-                          className="bg-gradient-to-r from-[#004FFF] to-[#8C00FF] hover:from-[#0040CC] hover:to-[#7A26E6]"
-                        >
-                          Buy BUIDL Now
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
                 </CardContent>
               </Card>
             </div>

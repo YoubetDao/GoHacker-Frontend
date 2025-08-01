@@ -89,6 +89,7 @@ export interface PledgeHoldersClusterResponse {
   totalVirtuals: string;
   createdAt: string;
   updatedAt: string;
+  pagination?: Pagination;
 }
 
 /**
@@ -146,15 +147,24 @@ export async function getProjectTrades(
 /**
  * Get project pledge holders and cluster information
  * @param virtualId Project ID
+ * @param page Page number (optional, for pagination)
+ * @param limit Items per page (optional, for pagination)
  * @returns Pledge holders and cluster information data
  */
 export async function getProjectPledgeHoldersCluster(
-  virtualId: string
+  virtualId: string,
+  page?: number,
+  limit?: number
 ): Promise<PledgeHoldersClusterResponse> {
   try {
-    const response = await fetch(
-      `https://api.hunknownz.xyz:2096/agent/virtual/${virtualId}/pledge-holders-cluster`
-    );
+    let url = `https://api.hunknownz.xyz:2096/agent/virtual/${virtualId}/pledge-holders-cluster`;
+    
+    // Add pagination parameters if provided
+    if (page !== undefined && limit !== undefined) {
+      url += `?page=${page}&limit=${limit}`;
+    }
+    
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`API request failed: ${response.status}`);

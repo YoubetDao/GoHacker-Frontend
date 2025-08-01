@@ -245,16 +245,13 @@ export default function LiveProjects() {
                   ></div>
                 </div>
               )} */}
-
                 <Button
-                  variant="outline"
-                  className="w-full mt-4 opacity-50 cursor-pointer"
-                  disabled
+                  variant="default"
+                  className="w-full bg-primary hover:bg-primary/90 transition-all mt-4 text-primary-foreground font-medium hover:shadow-md cursor-pointer"
                   onClick={() => {
                     router.push(`/v2/project/${project.virtualId}`);
                   }}
                 >
-                  <Lock className="w-4 h-4 mr-2" />
                   View Insights
                 </Button>
               </CardContent>
