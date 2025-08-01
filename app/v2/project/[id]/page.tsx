@@ -270,9 +270,9 @@ export default function ProjectDetailPage() {
                               VIP Access Required
                             </h3>
                             <p className="text-muted-foreground max-w-md">
-                              This feature requires VIP membership. Hold at
-                              least 100,000 $BUIDL tokens to access cluster
-                              analytics.
+                              This feature requires VIP membership. Stake at
+                              least 50,000 $BUIDL tokens or hold at least 100,000 
+                              $BUIDL tokens to access cluster analytics.
                             </p>
                             <Button
                               onClick={() => {

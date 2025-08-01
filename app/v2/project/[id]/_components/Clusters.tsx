@@ -80,7 +80,7 @@ export const Clusters = () => {
     return (
       <div className="py-8 text-center">
         <p className="text-sm text-muted-foreground">
-          No cluster data available
+          Cluster analysis in progress, please check back later
         </p>
       </div>
     );

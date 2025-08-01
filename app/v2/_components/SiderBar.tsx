@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/sidebar";
 
 import x from "@/assets/svg/x.svg";
-import github from "@/assets/svg/github.svg";
 
 const socialLinks = [
   {
@@ -37,11 +36,6 @@ const socialLinks = [
     icon: <SendIcon size={18} />,
     href: "https://t.me/gohacker_club",
     label: "Telegram",
-  },
-  {
-    icon: <Image src={github} alt="github" width={18} height={18} />,
-    href: "https://github.com/YoubetDao",
-    label: "GitHub",
   },
 ];
 
