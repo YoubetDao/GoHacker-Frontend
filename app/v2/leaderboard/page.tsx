@@ -7,7 +7,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { useState, useEffect } from "react";
+import { Search } from "lucide-react";
 import DeveloperTable from "./_components/DeveloperTable";
 import ProjectTable from "./_components/ProjectTable";
 
@@ -15,6 +17,19 @@ export default function Leaderboard() {
   const [selectedStatus, setSelectedStatus] = useState("upcoming");
   const [dateFilter, setDateFilter] = useState("all");
   const [activeTab, setActiveTab] = useState("developer");
+  
+  // 搜索状态
+  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
+  // 防抖搜索效果
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearch(searchInput);
+    }, 500); // 500ms 防抖
+
+    return () => clearTimeout(timeoutId);
+  }, [searchInput]);
   return (
     <div className="p-6">
       {/* <div className="mb-8">
@@ -35,6 +50,16 @@ export default function Leaderboard() {
             </TabsList>
 
             <div className="flex items-center gap-3">
+              {/* 搜索框 */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                <Input
+                  placeholder={activeTab === "developer" ? "Search developers..." : "Search projects..."}
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  className="pl-10 w-64 bg-background border-border"
+                />
+              </div>
               {activeTab === "project" && selectedStatus === "upcoming" && (
                 <Select value={dateFilter} onValueChange={setDateFilter}>
                   <SelectTrigger className="w-32">
@@ -78,12 +103,13 @@ export default function Leaderboard() {
           </div>
 
           <TabsContent value="developer">
-            <DeveloperTable statusFilter={selectedStatus} />
+            <DeveloperTable statusFilter={selectedStatus} search={search} />
           </TabsContent>
           <TabsContent value="project">
             <ProjectTable
               statusFilter={selectedStatus}
               dateFilter={dateFilter}
+              search={search}
             />
           </TabsContent>
         </Tabs>
