@@ -68,7 +68,7 @@ export default function OnboardingModal({
             <div className="text-6xl mb-4">🚀</div>
             <p className="text-muted-foreground">
               This is your central hub for tracking Virtuals ecosystem
-              investments and discovering new opportunities. Let's explore each
+              investments and discovering new opportunities. Let&apos;s explore each
               functional area together!
             </p>
           </div>
@@ -339,7 +339,7 @@ export default function OnboardingModal({
             This table shows all successfully launched projects with market cap,
             price changes, holder counts and more details.{" "}
             <strong>
-              Click on any row to navigate to the project's detail page!
+              Click on any row to navigate to the project&apos;s detail page!
             </strong>
           </p>
         </div>
@@ -359,7 +359,7 @@ export default function OnboardingModal({
                 <li>• Click project names to view detailed information</li>
                 <li>• Click table headers to sort data</li>
                 <li>• Hover over items for additional info</li>
-                <li>• Use "View" buttons for quick navigation</li>
+                <li>• Use &quot;View&quot; buttons for quick navigation</li>
               </ul>
             </div>
             <div className="space-y-2">
@@ -379,7 +379,7 @@ export default function OnboardingModal({
             </h4>
             <p className="text-xs text-muted-foreground mb-2">
               Regularly check the dashboard to track performance of projects
-              you're interested in. Use sorting features to quickly find the
+              you&apos;re interested in. Use sorting features to quickly find the
               best performing investment opportunities.
             </p>
             <Button
@@ -440,7 +440,7 @@ export default function OnboardingModal({
               Onboarding Complete!
             </DialogTitle>
             <DialogDescription className="text-base">
-              You've learned about the main dashboard features. Now you can
+              You&apos;ve learned about the main dashboard features. Now you can
               start exploring!
             </DialogDescription>
           </div>
