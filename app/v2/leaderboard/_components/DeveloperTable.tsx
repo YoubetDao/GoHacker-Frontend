@@ -106,9 +106,10 @@ type SortDirection = "asc" | "desc" | null;
 
 interface DeveloperTableProps {
   statusFilter: string;
+  search: string;
 }
 
-export default function DeveloperTable({ statusFilter }: DeveloperTableProps) {
+export default function DeveloperTable({ statusFilter, search }: DeveloperTableProps) {
   const [sortField, setSortField] = useState<SortField | null>(
     "github_analysis.rating"
   );
@@ -152,12 +153,14 @@ export default function DeveloperTable({ statusFilter }: DeveloperTableProps) {
           sortBy?: string;
           sortOrder?: string;
           projectStatus?: string;
+          search?: string;
         } = { page, pageSize: 10 };
         if (sortField && sortDirection) {
           params.sortBy = sortField;
           params.sortOrder = sortDirection;
         }
         if (statusFilter !== "all") params.projectStatus = statusFilter;
+        if (search && search.trim()) params.search = search.trim();
         const data = await getDevelopers(params);
         setDeveloperList(data.data ?? []);
         setTotalPages(data.pagination?.totalPages ?? 1);
@@ -167,7 +170,7 @@ export default function DeveloperTable({ statusFilter }: DeveloperTableProps) {
         setTotalPages(1);
       }
     },
-    [sortField, sortDirection, statusFilter]
+    [sortField, sortDirection, statusFilter, search]
   );
 
   // 只需监听主要参数

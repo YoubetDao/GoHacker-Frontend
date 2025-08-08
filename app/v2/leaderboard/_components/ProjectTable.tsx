@@ -168,11 +168,13 @@ type SortDirection = "asc" | "desc" | null;
 interface ProjectTableProps {
   statusFilter: string;
   dateFilter: string;
+  search: string;
 }
 
 export default function ProjectTable({
   statusFilter,
   dateFilter,
+  search,
 }: ProjectTableProps) {
   console.log("dateFilter", dateFilter);
   console.log("statusFilter", statusFilter);
@@ -220,6 +222,7 @@ export default function ProjectTable({
           sortOrder?: string;
           projectStatus?: string;
           genesisStartsTo?: string;
+          search?: string;
         } = { page, pageSize: 10 };
         if (sortField && sortDirection) {
           params.sortBy = sortField;
@@ -231,6 +234,7 @@ export default function ProjectTable({
           daysFromNow.setDate(daysFromNow.getDate() + parseInt(dateFilter));
           params.genesisStartsTo = daysFromNow.toISOString();
         }
+        if (search && search.trim()) params.search = search.trim();
         const data = await getProjects(params);
         setProjectList(data.data ?? []);
         setTotalPages(data.pagination?.totalPages ?? 1);
@@ -240,7 +244,7 @@ export default function ProjectTable({
         setTotalPages(1);
       }
     },
-    [sortField, sortDirection, statusFilter, dateFilter]
+    [sortField, sortDirection, statusFilter, dateFilter, search]
   );
 
   // 只需监听主要参数

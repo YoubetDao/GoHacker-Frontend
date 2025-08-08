@@ -280,12 +280,14 @@ export const getDevelopers = async ({
   sortBy,
   sortOrder,
   projectStatus,
+  search,
 }: {
   page?: number;
   pageSize?: number;
   sortBy?: string;
   sortOrder?: string;
   projectStatus?: string;
+  search?: string;
 }): Promise<DevelopersResponse> => {
   const params = new URLSearchParams({
     page: page.toString(),
@@ -299,6 +301,10 @@ export const getDevelopers = async ({
 
   if (projectStatus && projectStatus !== "all") {
     params.append("projectStatus", projectStatus);
+  }
+
+  if (search && search.trim()) {
+    params.append("search", search.trim());
   }
 
   const res = await fetch(`/api/leaderboard/builders?${params.toString()}`, {
@@ -336,6 +342,7 @@ export const getProjects = async ({
   sortOrder,
   projectStatus,
   genesisStartsTo,
+  search,
 }: {
   page?: number;
   pageSize?: number;
@@ -343,6 +350,7 @@ export const getProjects = async ({
   sortOrder?: string;
   projectStatus?: string;
   genesisStartsTo?: string;
+  search?: string;
 }): Promise<ProjectsResponse> => {
   const params = new URLSearchParams({
     page: page.toString(),
@@ -360,6 +368,10 @@ export const getProjects = async ({
 
   if (genesisStartsTo && genesisStartsTo !== "all") {
     params.append("genesisStartsTo", genesisStartsTo);
+  }
+
+  if (search && search.trim()) {
+    params.append("search", search.trim());
   }
 
   const res = await fetch(`/api/leaderboard/projects?${params.toString()}`, {
@@ -479,7 +491,8 @@ export const getLaunchedProjects = async (
   page: number = 1,
   limit: number = 10,
   sortBy?: string,
-  sortOrder: "asc" | "desc" = "desc"
+  sortOrder: "asc" | "desc" = "desc",
+  search?: string
 ): Promise<LaunchedProjectsResponse | null> => {
   try {
     const params = new URLSearchParams({
@@ -490,6 +503,10 @@ export const getLaunchedProjects = async (
     if (sortBy) {
       params.append("sortBy", sortBy);
       params.append("sortOrder", sortOrder);
+    }
+
+    if (search && search.trim()) {
+      params.append("search", search.trim());
     }
 
     const res = await fetch(`/api/geneses/succeeded?${params.toString()}`, {

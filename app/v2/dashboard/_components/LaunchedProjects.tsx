@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -27,6 +28,7 @@ import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
+  Search,
 } from "lucide-react";
 import { getLaunchedProjects, LaunchedProject } from "@/service";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -84,7 +86,22 @@ export default function LaunchedProjects() {
   // 排序状态
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
+
+  // 搜索状态
+  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
   const router = useRouter();
+
+  // 防抖搜索效果
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearch(searchInput);
+      setPage(1); // 搜索时重置到第一页
+    }, 500); // 500ms 防抖
+
+    return () => clearTimeout(timeoutId);
+  }, [searchInput]);
 
   useEffect(() => {
     const fetchLaunchedProjects = async () => {
@@ -94,7 +111,8 @@ export default function LaunchedProjects() {
           page,
           20,
           sortField || undefined,
-          sortDirection
+          sortDirection,
+          search || undefined
         );
         console.log("response", response);
         if (response) {
@@ -108,7 +126,7 @@ export default function LaunchedProjects() {
       }
     };
     fetchLaunchedProjects();
-  }, [page, sortField, sortDirection]);
+  }, [page, sortField, sortDirection, search]);
 
   // 排序函数
   const handleSort = (field: SortField) => {
@@ -149,6 +167,17 @@ export default function LaunchedProjects() {
           </h2>
         </div>
 
+        {/* 搜索框 */}
+        <div className="relative max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+          <Input
+            placeholder="Search project name or token symbol..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="pl-10 bg-background border-border"
+          />
+        </div>
+
         <Card className="bg-card border-border">
           <CardContent>
             <div className="space-y-4">
@@ -174,6 +203,17 @@ export default function LaunchedProjects() {
         <h2 className="text-2xl font-semibold text-foreground">
           Launched Geneses
         </h2>
+      </div>
+
+      {/* 搜索框 */}
+      <div className="relative max-w-md">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+        <Input
+          placeholder="Search project name or token symbol..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          className="pl-10 bg-background border-border"
+        />
       </div>
 
       <Card className="bg-card border-border">

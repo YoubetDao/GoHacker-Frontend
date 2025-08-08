@@ -3,11 +3,16 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Wallet } from "lucide-react";
 import { Button } from "../ui/button";
+import { logEvent } from "@/lib/gtag";
+import { useRef } from "react";
 
 export default function WalletConnect() {
   const formatAddress = (address: string) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
+
+  // 用于跟踪连接状态，避免重复上报
+  const previousConnectedRef = useRef<boolean>(false);
 
   return (
     <ConnectButton.Custom>
@@ -28,6 +33,17 @@ export default function WalletConnect() {
           account &&
           chain &&
           (!authenticationStatus || authenticationStatus === "authenticated");
+
+        // 监听连接状态变化并上报GA事件
+        if (connected && !previousConnectedRef.current) {
+          // 钱包连接成功
+          logEvent('wallet_connect', 'User');
+          previousConnectedRef.current = true;
+        } else if (!connected && previousConnectedRef.current) {
+          // 钱包断开连接
+          logEvent('wallet_disconnect', 'User');
+          previousConnectedRef.current = false;
+        }
 
         return (
           <div
