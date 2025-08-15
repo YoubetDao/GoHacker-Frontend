@@ -269,3 +269,52 @@ export async function getProjectHolders(
     throw error;
   }
 }
+
+// 代币认领记录信息
+export interface TokenClaim {
+  id: number;
+  contractAddress: string;
+  claimIndex: number;
+  account: string;
+  amount: number;
+  transactionHash: string;
+  blockNumber: number;
+  claimedAt: string;
+  chain: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// 代币认领记录响应
+export interface TokenClaimsResponse {
+  data: TokenClaim[];
+  pagination: Pagination;
+}
+
+/**
+ * Get project token claims information
+ * @param virtualId Project ID
+ * @param page Page number
+ * @param limit Items per page
+ * @returns Token claims data
+ */
+export async function getProjectTokenClaims(
+  virtualId: string,
+  page: number = 1,
+  limit: number = 10
+): Promise<TokenClaimsResponse> {
+  try {
+    const response = await fetch(
+      `https://api.hunknownz.xyz:2096/agent/virtual/${virtualId}/claims?page=${page}&limit=${limit}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.status}`);
+    }
+
+    return (await response.json()) as TokenClaimsResponse;
+  } catch (error) {
+    console.error("Failed to fetch token claims information:", error);
+    throw error;
+  }
+}

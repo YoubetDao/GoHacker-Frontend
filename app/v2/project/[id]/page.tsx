@@ -18,6 +18,7 @@ import { Stackers } from "./_components/Stackers";
 import { Holders } from "./_components/Holders";
 import { useHasMinBuidlBalance } from "@/hooks/useHasMinBuidlBalance";
 import { Clusters } from "./_components/Clusters";
+import TokenClaim from "./_components/TokenClaim";
 
 export default function ProjectDetailPage() {
   const { hasMinBalance } = useHasMinBuidlBalance();
@@ -45,6 +46,8 @@ export default function ProjectDetailPage() {
       "Analyze token holder distribution, top holders, and holding patterns over time.",
     staking:
       "View staking statistics, rewards, and participant data for this project.",
+    tokenClaim:
+      "View all token claim records, including claim amounts, transaction hashes, and claim timestamps.",
   };
 
   // 带有Info图标的Tab触发器组件
@@ -125,7 +128,7 @@ export default function ProjectDetailPage() {
                   >
                     <TabsList
                       className={`grid w-full ${
-                        hasTradesData === true ? "grid-cols-5" : "grid-cols-4"
+                        hasTradesData === true ? "grid-cols-6" : "grid-cols-4"
                       }`}
                     >
                       {hasTradesData === true && (
@@ -160,6 +163,12 @@ export default function ProjectDetailPage() {
                       >
                         Cluster
                       </VipTabTrigger>
+                      <VipTabTrigger
+                        value="TokenClaim"
+                        description={tabDescriptions.tokenClaim}
+                      >
+                        Token Claim
+                      </VipTabTrigger>
                     </TabsList>
 
                     <TabsContent value="trading" className="p-6">
@@ -178,8 +187,9 @@ export default function ProjectDetailPage() {
                             </h3>
                             <p className="text-muted-foreground max-w-md">
                               This feature requires VIP membership. Stake at
-                              least 50,000 $BUIDL tokens or hold at least 100,000 
-                              $BUIDL tokens to access Genesis participation data.
+                              least 50,000 $BUIDL tokens or hold at least
+                              100,000 $BUIDL tokens to access Genesis
+                              participation data.
                             </p>
                             <Button
                               onClick={() => {
@@ -209,8 +219,8 @@ export default function ProjectDetailPage() {
                             </h3>
                             <p className="text-muted-foreground max-w-md">
                               This feature requires VIP membership. Stake at
-                              least 50,000 $BUIDL tokens or hold at least 100,000 
-                              $BUIDL tokens to access holder analytics.
+                              least 50,000 $BUIDL tokens or hold at least
+                              100,000 $BUIDL tokens to access holder analytics.
                             </p>
                             <Button
                               onClick={() => {
@@ -240,8 +250,9 @@ export default function ProjectDetailPage() {
                             </h3>
                             <p className="text-muted-foreground max-w-md">
                               This feature requires VIP membership. Stake at
-                              least 50,000 $BUIDL tokens or hold at least 100,000 
-                              $BUIDL tokens to access staking statistics.
+                              least 50,000 $BUIDL tokens or hold at least
+                              100,000 $BUIDL tokens to access staking
+                              statistics.
                             </p>
                             <Button
                               onClick={() => {
@@ -271,8 +282,39 @@ export default function ProjectDetailPage() {
                             </h3>
                             <p className="text-muted-foreground max-w-md">
                               This feature requires VIP membership. Stake at
-                              least 50,000 $BUIDL tokens or hold at least 100,000 
-                              $BUIDL tokens to access cluster analytics.
+                              least 50,000 $BUIDL tokens or hold at least
+                              100,000 $BUIDL tokens to access cluster analytics.
+                            </p>
+                            <Button
+                              onClick={() => {
+                                window.open(
+                                  "https://app.virtuals.io/virtuals/34247",
+                                  "_blank"
+                                );
+                              }}
+                              className="bg-gradient-to-r from-[#004FFF] to-[#8C00FF] hover:from-[#0040CC] hover:to-[#7A26E6] mt-4"
+                            >
+                              Buy BUIDL Now
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </TabsContent>
+
+                    <TabsContent value="TokenClaim" className="p-6">
+                      {hasMinBalance ? (
+                        <TokenClaim />
+                      ) : (
+                        <div className="flex items-center justify-center py-12">
+                          <div className="text-center space-y-4">
+                            <h3 className="text-xl font-semibold flex items-center justify-center gap-2">
+                              <Lock className="w-5 h-5" />
+                              VIP Access Required
+                            </h3>
+                            <p className="text-muted-foreground max-w-md">
+                              This feature requires VIP membership. Stake at
+                              least 50,000 $BUIDL tokens or hold at least
+                              100,000 $BUIDL tokens to access token claim.
                             </p>
                             <Button
                               onClick={() => {
