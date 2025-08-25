@@ -126,16 +126,16 @@ export default function DashboardMetrics() {
                 <table className="w-full">
                   <thead className="sticky top-0 bg-card/95 backdrop-blur-sm z-10">
                     <tr className="border-b border-border/50">
-                      <th className="text-left py-3 text-xs font-medium text-muted-foreground" style={{width: "40%"}}>
+                      <th className="text-left py-3 text-xs font-medium text-muted-foreground">
                         Rank/Project
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
+                      <th className="text-right py-3 text-xs font-medium text-muted-foreground">
                         Price
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
+                      <th className="text-right py-3 text-xs font-medium text-muted-foreground">
                         Volume
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
+                      <th className="text-right py-3 text-xs font-medium text-muted-foreground">
                         24h Change
                       </th>
                     </tr>
@@ -149,7 +149,7 @@ export default function DashboardMetrics() {
                           router.push(`/v2/project/${token.virtualId}`);
                         }}
                       >
-                        <td className="py-3" style={{width: "40%"}}>
+                        <td className="py-3">
                           <div className="flex items-center">
                             <Avatar className="h-8 w-8 mr-3 flex-shrink-0">
                               <AvatarImage
@@ -162,27 +162,27 @@ export default function DashboardMetrics() {
                                   "?"}
                               </AvatarFallback>
                             </Avatar>
-                            <div className="min-w-0 flex-1">
-                              <div className="font-medium text-sm text-foreground truncate">
+                            <div className="min-w-0 flex-1" style={{ maxWidth: "120px" }}>
+                              <div className="font-medium text-sm text-foreground truncate" title={token.name}>
                                 {token.name}
                               </div>
-                              <div className="text-xs text-muted-foreground truncate">
+                              <div className="text-xs text-muted-foreground truncate" title={token.symbol}>
                                 ${token.symbol}
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="text-right py-3 text-sm font-medium" style={{width: "20%"}}>
+                        <td className="text-right py-3 text-sm font-medium">
                           <div className="text-foreground">
                             {formatPrice(token.currentPriceUSD)}
                           </div>
                         </td>
-                        <td className="text-right py-3 text-xs" style={{width: "20%"}}>
+                        <td className="text-right py-3 text-xs">
                           <div className="text-muted-foreground">
                             {formatVolume(token.volume24hUSD)}
                           </div>
                         </td>
-                        <td className="text-right py-3" style={{width: "20%"}}>
+                        <td className="text-right py-3">
                           <div className="inline-flex items-center bg-green-500/10 text-green-500 px-2 py-1 rounded-md text-xs font-semibold">
                             <TrendingUp className="w-3 h-3 mr-1" />
                             {formatPercent(token.priceChangePercent24h)}
@@ -222,16 +222,28 @@ export default function DashboardMetrics() {
                 <table className="w-full">
                   <thead className="sticky top-0 bg-card/95 backdrop-blur-sm z-10">
                     <tr className="border-b border-border/50">
-                      <th className="text-left py-3 text-xs font-medium text-muted-foreground" style={{width: "40%"}}>
+                      <th
+                        className="text-left py-3 text-xs font-medium text-muted-foreground"
+                        style={{ width: "40%" }}
+                      >
                         Rank/Project
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
+                      <th
+                        className="text-right py-3 text-xs font-medium text-muted-foreground"
+                        style={{ width: "20%" }}
+                      >
                         Price
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
+                      <th
+                        className="text-right py-3 text-xs font-medium text-muted-foreground"
+                        style={{ width: "20%" }}
+                      >
                         Volume
                       </th>
-                      <th className="text-right py-3 text-xs font-medium text-muted-foreground" style={{width: "20%"}}>
+                      <th
+                        className="text-right py-3 text-xs font-medium text-muted-foreground"
+                        style={{ width: "20%" }}
+                      >
                         24h Change
                       </th>
                     </tr>
@@ -245,7 +257,7 @@ export default function DashboardMetrics() {
                           router.push(`/v2/project/${token.virtualId}`);
                         }}
                       >
-                        <td className="py-3" style={{width: "40%"}}>
+                        <td className="py-3" style={{ width: "40%" }}>
                           <div className="flex items-center">
                             <Avatar className="h-8 w-8 mr-3 flex-shrink-0">
                               <AvatarImage
@@ -258,27 +270,36 @@ export default function DashboardMetrics() {
                                   "?"}
                               </AvatarFallback>
                             </Avatar>
-                            <div className="min-w-0 flex-1">
-                              <div className="font-medium text-sm text-foreground truncate">
+                            <div className="min-w-0 flex-1" style={{ maxWidth: "120px" }}>
+                              <div className="font-medium text-sm text-foreground truncate" title={token.name}>
                                 {token.name}
                               </div>
-                              <div className="text-xs text-muted-foreground truncate">
+                              <div className="text-xs text-muted-foreground truncate" title={token.symbol}>
                                 ${token.symbol}
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="text-right py-3 text-sm font-medium" style={{width: "20%"}}>
+                        <td
+                          className="text-right py-3 text-sm font-medium"
+                          style={{ width: "20%" }}
+                        >
                           <div className="text-foreground">
                             {formatPrice(token.currentPriceUSD)}
                           </div>
                         </td>
-                        <td className="text-right py-3 text-xs" style={{width: "20%"}}>
+                        <td
+                          className="text-right py-3 text-xs"
+                          style={{ width: "20%" }}
+                        >
                           <div className="text-muted-foreground">
                             {formatVolume(token.volume24hUSD)}
                           </div>
                         </td>
-                        <td className="text-right py-3" style={{width: "20%"}}>
+                        <td
+                          className="text-right py-3"
+                          style={{ width: "20%" }}
+                        >
                           <div className="inline-flex items-center bg-red-500/10 text-red-500 px-2 py-1 rounded-md text-xs font-semibold">
                             <TrendingDown className="w-3 h-3 mr-1" />
                             {formatPercent(token.priceChangePercent24h)}

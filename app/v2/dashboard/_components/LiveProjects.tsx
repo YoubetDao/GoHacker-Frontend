@@ -132,9 +132,9 @@ export default function LiveProjects() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {liveProjectsData.map((project) => (
+          {liveProjectsData.map((project, index) => (
             <Card
-              key={project.tokenSymbol}
+              key={index}
               className="bg-card border-border hover:bg-card/80 transition-colors relative"
             >
               {/* {project.isHot && (

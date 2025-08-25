@@ -128,7 +128,7 @@ export default function ProjectDetailPage() {
                   >
                     <TabsList
                       className={`grid w-full ${
-                        hasTradesData === true ? "grid-cols-6" : "grid-cols-4"
+                        hasTradesData === true ? "grid-cols-6" : "grid-cols-5"
                       }`}
                     >
                       {hasTradesData === true && (
